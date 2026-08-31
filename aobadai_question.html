@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【役員会提出資料】青葉台「未来の暮らし」を共につくる住民調査 実施計画書</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans JP & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', 'Inter', sans-serif;
+      scroll-behavior: smooth;
+    }
+    .hero-pattern {
+      background-color: #0f172a;
+      background-image: radial-gradient(#1e293b 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; color: black !important; }
+      .print-break-inside { break-inside: avoid; }
+      .print-shadow-none { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased leading-relaxed">
+
+  <!-- TOP BAR / HEADER -->
+  <header class="no-print sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center justify-center p-2 bg-emerald-600 text-white rounded-lg shadow-sm">
+          <i data-lucide="file-spreadsheet" class="w-5 h-5"></i>
+        </span>
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">協議会 役員会 審議資料</span>
+          <h1 class="text-sm sm:text-base font-bold text-slate-900 leading-tight">青葉台 住民アンケート実施計画書</h1>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <nav class="hidden md:flex space-x-1 text-xs font-semibold text-slate-600">
+          <a href="#section-1" class="px-3 py-1.5 rounded hover:bg-slate-100 hover:text-emerald-700 transition">1. 背景と目的</a>
+          <a href="#section-2" class="px-3 py-1.5 rounded hover:bg-slate-100 hover:text-emerald-700 transition">2. 設計方針</a>
+          <a href="#section-3" class="px-3 py-1.5 rounded hover:bg-slate-100 hover:text-emerald-700 transition">3. 設問全案</a>
+          <a href="#section-4" class="px-3 py-1.5 rounded hover:bg-slate-100 hover:text-emerald-700 transition">4. 実施・回収体制</a>
+          <a href="#section-5" class="px-3 py-1.5 rounded hover:bg-slate-100 hover:text-emerald-700 transition">5. ロードマップ</a>
+        </nav>
+        <button onclick="window.print()" class="inline-flex items-center space-x-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-xs font-medium rounded-lg shadow transition">
+          <i data-lucide="printer" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">印刷 / PDF出力</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-pattern text-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-b border-slate-800">
+    <div class="max-w-5xl mx-auto">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold mb-4">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>一般社団法人 青葉台町会協議会 推進施策</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight mb-4">
+        青葉台の「未来の暮らし」を共につくる住民調査<br class="hidden sm:inline">
+        <span class="text-emerald-400">〜 10年後の安心と「マイクロタスク型」市民参画の実現 〜</span>
+      </h1>
+      <p class="text-slate-300 text-sm sm:text-base max-w-3xl leading-relaxed mb-6">
+        単なる「活動の認知度調査」ではなく、3,200世帯の全住民が「10年後の暮らし」を自分事として捉え、重い役員負担なしに1回数分から地域へ関われる仕組み（マイクロタスク）の構築に向けた基盤調査計画です。
+      </p>
+      
+      <!-- Quick Specs Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-slate-700/60 text-xs sm:text-sm">
+        <div class="bg-slate-800/80 rounded-lg p-3 border border-slate-700">
+          <span class="text-slate-400 block text-xs">対象規模</span>
+          <span class="font-bold text-white text-base sm:text-lg">全9町会 3,200世帯</span>
+        </div>
+        <div class="bg-slate-800/80 rounded-lg p-3 border border-slate-700">
+          <span class="text-slate-400 block text-xs">実施方式</span>
+          <span class="font-bold text-emerald-400 text-base sm:text-lg">紙×Web ハイブリッド</span>
+        </div>
+        <div class="bg-slate-800/80 rounded-lg p-3 border border-slate-700">
+          <span class="text-slate-400 block text-xs">回答所要時間</span>
+          <span class="font-bold text-white text-base sm:text-lg">約 10 分（全8問）</span>
+        </div>
+        <div class="bg-slate-800/80 rounded-lg p-3 border border-slate-700">
+          <span class="text-slate-400 block text-xs">集計支援体制</span>
+          <span class="font-bold text-amber-400 text-base sm:text-lg">プロボノ協働入力</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+    <!-- SECTION 1: 企画背景と目的 -->
+    <section id="section-1" class="scroll-mt-20 print-break-inside">
+      <div class="flex items-center space-x-3 mb-6">
+        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-600 text-white font-bold text-sm">1</span>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">企画背景と本質的目的（なぜ今アンケートなのか）</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <!-- 改革の軌跡 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm print-shadow-none">
+          <div class="flex items-center space-x-2 text-emerald-700 font-bold mb-3">
+            <i data-lucide="trending-up" class="w-5 h-5"></i>
+            <h3 class="text-base font-bold">青葉台の先進的な取り組み実績</h3>
+          </div>
+          <ul class="space-y-2.5 text-xs sm:text-sm text-slate-700">
+            <li class="flex items-start">
+              <span class="text-emerald-500 mr-2 font-bold">✔</span>
+              <span><strong>法人格の取得</strong>：任意団体から「一般社団法人」へ移行し強固な基盤化</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-emerald-500 mr-2 font-bold">✔</span>
+              <span><strong>39プロジェクト（39PJ）</strong>：住民主導による14の活動チームの稼働</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-emerald-500 mr-2 font-bold">✔</span>
+              <span><strong>地域拠点の創出</strong>：空き店舗を活用したコミュニティカフェ「青葉ノアール」</span>
+            </li>
+            <li class="flex items-start">
+              <span class="text-emerald-500 mr-2 font-bold">✔</span>
+              <span><strong>賑わいと世代間交流</strong>：歩行者天国を実現した「青葉台フェスタ」の進化</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- 直面する課題 -->
+        <div class="bg-rose-50/70 rounded-xl p-5 border border-rose-200 shadow-sm print-shadow-none">
+          <div class="flex items-center space-x-2 text-rose-700 font-bold mb-3">
+            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+            <h3 class="text-base font-bold">直面している本質的課題（構造的ギャップ）</h3>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 mb-3 leading-relaxed">
+            活動を牽引する<strong>「推進コアメンバー」</strong>と<strong>「一般住民（サイレントマジョリティ）」</strong>の間で、認知度・熱量・危機感に大きな温度差が生じています。
+          </p>
+          <div class="bg-white/90 p-3 rounded-lg border border-rose-200 text-xs text-rose-900 font-medium space-y-1">
+            <p>⚠ このまま放置すると「一部の熱心な人だけの活動」へ形骸化</p>
+            <p>⚠ 特定役員への負担集中・次世代の担い手不足が深刻化する懸念</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 目的の再定義 -->
+      <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-xl p-6 shadow-md">
+        <div class="flex items-start space-x-3">
+          <span class="p-2 bg-emerald-500 rounded-lg text-slate-900 font-bold shrink-0">
+            <i data-lucide="target" class="w-5 h-5"></i>
+          </span>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white mb-2">本調査の本質的ゴール</h3>
+            <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+              「39PJを知っていますか？」という評価・採点アンケートではなく、全住民が<strong>「自分や家族の10年後の暮らし（買い物・移動・見守り・空き家）」をリアルに想像</strong>し、課題を自分事化して<strong>「小さな協力（マイクロタスク）」へ踏み出すキッカケ</strong>を創出します。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: 設計方針 -->
+    <section id="section-2" class="scroll-mt-20 print-break-inside">
+      <div class="flex items-center space-x-3 mb-6">
+        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-600 text-white font-bold text-sm">2</span>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">アンケート設計方針（住民を「自分事化」させる工夫）</h2>
+      </div>
+
+      <!-- 比較テーブル -->
+      <div class="overflow-x-auto mb-6 bg-white rounded-xl border border-slate-200 shadow-sm print-shadow-none">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+            <tr>
+              <th class="p-3.5 w-1/4">設計項目</th>
+              <th class="p-3.5 w-3/8 text-slate-500">従来の自治会アンケート</th>
+              <th class="p-3.5 w-3/8 bg-emerald-50 text-emerald-900 font-extrabold border-l border-emerald-200">今回の設計方針（本調査）</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200">
+            <tr>
+              <td class="p-3.5 font-bold text-slate-800">課題の捉え方</td>
+              <td class="p-3.5 text-slate-600">統計データの提示（例：空き家率25%）<br><span class="text-xs text-slate-400">→「街の問題であり自分には関係ない」</span></td>
+              <td class="p-3.5 bg-emerald-50/40 text-slate-800 border-l border-emerald-200 font-medium">
+                <strong>身近な生活視点への引き寄せ</strong><br>
+                「10年後、運転をやめたら？」「隣が空き家になったら？」
+              </td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-bold text-slate-800">協力の提示</td>
+              <td class="p-3.5 text-slate-600">「役員を引き受ける」「委員会に所属」<br><span class="text-xs text-slate-400">→ 重責・拘束時間が長く敬遠される</span></td>
+              <td class="p-3.5 bg-emerald-50/40 text-slate-800 border-l border-emerald-200 font-medium">
+                <strong>「マイクロタスク（超低ハードル）」の可視化</strong><br>
+                「年1回1時間の手伝い」「花壇の水やり」「スマホ発信」
+              </td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-bold text-slate-800">回答の手軽さ</td>
+              <td class="p-3.5 text-slate-600">長文記述が多く、記入に30分以上要する</td>
+              <td class="p-3.5 bg-emerald-50/40 text-slate-800 border-l border-emerald-200 font-medium">
+                <strong>10分で完了する直感的UI</strong><br>
+                選択式中心＋スマホでもタップ回答可能
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 3つのコア設計 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold mb-2">①</div>
+          <h4 class="font-bold text-slate-900 mb-1">危機感を生活に引き寄せる</h4>
+          <p class="text-slate-600 leading-relaxed text-xs">他人事の街づくりではなく、自分自身の「移動・買い物・孤立・防災」に引き寄せて問いかけます。</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold mb-2">②</div>
+          <h4 class="font-bold text-slate-900 mb-1">マイクロタスク化で参画促進</h4>
+          <p class="text-slate-600 leading-relaxed text-xs">「役員は無理でも、1回1時間や得意な事なら手伝える」という潜在的サポーターを発掘します。</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold mb-2">③</div>
+          <h4 class="font-bold text-slate-900 mb-1">10分で完了する全8問設計</h4>
+          <p class="text-slate-600 leading-relaxed text-xs">途中離脱を防ぎ、高齢層から子育て世代までストレスなく回答できる選択肢型を中心に構成。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: 設問全案 -->
+    <section id="section-3" class="scroll-mt-20">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center space-x-3">
+          <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-600 text-white font-bold text-sm">3</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">アンケート質問票（全8問の設問案と設計意図）</h2>
+        </div>
+        <span class="text-xs bg-slate-200 text-slate-700 font-semibold px-2.5 py-1 rounded-full">全8問 / 所要時間約10分</span>
+      </div>
+
+      <div class="space-y-6">
+
+        <!-- PART 1 -->
+        <div class="border-l-4 border-emerald-500 pl-3">
+          <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">導入パート</span>
+          <h3 class="text-base font-bold text-slate-900">あなたの現在の状況と、これからの暮らしについて</h3>
+        </div>
+
+        <!-- Q1 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm print-break-inside">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div class="flex items-center space-x-2">
+              <span class="bg-slate-900 text-white font-bold text-xs px-2.5 py-1 rounded">Q1</span>
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">ご自身の「10年後（または将来）の青葉台での暮らし」について、どのようなことに不安や課題を感じますか？</h4>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded shrink-0">複数選択可</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-700 mb-4 pl-2">
+            <div class="flex items-center space-x-2 p-2 rounded bg-slate-50 border border-slate-100"><input type="checkbox" disabled class="rounded text-emerald-600"> <span>移動手段（運転をやめた後の買い物・通院など）</span></div>
+            <div class="flex items-center space-x-2 p-2 rounded bg-slate-50 border border-slate-100"><input type="checkbox" disabled class="rounded text-emerald-600"> <span>日常の買い物（近くの商店やスーパーの存続など）</span></div>
+            <div class="flex items-center space-x-2 p-2 rounded bg-slate-50 border border-slate-100"><input type="checkbox" disabled class="rounded text-emerald-600"> <span>防災や安全（地震・災害時の安否確認、夜間防犯）</span></div>
+            <div class="flex items-center space-x-2 p-2 rounded bg-slate-50 border border-slate-100"><input type="checkbox" disabled class="rounded text-emerald-600"> <span>街の景観や環境（空き家・空き地管理、道路美化）</span></div>
+            <div class="flex items-center space-x-2 p-2 rounded bg-slate-50 border border-slate-100"><input type="checkbox" disabled class="rounded text-emerald-600"> <span>つながりや孤立（気軽に話せる人がいない、見守り不安）</span></div>
+            <div class="flex items-center space-x-2 p-2 rounded bg-slate-50 border border-slate-100"><input type="checkbox" disabled class="rounded text-emerald-600"> <span>子育て環境（子どもの安全な遊び場、教育環境）</span></div>
+            <div class="flex items-center space-x-2 p-2 rounded bg-slate-50 border border-slate-100"><input type="checkbox" disabled class="rounded text-emerald-600"> <span>特に不安や課題は感じない</span></div>
+            <div class="flex items-center space-x-2 p-2 rounded bg-slate-50 border border-slate-100"><input type="checkbox" disabled class="rounded text-emerald-600"> <span>その他（自由記述）</span></div>
+          </div>
+          <div class="bg-amber-50 p-3 rounded-lg border border-amber-200/70 text-xs text-amber-900 flex items-start space-x-2">
+            <i data-lucide="info" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+            <div><strong>【役員向け設計意図】</strong> 住民が抱く未来への個人的な不安を抽出し、地域課題が個人の生活に直結していることを意識させます。</div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm print-break-inside">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div class="flex items-center space-x-2">
+              <span class="bg-slate-900 text-white font-bold text-xs px-2.5 py-1 rounded">Q2</span>
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">上記不安や課題を「住民同士で助け合う仕組み」で解決できるとしたら、どの程度利用・応援したいですか？</h4>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded shrink-0">単一選択</span>
+          </div>
+          <div class="space-y-1.5 text-xs sm:text-sm text-slate-700 mb-4 pl-2">
+            <div class="p-2 rounded bg-slate-50 border border-slate-100 font-medium text-emerald-900 bg-emerald-50/50">1. ぜひ利用したいし、自分もできる範囲で手伝いたい（担い手候補）</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">2. ぜひ利用したい（利用者としての参加）</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">3. 自分はまだ必要ないが、街に絶対に必要だと思う（共感・応援層）</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100 text-slate-500">4. あまり必要性を感じない</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100 text-slate-400">5. わからない</div>
+          </div>
+          <div class="bg-amber-50 p-3 rounded-lg border border-amber-200/70 text-xs text-amber-900 flex items-start space-x-2">
+            <i data-lucide="info" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+            <div><strong>【役員向け設計意図】</strong> 受益者（利用したい）と協力者（手伝いたい・応援したい）の比率を把握し、助け合い施策の受容性を測ります。</div>
+          </div>
+        </div>
+
+        <!-- PART 2 -->
+        <div class="border-l-4 border-blue-500 pl-3 pt-4">
+          <span class="text-xs font-bold text-blue-700 uppercase tracking-wider">中盤パート</span>
+          <h3 class="text-base font-bold text-slate-900">青葉台の「今」と「これから」を自分事に引き寄せる</h3>
+        </div>
+
+        <!-- Q3 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm print-break-inside">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div class="flex items-center space-x-2">
+              <span class="bg-blue-900 text-white font-bold text-xs px-2.5 py-1 rounded">Q3</span>
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">14の活動チーム（39PJ）の中で、「自分や家族の暮らしに良さそう、参加・見学してみたい」と思う活動はどれですか？</h4>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded shrink-0">複数選択可</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-700 mb-4 pl-2">
+            <div class="p-2.5 rounded bg-slate-50 border border-slate-100">
+              <strong class="text-slate-900 block text-xs font-bold text-blue-700">【お買い物・移動の応援】</strong>
+              福祉タウン構想に基づく、電動カートの試乗や高齢者の移動・買い物のお手伝い
+            </div>
+            <div class="p-2.5 rounded bg-slate-50 border border-slate-100">
+              <strong class="text-slate-900 block text-xs font-bold text-blue-700">【災害に強い街】</strong>
+              地震に備えたスマホ等による簡単安否確認や家具固定などの助け合い
+            </div>
+            <div class="p-2.5 rounded bg-slate-50 border border-slate-100">
+              <strong class="text-slate-900 block text-xs font-bold text-blue-700">【美しい街・花いっぱい】</strong>
+              並木下を花壇にする「ohanaいっぱい活動」への参加（親子参加歓迎）
+            </div>
+            <div class="p-2.5 rounded bg-slate-50 border border-slate-100">
+              <strong class="text-slate-900 block text-xs font-bold text-blue-700">【子育て応援】</strong>
+              子どもを安心して預けられる場所づくり、声を生かす「こどもミライ会議」
+            </div>
+            <div class="p-2.5 rounded bg-slate-50 border border-slate-100">
+              <strong class="text-slate-900 block text-xs font-bold text-blue-700">【街の賑わい・イベント】</strong>
+              高校生カフェ「青葉ノアール」の利用、歩行者天国「青葉台フェスタ」交流
+            </div>
+            <div class="p-2.5 rounded bg-slate-50 border border-slate-100">
+              <strong class="text-slate-900 block text-xs font-bold text-blue-700">【空き家管理】</strong>
+              放置される空き家を防ぎ、若い世代の移住や空き地活用を進める活動
+            </div>
+            <div class="p-2.5 rounded bg-slate-50 border border-slate-100 md:col-span-2 text-slate-400">
+              どれも興味がない
+            </div>
+          </div>
+          <div class="bg-amber-50 p-3 rounded-lg border border-amber-200/70 text-xs text-amber-900 flex items-start space-x-2">
+            <i data-lucide="info" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+            <div><strong>【役員向け設計意図】</strong> 39プロジェクトの活動内容を「住民メリット」に紐付けて広報しつつ、各プロジェクトへの潜在的参加者を可視化します。</div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm print-break-inside">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div class="flex items-center space-x-2">
+              <span class="bg-blue-900 text-white font-bold text-xs px-2.5 py-1 rounded">Q4</span>
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">イベントやボランティア、勉強会に参加する場合、どのような条件であれば「参加しやすい」と感じますか？</h4>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded shrink-0">複数選択可</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-700 mb-4 pl-2">
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">✔ 土日・祝日の開催</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">✔ 平日の夜間の開催</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">✔ オンライン（Zoomやスマホ）での参加・視聴</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">✔ 事前準備不要で、当日「行くだけ・見るだけ」</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">✔ 年1〜2回、気が向いたときだけの「単発・スポット参加」</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">✔ 趣味や得意なこと（園芸、IT、料理、撮影など）を活かせる</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100 sm:col-span-2 text-slate-500">✔ その他（自由記述）</div>
+          </div>
+          <div class="bg-amber-50 p-3 rounded-lg border border-amber-200/70 text-xs text-amber-900 flex items-start space-x-2">
+            <i data-lucide="info" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+            <div><strong>【役員向け設計意図】</strong> 従来の「平日日中・毎月拘束」といった参加阻害要因を解明し、イベントや会議フォーマットを住民ニーズに合わせて最適化します。</div>
+          </div>
+        </div>
+
+        <!-- PART 3 -->
+        <div class="border-l-4 border-purple-500 pl-3 pt-4">
+          <span class="text-xs font-bold text-purple-700 uppercase tracking-wider">終盤パート</span>
+          <h3 class="text-base font-bold text-slate-900">これからの「関わり方」と情報発信について</h3>
+        </div>
+
+        <!-- Q5 -->
+        <div class="bg-white rounded-xl p-5 border-2 border-purple-300 shadow-md print-break-inside">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div class="flex items-center space-x-2">
+              <span class="bg-purple-700 text-white font-bold text-xs px-2.5 py-1 rounded">Q5 (最重要)</span>
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">役員負担を増やさず「得意な時に単発参加できる（マイクロタスク）」仕組みがあれば、参加してみたいですか？</h4>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded shrink-0">複数選択可</span>
+          </div>
+          <div class="space-y-2 text-xs sm:text-sm text-slate-700 mb-4 pl-2">
+            <div class="p-2 rounded bg-purple-50/50 border border-purple-100 flex items-start space-x-2">
+              <input type="checkbox" disabled class="mt-0.5 rounded text-purple-600">
+              <span>スマホやPCで、町会HPやLINE公式アカウントの操作・発信を手伝う</span>
+            </div>
+            <div class="p-2 rounded bg-purple-50/50 border border-purple-100 flex items-start space-x-2">
+              <input type="checkbox" disabled class="mt-0.5 rounded text-purple-600">
+              <span>青葉台フェスタや各種イベントで、1〜2時間だけ受付や片付けを手伝う</span>
+            </div>
+            <div class="p-2 rounded bg-purple-50/50 border border-purple-100 flex items-start space-x-2">
+              <input type="checkbox" disabled class="mt-0.5 rounded text-purple-600">
+              <span>近くの「ohana花壇」の水やりや、ゴミ集積所の簡易清掃を気が向いた時に行う</span>
+            </div>
+            <div class="p-2 rounded bg-purple-50/50 border border-purple-100 flex items-start space-x-2">
+              <input type="checkbox" disabled class="mt-0.5 rounded text-purple-600">
+              <span>災害時、自宅周辺（お隣・お向かい数軒）の安否をスマホから登録・報告する</span>
+            </div>
+            <div class="p-2 rounded bg-purple-50/50 border border-purple-100 flex items-start space-x-2">
+              <input type="checkbox" disabled class="mt-0.5 rounded text-purple-600">
+              <span>趣味の園芸、DIY、写真撮影、子どもの見守りなどでスポット的に技術を提供する</span>
+            </div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100 flex items-start space-x-2 text-slate-600">
+              <input type="checkbox" disabled class="mt-0.5 rounded">
+              <span>お手伝いは難しいが、フェスタや店舗にお客として行くことで応援する</span>
+            </div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100 flex items-start space-x-2 text-slate-400">
+              <input type="checkbox" disabled class="mt-0.5 rounded">
+              <span>関心がない</span>
+            </div>
+          </div>
+          <div class="bg-purple-100/70 p-3 rounded-lg border border-purple-200 text-xs text-purple-950 flex items-start space-x-2">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-purple-700 shrink-0 mt-0.5"></i>
+            <div><strong>【役員向け設計意図】</strong> 従来の「役員交代制」に代わる、細分化された市民参画（マイクロタスク）のボランティア人材プールを具体的にリスト化します。</div>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm print-break-inside">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div class="flex items-center space-x-2">
+              <span class="bg-purple-900 text-white font-bold text-xs px-2.5 py-1 rounded">Q6</span>
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">日頃、青葉台の地域情報を得ている、または最も確実に受け取れる手段はどれですか？</h4>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded shrink-0">複数選択可</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs sm:text-sm text-slate-700 mb-4 pl-2">
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">📄 回覧板（紙）</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">📮 ポスト投函チラシ（広報あおば）</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">🌐 公式HP「いちはら青葉台」</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">📱 町会・協議会 公式LINE</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">🗣 口コミ（近所・家族の会話）</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100 text-slate-500">✏ その他</div>
+          </div>
+          <div class="bg-amber-50 p-3 rounded-lg border border-amber-200/70 text-xs text-amber-900 flex items-start space-x-2">
+            <i data-lucide="info" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+            <div><strong>【役員向け設計意図】</strong> 既存ルートの到達度を数値化し、今後の広報戦略（紙とLINEの最適な配分割合）を客観的データに基づいて決定します。</div>
+          </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm print-break-inside">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div class="flex items-center space-x-2">
+              <span class="bg-purple-900 text-white font-bold text-xs px-2.5 py-1 rounded">Q7</span>
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">【デジタル機器のご利用状況】日頃スマートフォンやパソコンでインターネットやLINEを利用していますか？</h4>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded shrink-0">単一選択</span>
+          </div>
+          <div class="space-y-1.5 text-xs sm:text-sm text-slate-700 mb-4 pl-2">
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">1. 自分で不自由なく利用している（LINE、ネット検索、マップ等）</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">2. 少し自信はないが、LINEやネット閲覧程度ならできる</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100">3. 自分では操作しないが、同居する家族が操作している</div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-100 text-slate-500">4. スマートフォンを持っていない、またはネットは利用しない</div>
+          </div>
+          <div class="bg-amber-50 p-3 rounded-lg border border-amber-200/70 text-xs text-amber-900 flex items-start space-x-2">
+            <i data-lucide="info" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+            <div><strong>【役員向け設計意図】</strong> 地区全体のITリテラシー分布を把握し、今後の自治会DX（安否確認アプリ等）の移行速度やサポート計画の指標とします。</div>
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm print-break-inside">
+          <div class="flex items-start justify-between gap-2 mb-3">
+            <div class="flex items-center space-x-2">
+              <span class="bg-purple-900 text-white font-bold text-xs px-2.5 py-1 rounded">Q8</span>
+              <h4 class="font-bold text-slate-900 text-sm sm:text-base">青葉台の「新しい価値を創造し続ける街」の取り組みについて、一言メッセージやアイデアをご自由にご記入ください。</h4>
+            </div>
+            <span class="text-xs bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded shrink-0">自由記述</span>
+          </div>
+          <div class="p-3 rounded-lg bg-slate-50 border border-dashed border-slate-300 text-xs text-slate-400 mb-4">
+            （記述欄：50文字程度で気軽に記入できるスペースを用意）
+          </div>
+          <div class="bg-amber-50 p-3 rounded-lg border border-amber-200/70 text-xs text-amber-900 flex items-start space-x-2">
+            <i data-lucide="info" class="w-4 h-4 text-amber-600 shrink-0 mt-0.5"></i>
+            <div><strong>【役員向け設計意図】</strong> 負担の少ない短文自由記述枠により、住民の生の声（潜在的なアイデアや不満）を吸い上げます。</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 4: 実施・回収体制 -->
+    <section id="section-4" class="scroll-mt-20 print-break-inside">
+      <div class="flex items-center space-x-3 mb-6">
+        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-600 text-white font-bold text-sm">4</span>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">実施・回収体制の提案（9町会ハイブリッド運用スキーム）</h2>
+      </div>
+
+      <div class="bg-slate-900 text-white p-6 rounded-2xl mb-8 shadow-lg">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-emerald-400 mb-3 flex items-center space-x-2">
+          <i data-lucide="git-branch" class="w-4 h-4"></i>
+          <span>配送・回収・集計ハイブリッド概念図</span>
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs sm:text-sm">
+          <!-- Digital Route -->
+          <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+            <div class="flex items-center justify-between font-bold text-emerald-400 mb-2">
+              <span>【デジタルルート：想定50%】</span>
+              <span class="text-xs bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded">集計負担 ゼロ</span>
+            </div>
+            <p class="text-slate-300 mb-3 text-xs">大判QRコード付きチラシ ＆ 街なかポスター</p>
+            <div class="flex items-center space-x-2 text-slate-400 mb-2">
+              <i data-lucide="arrow-down" class="w-4 h-4 text-emerald-400"></i>
+              <span class="text-white font-medium">スマホで10分簡単タップ回答</span>
+            </div>
+            <div class="flex items-center space-x-2 text-slate-400">
+              <i data-lucide="arrow-down" class="w-4 h-4 text-emerald-400"></i>
+              <span class="text-emerald-300 font-bold">スプレッドシートへ自動集計・リアルタイム可視化</span>
+            </div>
+          </div>
+
+          <!-- Analog Route -->
+          <div class="bg-slate-800 p-4 rounded-xl border border-slate-700">
+            <div class="flex items-center justify-between font-bold text-amber-400 mb-2">
+              <span>【アナログルート：想定50%】</span>
+              <span class="text-xs bg-amber-900/60 text-amber-300 px-2 py-0.5 rounded">班長・役員負担 最小化</span>
+            </div>
+            <p class="text-slate-300 mb-3 text-xs">9町会の回覧板で紙アンケート＋無記名封筒を戸別配布</p>
+            <div class="space-y-1.5 pl-2 border-l-2 border-slate-600 mb-2 text-xs">
+              <div class="text-white">① <strong>班長回収</strong>：無記名封筒で回覧バインダー挟み込み / ポスト投函</div>
+              <div class="text-white">② <strong>街なか回収箱</strong>：スーパー、青葉ノアール、自治会館</div>
+            </div>
+            <div class="flex items-center space-x-2 text-slate-400">
+              <i data-lucide="arrow-down" class="w-4 h-4 text-amber-400"></i>
+              <span class="text-amber-300 font-bold">「いちはら町会プロボノ」がPC入力代行 ➔ データ統合</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 詳細オペレーション 3つのポイント -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 text-xs sm:text-sm">
+        
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm print-break-inside">
+          <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold mb-3">①</div>
+          <h4 class="font-bold text-slate-900 text-sm mb-2">9町会ネットワークでの配布</h4>
+          <p class="text-slate-600 leading-relaxed text-xs mb-2">
+            1〜8丁目・ダイアパレス町会の<strong>全3,200世帯</strong>へ、既存の回覧板にアンケート封筒（紙用紙＋スマホ回答QR案内）を同封して配布。「どちらか一方で回答すれば完了」と明記します。
+          </p>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm print-break-inside">
+          <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold mb-3">②</div>
+          <h4 class="font-bold text-slate-900 text-sm mb-2">班長を「集荷係」にしない回収</h4>
+          <p class="text-slate-600 leading-relaxed text-xs mb-2">
+            無記名封筒によりプライバシーを保護。班長は集まった封筒の束を町会長へ渡すだけ。さらに、<strong>地元スーパーや青葉ノアール、自治会館</strong>に回収箱を常設し、お買い物ついでに投函可能とします。
+          </p>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm print-break-inside">
+          <div class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold mb-3">③</div>
+          <h4 class="font-bold text-slate-900 text-sm mb-2">プロボノ協働と住民還元</h4>
+          <p class="text-slate-600 leading-relaxed text-xs mb-2">
+            紙回収分の入力作業は<strong>「いちはら町会プロボノ（社会人ボランティア）」</strong>へ委託し役員の手作業をカット。集計後はインフォグラフィックを作成し、HP・LINE・回覧板で全住民へ速やかにフィードバックします。
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 5: ロードマップ -->
+    <section id="section-5" class="scroll-mt-20 print-break-inside">
+      <div class="flex items-center space-x-3 mb-6">
+        <span class="flex items-center justify-center w-8 h-8 rounded-full bg-emerald-600 text-white font-bold text-sm">5</span>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">アンケートから次のステップへのロードマップ</h2>
+      </div>
+
+      <div class="relative pl-6 sm:pl-8 border-l-2 border-emerald-500 space-y-8 text-xs sm:text-sm">
+        
+        <!-- Step 1 -->
+        <div class="relative">
+          <div class="absolute -left-[31px] sm:-left-[39px] top-0 w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold ring-4 ring-white">1</div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-slate-900 text-sm sm:text-base">【1ヶ月目】 調査実施・全世帯回収</span>
+              <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded text-xs font-semibold">調査フェーズ</span>
+            </div>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              紙（回覧板）＆ Web（QR）のハイブリッド配布を開始。街なか回収箱の設置、青葉ノアールやスーパーでの告知ポスター掲示により回答を最大化。
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="relative">
+          <div class="absolute -left-[31px] sm:-left-[39px] top-0 w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold ring-4 ring-white">2</div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-slate-900 text-sm sm:text-base">【2ヶ月目】 プロボノ協働集計・住民フィードバック</span>
+              <span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded text-xs font-semibold">集計・還元</span>
+            </div>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              プロボノの協力を得て紙回答をデジタル入力。集計結果をグラフィカルな1枚レポート（インフォグラフィック）にまとめ、回覧板・LINE・WEBで速報共有。
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="relative">
+          <div class="absolute -left-[31px] sm:-left-[39px] top-0 w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold ring-4 ring-white">3</div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-slate-900 text-sm sm:text-base">【3ヶ月目】 マイクロタスク（小さなお手伝い）の初発募集</span>
+              <span class="px-2 py-0.5 bg-purple-100 text-purple-800 rounded text-xs font-semibold">実践・タスク化</span>
+            </div>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              Q5で「スポットなら手伝ってもよい」と回答した潜在層に対し、超低ハードルなタスク（「フェスタの1時間受付」「ohana花壇の水やり」「スマホお試し」）をLINEや回覧板でピンポイント募集。
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="relative">
+          <div class="absolute -left-[31px] sm:-left-[39px] top-0 w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold ring-4 ring-white">4</div>
+          <div class="bg-slate-900 text-white p-4 rounded-xl shadow-sm">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-emerald-400 text-sm sm:text-base">【4ヶ月目〜】 自走する「多世代共創コミュニティ」へ</span>
+              <span class="px-2 py-0.5 bg-emerald-800 text-emerald-200 rounded text-xs font-semibold">自走化</span>
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+              小さな参画の成功体験が積み重なり、推進メンバーと一般住民の「壁（齟齬）」が解消。固定化された役員負担から解放された、持続可能な自治会モデルを確立。
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 6: 期待成果 -->
+    <section class="bg-slate-100 rounded-2xl p-6 border border-slate-200 print-break-inside">
+      <h3 class="text-base font-bold text-slate-900 mb-4 flex items-center space-x-2">
+        <i data-lucide="award" class="w-5 h-5 text-emerald-600"></i>
+        <span>本計画がもたらす3大成果（役員会での強調ポイント）</span>
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+        <div class="bg-white p-4 rounded-xl border border-slate-200">
+          <span class="font-bold text-slate-900 block mb-1 text-emerald-700">1. 住民の当事者意識の醸成</span>
+          <p class="text-slate-600 text-xs">「お客様・受け身」から「自分事の参加者」へ住民マインドがシフトします。</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200">
+          <span class="font-bold text-slate-900 block mb-1 text-emerald-700">2. 潜在ボランティアの発掘</span>
+          <p class="text-slate-600 text-xs">「役員は無理でも1時間なら手伝える」という隠れた地域人材データベースができます。</p>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200">
+          <span class="font-bold text-slate-900 block mb-1 text-emerald-700">3. 全国自治会改革の先駆例</span>
+          <p class="text-slate-600 text-xs">9町会連携×DX×プロボノ協働のモデルとして、市原市および全国へ発信可能です。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 text-center text-xs">
+    <div class="max-w-5xl mx-auto px-4 space-y-2">
+      <p class="text-slate-200 font-bold">一般社団法人 青葉台町会協議会</p>
+      <p>© 青葉台町会協議会 住民調査計画策定プロジェクト</p>
+    </div>
+  </footer>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
