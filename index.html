@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自治会課題診断ガイド</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: The SPA is now structured as a two-page application within a single file. A sticky header provides primary navigation between the "Diagnosis" page and the "Reference" page. This creates a clear separation of tasks for the user—first diagnose, then explore solutions. This structure directly addresses the user request for separation, making the tool's flow more logical and intuitive. The diagnosis results still link directly to the relevant section on the reference page, ensuring a seamless workflow. Gemini API features have been added to provide AI-powered action plans after diagnosis and to brainstorm further ideas within the reference library, transforming the tool from a static guide into a dynamic assistant. -->
+    <!-- Visualization & Content Choices:
+    - Main Navigation: Two buttons ("Diagnose", "View Countermeasures"). Goal: Separate the two main functions of the app. Viz/Method: Sticky header with HTML buttons. Interaction: Click to toggle visibility of the two main page divs. Justification: Provides clear, persistent navigation between the two core application modes.
+    - Diagnosis Page: Contains the interactive questionnaire and results bar chart. Goal: Allow users to self-diagnose community issues. Viz/Method: HTML/JS questionnaire with 5-point Likert scale, Chart.js Bar Chart. Interaction: User answers questions; clicks results to switch to the reference page. Justification: Focuses the user on the task of diagnosis with more nuanced input.
+    - AI Action Plan (New): After diagnosis, a button appears to generate a custom action plan based on the top challenges. Goal: Provide concrete, AI-generated next steps. Viz/Method: Button triggers Gemini API call with a structured JSON schema, results displayed in structured cards. Interaction: User clicks to get tailored, easy-to-read plans. Justification: Makes the diagnosis results immediately actionable and well-organized.
+    - Reference Page: Contains the library of all challenges and countermeasures. Goal: Serve as a comprehensive knowledge base. Viz/Method: Accordion view. Interaction: Users can browse and expand topics. Justification: Acts as a standalone reference library.
+    - AI Brainstorming & Announcement Helper (New): Within each countermeasure, two buttons allow users to ask for more ideas or draft an announcement. Goal: Deepen solutions and assist with communication. Viz/Method: Buttons trigger Gemini API calls, results shown below. Interaction: User clicks for creative ideas or communication drafts. Justification: Enhances static content with dynamic, practical AI assistance.
+    - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Helvetica Neue', 'Arial', 'Hiragino Sans', 'Meiryo', sans-serif;
+            background-color: #FDFBF7; /* Warm off-white */
+            color: #374151;
+        }
+        .main-nav-button {
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .main-nav-button.active, .main-nav-button:hover {
+            color: #A16207; /* Muted Gold */
+            border-bottom-color: #A16207;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-button.active, .nav-button:hover {
+            color: #A16207;
+            border-bottom-color: #A16207;
+        }
+        .accordion-header {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-header:hover {
+            background-color: #F3F4F6;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            padding: 0 1.5rem;
+        }
+        .accordion-content.open {
+            max-height: 2500px; /* Increased max-height */
+            padding: 1rem 1.5rem 1.5rem 1.5rem;
+        }
+        .arrow-icon {
+            transition: transform 0.3s ease;
+        }
+        .accordion-header.open .arrow-icon {
+            transform: rotate(180deg);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .diagnosis-container {
+            min-height: 350px;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #A16207;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .gemini-response { white-space: pre-wrap; font-size: 0.95rem; }
+    </style>
+</head>
+<body class="antialiased">
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-10">
+        <nav class="container mx-auto max-w-6xl px-4 flex justify-center gap-8">
+            <button id="nav-to-diagnosis" class="main-nav-button active">診断する</button>
+            <button id="nav-to-reference" class="main-nav-button">対策を見る</button>
+        </nav>
+    </header>
+
+    <div class="container mx-auto max-w-6xl p-4 sm:p-6 lg:p-8">
+        <div id="page-diagnosis">
+             <header class="text-center mb-8">
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">自治会課題診断ガイド</h1>
+                <p class="text-gray-600">地域が直面する課題を理解し、未来への一歩を踏み出すための羅針盤</p>
+            </header>
+            <main>
+                <section id="diagnosis" class="mb-12">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div id="diagnosis-start">
+                            <h2 class="text-2xl font-bold text-center text-gray-800 mb-3">かんたん地域診断</h2>
+                            <p class="text-gray-600 text-center mb-6">いくつかの簡単な質問に答えるだけで、あなたの自治会が優先的に取り組むべき課題が見えてきます。</p>
+                            <div class="text-center">
+                                <button id="start-diagnosis-btn" class="bg-amber-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-amber-700 transition-colors">診断をはじめる</button>
+                            </div>
+                        </div>
+                        
+                        <div id="diagnosis-questions" class="hidden diagnosis-container">
+                            <div id="progress-bar-container" class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+                                <div id="progress-bar" class="bg-amber-600 h-2.5 rounded-full" style="width: 0%"></div>
+                            </div>
+                            <p id="question-counter" class="text-center text-sm text-gray-500 mb-4"></p>
+                            <p id="question-text" class="text-lg font-semibold text-center mb-6 min-h-[3em]"></p>
+                            <div id="answer-options" class="flex flex-wrap justify-center gap-3"></div>
+                        </div>
+
+                        <div id="diagnosis-results" class="hidden diagnosis-container">
+                             <h2 class="text-2xl font-bold text-center text-gray-800 mb-3">診断結果</h2>
+                             <p class="text-gray-600 text-center mb-6">あなたの自治会では、これらの課題への関心が高いようです。グラフをクリックして対策案を見てみましょう。</p>
+                             <div class="chart-container" style="height:300px;">
+                                 <canvas id="resultsBarChart"></canvas>
+                             </div>
+                             <div id="gemini-action-plan-container" class="text-center mt-6"></div>
+                             <div class="text-center mt-6">
+                                <button id="restart-diagnosis-btn" class="bg-gray-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-600 transition-colors">もう一度診断する</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <div id="page-reference" class="hidden">
+            <header class="text-center mb-8">
+                 <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">課題別 対策ライブラリ</h1>
+                 <p class="text-gray-600 mt-2">各課題の詳細と具体的な対策案をいつでも確認できます。</p>
+            </header>
+            <main>
+                <nav id="reference-nav" class="flex flex-wrap justify-center gap-x-4 gap-y-2 sm:gap-x-8 mb-10 border-b pb-3"></nav>
+                <div id="content-area"></div>
+            </main>
+        </div>
+        
+        <footer class="text-center mt-12 text-gray-500 text-sm">
+            <p>&copy; 2025 地域課題分析レポート. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const appData = {
+            "aging": {
+                title: "I. 高齢化の進行",
+                icon: '👴',
+                intro: "高齢者が安心して暮らし続けられる、多世代にわたって支え合うコミュニティを目指します。",
+                items: [
+                    { q: "一人暮らし・高齢者のみの世帯が増加し、社会的孤立のリスクが高まっている。", a: "<b>【見守り・交流の強化】</b><br>・担当者を決めた定期的な声かけ・訪問活動（週1回など）。安否確認だけでなく、何気ない会話を大切にする。<br>・地域の郵便局、宅配業者、エネルギー事業者、ヤクルトレディ等と「ながら見守り」協定を結ぶ。<br>・高齢者が気軽に集えるサロンを、平日の日中に公民館や集会所で定期開催（例：毎週水曜日）。健康体操や懐メロの会など、目的を持たせると参加しやすい。<br>・デジタルツールを活用し、遠方の家族と繋がるための「スマホ・タブレット体験会」を実施する。" },
+                    { q: "買い物、ゴミ出し、家の簡単な修繕など、日常生活での困りごとが増えている。", a: "<b>【生活支援サービスの創設】</b><br>・有償/無償の「お助け隊」を結成。電球交換、家具の移動、庭の草むしりなど、小さな困りごとに対応。<br>・地域の商店と連携した御用聞きや宅配サービスを立ち上げ、地域の経済循環にも貢献する。<br>・週に一度、主要なスーパーや病院を巡回する「乗り合い送迎サービス」を、地域のNPOや社会福祉協議会と連携して検討する。<br>・ゴミ出しのサポート体制を構築。近隣の住民が交代で支援する仕組みを作る。" },
+                    { q: "災害発生時、自力での避難や情報収集が困難な人が増えている。", a: "<b>【要援護者への防災対策】</b><br>・民生委員と連携し「災害時要援護者リスト」を整備・定期更新。本人の同意を得て、支援者と情報を共有する。<br>・要援護者一人ひとりに対し、個別の避難支援計画（誰が、どこへ、どうやって）を作成し、関係者で共有・訓練を行う。<br>・固定電話や口コミ、防災行政無線の戸別受信機など、デジタルに頼らない情報伝達手段を複数確保し、訓練する。<br>・地域の避難所に、高齢者や障がい者向けの専用スペース（福祉避難スペース）を設置するよう行政に働きかける。" },
+                    { q: "健康への不安や、認知症への心配を抱える人が多い。", a: "<b>【健康寿命を延ばす取り組み】</b><br>・毎日決まった時間に集まるラジオ体操や、気軽に参加できるウォーキング会を主催。参加者同士の交流も促す。<br>・地域包括支援センターと連携し、専門家による健康講座や認知症サポーター養成講座、栄養相談会を定期的に開催する。<br>・地域住民が主体となる「認知症カフェ」を運営し、本人・家族・地域住民が情報交換できる場を提供する。" }
+                ]
+            },
+            "childcare": {
+                title: "II. 子育て世代の動向の変化",
+                icon: '👨‍👩‍👧‍👦',
+                intro: "地域の未来を担う世代が参加しやすく、子育てを楽しめる環境を整えることが、地域の活力維持につながります。",
+                items: [
+                    { q: "共働き世帯が多く、平日の日中や夜間の会合に参加できない。", a: "<b>【参加のハードルを下げる工夫】</b><br>・総会や定例会は土日の午前中に設定し、1時間で終わるように事前に議題を共有し、進行を工夫する。<br>・Zoom等を活用したオンライン参加を標準とし、欠席者には議事録だけでなく、短いダイジェスト動画で内容を共有する。<br>・役員の役割を「会計」「広報」「イベント担当」など細分化・マニュアル化し、「単年度」「できることだけ」でも引き受けられるようにする。<br>・会合時に、ボランティアによる託児スペースを設ける。" },
+                    { q: "自治会活動の必要性やメリットを感じていない。", a: "<b>【魅力の創出と活動の可視化】</b><br>・親子で楽しめる体験型イベント（防災キャンプ、ハロウィン、流しそうめん等）を企画・実施。子どもたちが企画段階から関われると、より主体性が高まる。<br>・会費がどのように使われているか（例：公園の遊具修繕費 〇〇円、防犯灯の電気代 〇〇円）を、イラストやグラフを用いて分かりやすく広報する。<br>・子育て世代に特化したアンケートを実施し、「自治会に何を求めているか」「どんなことなら協力できるか」を直接聞く。" },
+                    { q: "地域の情報（病院、公園、習い事など）が不足しており、孤立しがち。", a: "<b>【情報提供とネットワーク作り】</b><br>・転入者向けに「子育てお役立ちマップ」を作成し、自治会への加入案内とともに配布。マップはオンライン版も用意し、随時更新する。<br>・地域限定で使えるLINEオープンチャットやSNSグループを開設し、リアルタイムでの情報交換や相談ができる場を提供する。<br>・不要になった育児用品やおもちゃの交換会・バザーを定期的に開催し、親同士の交流のきっかけを作る。" },
+                    { q: "子どもの安全（交通、不審者）に対する不安が大きい。", a: "<b>【地域ぐるみでの安全・安心の確保】</b><br>・子どもたち自身が参加して、通学路の危険箇所をチェックする「安全マップ作りワークショップ」を実施する。<br>・「こども110番の家」の協力家庭を増やすと共に、子どもたちが実際に駆け込めるよう、日頃から協力家庭の大人と顔見知りになる機会を作る。<br>・長期休暇中に、地域の有志による学習支援や遊びの場を提供する「地域寺子屋」のような活動を検討する。" }
+                ]
+            },
+            "environment": {
+                title: "III. 住環境の変化",
+                icon: '🏡',
+                intro: "地域の景観や安全性は、住民の愛着や満足度に直結します。住み心地の良い環境を、住民の手で維持・向上させる取り組みが求められます。",
+                items: [
+                    { q: "空き家・空き地が増加し、管理不全（雑草、不法投棄）が目立つ。", a: "<b>【景観維持・環境美化活動】</b><br>・所有者の許可を得た上で、空き地を「みんなの花壇」や「コミュニティガーデン（菜園）」として活用する。<br>・定期的に地域一斉のクリーンデー（ゴミ拾い）を設け、作業後にお茶会を開くなど、交流の機会にも繋げる。<br>・不法投棄されやすい場所に、啓発看板だけでなく、地域の子どもたちが描いたポスターや花を飾ることで、「見られている」という意識を高める。" },
+                    { q: "倒壊の危険があるブロック塀や、老朽化した空き家が放置され、防災・防犯上のリスクとなっている。", a: "<b>【危険箇所の把握と対策】</b><br>・地域内の危険箇所を定期的にパトロールし、「地域安全マップ」としてまとめ、所有者や行政と情報共有する。<br>・行政の補助金制度（ブロック塀の撤去費用補助など）を調査し、分かりやすくまとめたチラシを作成して所有者に情報提供する。<br>・夜間のパトロール活動や、防犯灯の増設・LED化を行政に働きかける。住民の要望として具体的に示すことが重要。" },
+                    { q: "空き家が地域の資産として活用されていない。", a: "<b>【地域資源としての利活用】</b><br>・行政の「空き家バンク」制度と連携し、移住・定住希望者への情報発信を協力する。<br>・所有者と交渉し、空き家を地域のコミュニティスペース、子どもたちの遊び場、防災倉庫、アーティストの滞在制作場所などとして活用できないか検討する。<br>・改修が必要な場合、DIYワークショップ形式で住民が関わることで、コストを抑えつつコミュニティの拠点として愛着を醸成する。" }
+                ]
+            },
+            "diversity": {
+                title: "IV. 住民の多様化",
+                icon: '🌍',
+                intro: "様々な背景を持つ人々が共に安心して暮らせる社会を目指し、誰もが尊重され、円滑なコミュニケーションが図れる地域を作ります。",
+                items: [
+                    { q: "外国籍住民が増え、言語や文化の違いからゴミ出しや騒音などのトラブルが発生している。", a: "<b>【多文化共生とルール共有の促進】</b><br>・ゴミ出しの分別や収集日、騒音に関する注意点を、やさしい日本語と多言語（英語、中国語、ベトナム語等）で併記した案内を作成・配布する。イラストや写真を多用し、直感的に理解できるデザインを心がける。<br>・市の国際交流協会や地域のNPOと連携し、通訳ボランティアの派遣や、生活オリエンテーションの共同開催を依頼する。<br>・トラブルが起きた際に一方的に注意するのではなく、なぜそのルールがあるのか背景や文化を丁寧に説明する場を設ける。" },
+                    { q: "日本の地域文化や自治会の活動内容が伝わらず、交流の機会が少ない。", a: "<b>【文化交流の機会創出】</b><br>・お互いの国の料理を持ち寄る国際交流パーティや、各国の遊びを紹介するイベントを企画する。<br>・餅つき、七夕、盆踊りなど、日本の伝統文化を一緒に体験する機会を作る。体験が目的のため、準備や片付けの負担は最小限にする。<br>・防災訓練に外国籍住民も参加できるよう、積極的に声をかけ、多言語での説明やピクトグラムを用意する。" },
+                    { q: "単身者や学生など、自治会との関わりが薄い層が増加している。", a: "<b>【多様な関わり方の提供】</b><br>・役員や班長といった役割だけでなく、「イベント時だけ」「得意なことだけ（IT支援、デザイン作成など）」といったスポットでのボランティア「サポーター制度」を導入する。<br>・会費の使い道や活動の成果をSNSやウェブサイトで積極的に発信し、自治会活動の意義と価値を伝える。<br>・若い世代や特定の趣味を持つ住民が、自分たちの興味関心に基づいたイベント（例：eスポーツ大会、ボードゲーム会）を企画・運営できるよう支援する。" }
+                ]
+            },
+            "disaster": {
+                title: "V. 防災・減災への要請の高まり",
+                icon: '⚠️',
+                intro: "気候変動の影響による災害の激甚化・頻発化に対応するため、「自分たちのまちは自分たちで守る」という、より主体的な防災・減災活動が不可欠です。",
+                items: [
+                    { q: "ゲリラ豪雨、巨大台風、猛暑といった、これまでの想定を超える自然災害のリスクが増大している。", a: "<b>【地域防災力の強化とアップデート】</b><br>・行政が作成したハザードマップを基に、より詳細な地域独自の防災マップ（浸水しやすい場所、崖崩れの危険箇所、地域の井戸の場所等）を作成し、全戸に配布・共有する。<br>・避難所運営を自治会が主体となって行う「HUG（避難所運営ゲーム）」や、災害後のシナリオを考える図上訓練を定期的に体験する。<br>・家庭での備蓄（最低3日分、推奨1週間分）を促すため、ローリングストック法などの具体的な方法を広報し、防災グッズの共同購入を企画する。" },
+                    { q: "防災への関心は高いものの、何をすればよいか分からず、具体的な行動に移せていない住民が多い。", a: "<b>【防災意識から防災行動へ】</b><br>・地域の防災士や消防団員と連携し、実践的な防災ワークショップ（初期消火、応急手当、ロープワーク、簡易トイレの作り方など）を開催する。<br>・「我が家の防災会議」を開くことを推奨し、家族の連絡方法や避難場所、役割分担を確認するためのチェックシートを配布する。<br>・地域の防災活動の中核を担う「防災リーダー」を発掘・育成する。特定の資格がなくても、意欲のある人が参加できる仕組みを作る。" }
+                ]
+            },
+            "digital": {
+                title: "VI. デジタル化の進展と情報格差",
+                icon: '📱',
+                intro: "社会全体のデジタル化は不可逆な流れです。その利便性を最大限に活かしつつ、誰も情報から取り残されないための配慮が求められます。",
+                items: [
+                    { q: "情報伝達手段がHP、SNS、LINE等に移行し、デジタル機器が苦手な層が情報を受け取れなくなっている。", a: "<b>【デジタル・デバイド（情報格差）対策】</b><br>・地域の公民館などで、ボランティアによる定期的なスマホ・タブレット相談会や講習会を開催する。高齢者が若者に教わる、または高齢者同士で教え合う場も有効。<br>・重要な情報は必ず紙媒体でも配布・回覧・掲示することを徹底する。デジタルとアナログの併用を原則とする。<br>・デジタル機器を使える住民が、近隣の苦手な住民に情報を口頭で伝える「情報伝達サポーター」制度を検討する。" },
+                    { q: "オンラインでの参加や手続きが可能になっても、利用されなかったり、かえって負担が増えたりしている。", a: "<b>【効果的なデジタルツールの活用】</b><br>・デジタルツール（LINE、ウェブサイト、オンライン会議等）の導入目的を明確にし、利用者にとってのメリット（例：いつでも意見が言える、会議場所まで行かなくて済む）を丁寧に説明する。<br>・ツールの使い方について、簡単な動画マニュアルを作成したり、問い合わせ窓口を役員内で一本化したりする。<br>・オンライン会議では、明確な進行ルール（発言方法、時間配分）を設け、短時間で効率的に終える工夫をする。リアルな会合よりも厳密な時間管理が満足度を高める。" }
+                ]
+            },
+            "community": {
+                title: "VII. 地域内コミュニティのあり方の変化",
+                icon: '🤝',
+                intro: "ライフスタイルや価値観の多様化により、従来の「ご近所付き合い」が変化しています。強制せず、自然で心地よい新たなつながり方を模索する必要があります。",
+                items: [
+                    { q: "住民間の関係性が希薄化し、「隣に誰が住んでいるか知らない」という状況が生まれている。", a: "<b>【ゆるやかなつながりの創出】</b><br>・「あいさつ運動」を推進し、役員が率先して声をかけることで、気軽に挨拶を交わせる雰囲気を作る。<br>・季節ごとの小規模な交流イベント（BBQ、花見、ラジオ体操後の朝カフェなど）を企画し、自由参加・自由解散形式で気軽に参加できるようにする。<br>・地域の清掃活動や花壇の手入れなど、目的を持った共同作業の機会を設けることで、作業を通じた自然な交流を促す。" },
+                    { q: "テレワークの普及等で地域で過ごす時間は増えたが、地域活動への関わり方が分からない層がいる。", a: "<b>【新しい参加の形を提案】</b><br>・自分の仕事の専門スキル（会計、法律、IT、デザイン、広報等）を地域のために活かす「プロボノ」的な関わり方を募集する。<br>・役員などの重い負担ではなく、「イベント当日だけ」「この作業だけ」といった単発・短時間のスポットボランティア制度を充実させ、ウェブサイト等で随時募集する。<br>・自治会が抱える課題をオープンにし、「この課題を解決するアイデアを募集します！」と広く意見や協力を呼びかける。" },
+                    { q: "活動の担い手が固定化・高齢化し、新しい住民や若い世代が参加しにくい雰囲気がある。", a: "<b>【開かれた組織運営への転換】</b><br>・総会資料や会計報告を、専門用語を避けて分かりやすくまとめ、誰でも閲覧できるようにし、活動の透明性を高める。<br>・「お試し参加期間」や「活動見学ウィーク」などを設け、新メンバーが気軽に参加のハードルを越えられるようにする。<br>・「昔からのやり方」に固執せず、新しい意見や提案を歓迎する姿勢を明確に打ち出し、若手や新住民の意見を積極的に取り入れる「未来会議」のような場を設ける。" }
+                ]
+            }
+        };
+
+        const diagnosisQuestions = [
+            { text: "近所で一人暮らしの高齢者が増え、少し心配に思うことがある", category: "aging" },
+            { text: "子育て中の家庭が自治会の集まりに参加しにくい状況だと思う", category: "childcare" },
+            { text: "管理されていない空き家や空き地が目につく", category: "environment" },
+            { text: "最近、外国籍の住民が増えたと感じる", category: "diversity" },
+            { text: "大きな台風や大雨の際、地域の避難体制に不安を感じる", category: "disaster" },
+            { text: "回覧板や掲示板の情報が、一部の人にしか届いていない気がする", category: "digital" },
+            { text: "昔に比べて、ご近所付き合いが減ってきたと感じる", category: "community" },
+            { text: "自治会の手伝いをしてくれる人がいつも同じメンバーだ", category: "community" },
+            { text: "スマホが苦手な高齢者が、地域の情報から取り残されているかもしれない", category: "digital" },
+            { text: "災害が起きた時、誰が助けを必要としているか、すぐに把握できない", category: "aging" },
+            { text: "親子で参加できる地域のイベントが少ない、または知られていない", category: "childcare" },
+            { text: "ゴミ出しのルールが守られていないことがある", category: "diversity" },
+            { text: "公園の遊具が古い、または子どもが安心して遊べる場所が少ない", category: "childcare" },
+            { text: "ゴミ集積所の管理（カラス対策、清掃など）に課題がある", category: "environment" },
+            { text: "地域の防災訓練への参加率が低い、または実施されていない", category: "disaster" },
+            { text: "高齢者が自治会の役員や活動の主な担い手になっている", category: "aging" },
+            { text: "自治会からのお知らせをオンラインで受け取りたいという声がある", category: "digital" },
+            { text: "様々なライフスタイルの住民（単身者、学生など）が地域に孤立しているように感じる", category: "diversity" },
+            { text: "地域のイベントがいつも同じような内容で、マンネリ化している", category: "community" }
+        ];
+        
+        let currentQuestionIndex = 0;
+        let scores = {};
+        let chartInstance = null;
+        let currentCategoryForReference = 'aging';
+        let sortedResultKeys = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeReferenceSection();
+            setupMainNavigation();
+            
+            document.getElementById('start-diagnosis-btn').addEventListener('click', startDiagnosis);
+            document.getElementById('restart-diagnosis-btn').addEventListener('click', startDiagnosis);
+        });
+
+        function setupMainNavigation() {
+            const navToDiagnosis = document.getElementById('nav-to-diagnosis');
+            const navToReference = document.getElementById('nav-to-reference');
+            const pageDiagnosis = document.getElementById('page-diagnosis');
+            const pageReference = document.getElementById('page-reference');
+
+            navToDiagnosis.addEventListener('click', () => {
+                pageDiagnosis.classList.remove('hidden');
+                pageReference.classList.add('hidden');
+                navToDiagnosis.classList.add('active');
+                navToReference.classList.remove('active');
+            });
+
+            navToReference.addEventListener('click', () => {
+                pageDiagnosis.classList.add('hidden');
+                pageReference.classList.remove('hidden');
+                navToDiagnosis.classList.remove('active');
+                navToReference.classList.add('active');
+            });
+        }
+        
+        function switchPage(pageName) {
+            const navToDiagnosis = document.getElementById('nav-to-diagnosis');
+            const navToReference = document.getElementById('nav-to-reference');
+            if (pageName === 'reference') {
+                navToReference.click();
+            } else {
+                navToDiagnosis.click();
+            }
+        }
+
+        function initializeReferenceSection() {
+            const navContainer = document.getElementById('reference-nav');
+            const contentArea = document.getElementById('content-area');
+
+            Object.keys(appData).forEach(key => {
+                const category = appData[key];
+                const navButton = document.createElement('button');
+                navButton.className = 'nav-button font-semibold px-2 py-1';
+                navButton.textContent = `${category.icon} ${category.title.split('. ')[1]}`;
+                navButton.dataset.category = key;
+                navContainer.appendChild(navButton);
+                
+                const section = document.createElement('section');
+                section.id = key;
+                section.className = 'category-section';
+                
+                let itemsHtml = category.items.map((item, index) => {
+                    const cleanSolution = item.a.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+                    return `
+                    <div class="bg-white rounded-lg shadow-sm mb-4">
+                        <div class="accordion-header flex justify-between items-center p-4" data-target="#content-${key}-${index}">
+                            <h3 class="font-semibold text-gray-700 text-left">${item.q}</h3>
+                            <span class="arrow-icon text-2xl text-amber-700">&#x25BC;</span>
+                        </div>
+                        <div id="content-${key}-${index}" class="accordion-content text-gray-600 leading-relaxed">
+                            <div class="border-t pt-4">
+                                ${item.a}
+                                <div class="flex flex-wrap gap-2 justify-end mt-4">
+                                     <button class="gemini-btn text-sm bg-purple-100 text-purple-700 font-semibold py-1 px-3 rounded-full hover:bg-purple-200 transition-colors" data-action="idea" data-problem-q="${item.q}" data-existing-a="${cleanSolution}" data-output-id="gemini-output-${key}-${index}-idea">✨ 他のアイデアをAIに聞く</button>
+                                     <button class="gemini-btn text-sm bg-indigo-100 text-indigo-700 font-semibold py-1 px-3 rounded-full hover:bg-indigo-200 transition-colors" data-action="announcement" data-problem-q="${item.q}" data-existing-a="${cleanSolution}" data-output-id="gemini-output-${key}-${index}-announcement">✨ お知らせ文案をAIが作成</button>
+                                </div>
+                                <div id="gemini-output-${key}-${index}-idea" class="mt-4 p-4 bg-purple-50 rounded-lg hidden"></div>
+                                <div id="gemini-output-${key}-${index}-announcement" class="mt-4 p-4 bg-indigo-50 rounded-lg hidden"></div>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+
+                section.innerHTML = `
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800">${category.title}</h2>
+                        <p class="mt-2 text-gray-600 max-w-2xl mx-auto">${category.intro}</p>
+                    </div>
+                    <div class="space-y-4">${itemsHtml}</div>`;
+                contentArea.appendChild(section);
+            });
+
+            navContainer.addEventListener('click', (e) => {
+                if (e.target.matches('button')) {
+                    showReferenceCategory(e.target.dataset.category);
+                }
+            });
+            
+            contentArea.addEventListener('click', (e) => {
+                const header = e.target.closest('.accordion-header');
+                if (header) {
+                    header.classList.toggle('open');
+                    document.querySelector(header.dataset.target).classList.toggle('open');
+                    return;
+                }
+                
+                const geminiBtn = e.target.closest('.gemini-btn');
+                if(geminiBtn) {
+                    const { action, problemQ, existingA, outputId } = geminiBtn.dataset;
+                    if (action === 'idea') {
+                        getMoreIdeas(problemQ, existingA, outputId);
+                    } else if (action === 'announcement') {
+                        generateAnnouncement(problemQ, existingA, outputId);
+                    }
+                }
+            });
+            showReferenceCategory(currentCategoryForReference);
+        }
+
+        function startDiagnosis() {
+            currentQuestionIndex = 0;
+            scores = Object.keys(appData).reduce((acc, key) => ({ ...acc, [key]: 0 }), {});
+
+            document.getElementById('diagnosis-start').classList.add('hidden');
+            document.getElementById('diagnosis-results').classList.add('hidden');
+            document.getElementById('diagnosis-questions').classList.remove('hidden');
+            
+            const actionPlanContainer = document.getElementById('gemini-action-plan-container');
+            actionPlanContainer.innerHTML = '';
+
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const questionData = diagnosisQuestions[currentQuestionIndex];
+            const progressBar = document.getElementById('progress-bar');
+            const progress = ((currentQuestionIndex) / diagnosisQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            document.getElementById('question-counter').textContent = `質問 ${currentQuestionIndex + 1} / ${diagnosisQuestions.length}`;
+            document.getElementById('question-text').textContent = questionData.text;
+            
+            const answerOptionsContainer = document.getElementById('answer-options');
+            answerOptionsContainer.innerHTML = '';
+            
+            const options = [
+                { text: '強くそう思う', value: 4 },
+                { text: 'そう思う', value: 3 },
+                { text: 'どちらともいえない', value: 2 },
+                { text: 'あまり思わない', value: 1 },
+                { text: '全く思わない', value: 0 }
+            ];
+
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'w-auto bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-amber-200 transition-colors text-sm sm:text-base';
+                button.textContent = option.text;
+                button.onclick = () => handleAnswer(option.value);
+                answerOptionsContainer.appendChild(button);
+            });
+        }
+        
+        function handleAnswer(value) {
+            const category = diagnosisQuestions[currentQuestionIndex].category;
+            scores[category] += value;
+            
+            currentQuestionIndex++;
+            if (currentQuestionIndex < diagnosisQuestions.length) {
+                renderQuestion();
+            } else {
+                const progressBar = document.getElementById('progress-bar');
+                progressBar.style.width = `100%`;
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('diagnosis-questions').classList.add('hidden');
+            document.getElementById('diagnosis-results').classList.remove('hidden');
+
+            const sortedScores = Object.entries(scores)
+                .sort(([,a],[,b]) => b-a)
+                .slice(0, 3)
+                .filter(([,value]) => value > 0);
+            
+            const resultsContainer = document.querySelector('#diagnosis-results .chart-container');
+            const existingMessage = resultsContainer.querySelector('p');
+            if (existingMessage) {
+                resultsContainer.removeChild(existingMessage);
+            }
+            
+            if (sortedScores.length === 0) {
+                 document.getElementById('resultsBarChart').style.display = 'none';
+                 const noProblemMessage = document.createElement('p');
+                 noProblemMessage.textContent = '特筆すべき課題は見つかりませんでした。素晴らしい状態です！';
+                 noProblemMessage.className = 'text-center text-lg text-gray-700 font-semibold mt-8';
+                 resultsContainer.appendChild(noProblemMessage);
+                 document.getElementById('gemini-action-plan-container').innerHTML = '';
+                 return;
+            }
+
+            document.getElementById('resultsBarChart').style.display = 'block';
+
+            const chartLabels = sortedScores.map(([key]) => appData[key].title.split('. ')[1]);
+            const chartData = sortedScores.map(([,value]) => value);
+            sortedResultKeys = sortedScores.map(([key]) => key);
+
+            const ctx = document.getElementById('resultsBarChart').getContext('2d');
+            
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartLabels,
+                    datasets: [{
+                        label: '課題スコア',
+                        data: chartData,
+                        backgroundColor: ['#f59e0b', '#fbbf24', '#fcd34d'],
+                        borderRadius: 5,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { beginAtZero: true, grid: { display: false }, ticks: { display: false } },
+                        y: { grid: { display: false }, ticks: { font: { weight: 'bold', size: 14 } } }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    },
+                    onClick: (e, elements) => {
+                        if (elements.length > 0) {
+                            const index = elements[0].index;
+                            const categoryKey = sortedResultKeys[index];
+                            switchPage('reference');
+                            showReferenceCategory(categoryKey);
+                            setTimeout(() => {
+                                document.getElementById(categoryKey).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 100);
+                        }
+                    }
+                }
+            });
+            
+            const actionPlanContainer = document.getElementById('gemini-action-plan-container');
+            actionPlanContainer.innerHTML = `<button id="gemini-action-plan-btn" class="bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold py-3 px-8 rounded-lg hover:opacity-90 transition-opacity">✨ AIにアクションプランを提案してもらう</button><div id="gemini-plan-output" class="mt-4 text-left"></div>`;
+            document.getElementById('gemini-action-plan-btn').addEventListener('click', generateActionPlan);
+        }
+
+        function showReferenceCategory(categoryId) {
+            currentCategoryForReference = categoryId;
+            document.querySelectorAll('.category-section').forEach(sec => {
+                sec.style.display = sec.id === categoryId ? 'block' : 'none';
+            });
+            document.querySelectorAll('#reference-nav .nav-button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === categoryId);
+            });
+        }
+        
+        async function callGeminiAPI(prompt, generationConfig = null) {
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                ...(generationConfig && { generationConfig })
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                     return "AIからの有効な回答を得られませんでした。";
+                }
+            } catch (error) {
+                console.error("Gemini API call failed:", error);
+                return "AIとの通信中にエラーが発生しました。";
+            }
+        }
+        
+        function formatGeminiResponse(text) {
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>') // Bold
+                .replace(/\*/g, '') // Remove asterisks used for lists
+                .replace(/・/g, '<br>・') // Add line breaks for bullet points
+                .replace(/\n/g, '<br>'); // Newlines
+        }
+
+        async function generateActionPlan() {
+            const outputContainer = document.getElementById('gemini-plan-output');
+            outputContainer.innerHTML = '<div class="loader"></div>';
+
+            const topChallenges = sortedResultKeys.map(key => appData[key].title.split('. ')[1]);
+            const prompt = `あなたは日本の自治会運営に非常に詳しい専門コンサルタントです。
+以下の課題について、一般的な自治会が明日からでも始められるような、具体的で実行可能なアクションプランを2つ、JSON形式で提案してください。
+各プランには、title, objective, steps (箇条書きの配列), resources, timeline, success_metricを含めてください。
+
+課題: ${topChallenges.join('、')}`;
+
+            const generationConfig = {
+                responseMimeType: "application/json",
+                responseSchema: {
+                    type: "OBJECT",
+                    properties: {
+                        "plans": {
+                            type: "ARRAY",
+                            items: {
+                                type: "OBJECT",
+                                properties: {
+                                    "title": { "type": "STRING" },
+                                    "objective": { "type": "STRING" },
+                                    "steps": { "type": "ARRAY", "items": { "type": "STRING" } },
+                                    "resources": { "type": "STRING" },
+                                    "timeline": { "type": "STRING" },
+                                    "success_metric": { "type": "STRING" }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            
+            const responseText = await callGeminiAPI(prompt, generationConfig);
+            
+            try {
+                const parsedJson = JSON.parse(responseText);
+                renderActionPlans(parsedJson.plans, outputContainer);
+            } catch (e) {
+                console.error("Failed to parse JSON response:", e);
+                outputContainer.innerHTML = `<div class="p-4 bg-red-100 rounded-lg text-red-700">AIからの応答を解析できませんでした。</div>`;
+            }
+        }
+
+        function renderActionPlans(plans, container) {
+            if (!plans || plans.length === 0) {
+                 container.innerHTML = `<div class="p-4 bg-gray-100 rounded-lg">AIから具体的なプランの提案がありませんでした。</div>`;
+                 return;
+            }
+            let html = '<div class="space-y-4">';
+            plans.forEach(plan => {
+                html += `
+                    <div class="p-4 bg-gray-50 rounded-lg border">
+                        <h3 class="font-bold text-lg text-amber-800">${plan.title}</h3>
+                        <p class="text-sm text-gray-600 mt-1 mb-3">${plan.objective}</p>
+                        <div class="text-left text-sm space-y-2">
+                            <p><b>具体的なステップ:</b><br>${plan.steps.map(step => `・${step}`).join('<br>')}</p>
+                            <p><b>必要なもの:</b> ${plan.resources}</p>
+                            <p><b>スケジュール案:</b> ${plan.timeline}</p>
+                            <p><b>成功の目安:</b> ${plan.success_metric}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        async function getMoreIdeas(problem, existingSolution, outputId) {
+            const outputContainer = document.getElementById(outputId);
+            outputContainer.innerHTML = '<div class="loader" style="width:20px; height:20px; border-width: 2px;"></div>';
+            outputContainer.classList.remove('hidden');
+
+            const prompt = `あなたは地域活性化の専門家で、ユニークなアイデアを出すのが得意です。
+以下の状況について、記載されている対策以外に、住民が楽しく参加できるような、あるいは少し変わった視点からのアイデアを2つ提案してください。各アイデアは簡潔にお願いします。
+
+【現象】: ${problem}
+【既存の対策】: ${existingSolution}`;
+            
+            const responseText = await callGeminiAPI(prompt);
+            outputContainer.innerHTML = `<div class="gemini-response p-2">${formatGeminiResponse(responseText)}</div>`;
+        }
+
+        async function generateAnnouncement(problem, solution, outputId) {
+            const outputContainer = document.getElementById(outputId);
+            outputContainer.innerHTML = '<div class="loader" style="width:20px; height:20px; border-width: 2px;"></div>';
+            outputContainer.classList.remove('hidden');
+
+            const prompt = `あなたは日本の自治会で広報を担当している、親しみやすいスタッフです。
+以下の課題と対策をテーマにして、地域の住民が参加したくなるような、温かみのある告知文案を作成してください。
+特に新しい住民や若い世代にも響くような、ポジティブで分かりやすい言葉を選んでください。
+
+【テーマとなる課題】: ${problem}
+【実施する対策】: ${solution}
+
+上記の情報を元に、掲示板や回覧板、LINEグループで使えるような告知文を作成してください。`;
+            
+            const responseText = await callGeminiAPI(prompt);
+            outputContainer.innerHTML = `<div class="gemini-response p-2">${formatGeminiResponse(responseText)}</div>`;
+        }
+
+
+    </script>
+</body>
+</html>
