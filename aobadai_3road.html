@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>青葉台町会協議会 3年間ロードマップ | 持続可能な地域運営モデルの確立</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans JP"', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              800: '#115e59',
+              900: '#134e4a',
+            },
+            civic: {
+              navy: '#1e293b',
+              accent: '#0284c7',
+              warm: '#f59e0b',
+              success: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; font-size: 11pt; }
+      .print-shadow-none { box-shadow: none !important; border: 1px solid #e2e8f0; }
+    }
+    .gradient-hero {
+      background: linear-gradient(135deg, #0f766e 0%, #115e59 40%, #0c4a6e 100%);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans selection:bg-teal-200">
+
+  <!-- Top Navigation Bar -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-lg bg-brand-700 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+          青
+        </div>
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-wider text-brand-700 block">市原市 青葉台町会協議会</span>
+          <h1 class="text-base sm:text-lg font-bold text-slate-800 leading-tight">3年間運営ロードマップ構想</h1>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <a href="#strategic-framework" class="hidden md:inline-flex text-xs font-medium text-slate-600 hover:text-brand-700 px-2.5 py-1.5 rounded-md hover:bg-slate-100 transition">戦略優先度</a>
+        <a href="#roadmap" class="hidden md:inline-flex text-xs font-medium text-slate-600 hover:text-brand-700 px-2.5 py-1.5 rounded-md hover:bg-slate-100 transition">3カ年工程</a>
+        <a href="#probono-box" class="hidden md:inline-flex text-xs font-medium text-slate-600 hover:text-brand-700 px-2.5 py-1.5 rounded-md hover:bg-slate-100 transition">プロボノ計画</a>
+        <a href="#interactive-workshop" class="hidden sm:inline-flex text-xs font-medium text-slate-600 hover:text-brand-700 px-2.5 py-1.5 rounded-md hover:bg-slate-100 transition">検討メモ</a>
+        <button onclick="window.print()" class="inline-flex items-center space-x-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-300 transition">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span>印刷 / PDF</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+    <!-- Hero Banner -->
+    <section class="gradient-hero rounded-2xl text-white p-6 sm:p-10 shadow-xl relative overflow-hidden">
+      <div class="absolute right-0 top-0 translate-x-12 -translate-y-8 w-72 h-72 bg-teal-400/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 max-w-4xl space-y-4">
+        <div class="inline-flex items-center space-x-2 bg-white/15 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium tracking-wide text-teal-100 border border-white/20">
+          <i data-lucide="compass" class="w-3.5 h-3.5 text-teal-300"></i>
+          <span>令和8年〜令和10年 自走体制化マスタープラン</span>
+        </div>
+        <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-snug">
+          青葉台町会協議会 3年間ロードマップ<br class="hidden sm:inline"/>
+          <span class="text-teal-200 text-xl sm:text-2xl font-bold">― 持続可能な地域運営モデルの確立へ ―</span>
+        </h2>
+        <p class="text-teal-50 text-sm sm:text-base leading-relaxed max-w-3xl">
+          人口減少・役員高齢化による担い手不足に対し、10月〜2月の「外部プロボノ連携」を起爆剤として業務の棚卸し・見える化を先行。若い世代・子育て世代が気軽に関われる情報基盤を整え、市原市内の先駆的モデルとなる運営体制を3段階で構築します。
+        </p>
+
+        <!-- KPI / Highlight Grid in Hero -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3">
+          <div class="bg-black/20 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+            <div class="text-xs text-teal-200">第1期（1年目）</div>
+            <div class="text-base sm:text-lg font-bold text-white mt-0.5">業務3割スリム化</div>
+            <div class="text-[11px] text-teal-100/80">属人化解消＆プロボノ伴走</div>
+          </div>
+          <div class="bg-black/20 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+            <div class="text-xs text-teal-200">第2期（2年目）</div>
+            <div class="text-base sm:text-lg font-bold text-white mt-0.5">スポット参加導入</div>
+            <div class="text-[11px] text-teal-100/80">LINE/Web×単発タスク公募</div>
+          </div>
+          <div class="bg-black/20 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+            <div class="text-xs text-teal-200">第3期（3年目）</div>
+            <div class="text-base sm:text-lg font-bold text-white mt-0.5">次世代役員登用</div>
+            <div class="text-[11px] text-teal-100/80">持続可能なサイクル確立</div>
+          </div>
+          <div class="bg-black/20 backdrop-blur-sm rounded-xl p-3 border border-white/10">
+            <div class="text-xs text-teal-200">波及効果</div>
+            <div class="text-base sm:text-lg font-bold text-white mt-0.5">市原モデル展開</div>
+            <div class="text-[11px] text-teal-100/80">他町会・他地域へ知見共有</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4-Pillars Realized Vision -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold text-brand-700 tracking-wider uppercase">Future Vision</span>
+          <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+            <i data-lucide="target" class="w-5 h-5 text-brand-600"></i>
+            解決して実現したい「4つの姿」
+          </h3>
+        </div>
+        <span class="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">協議会ビジョン連動</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Card 1 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-sm hover:border-brand-500 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-lg bg-teal-50 text-teal-700 flex items-center justify-center mb-3">
+            <i data-lucide="smile" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1.5">誰もが参加しやすい仕組み</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            長時間の拘束や重い役員縛りを廃止。「イベント撮影係」「チラシ制作」など単発（スポット）で関われる小分けタスクを用意。
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-sm hover:border-brand-500 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center mb-3">
+            <i data-lucide="users" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1.5">若い世代・子育て世代の参加</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            学校やPTA、帝京病院跡地活用など生活に身近なテーマでの対話の場を設定し、新転入者でも自然と町会に馴染める導線を開拓。
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-sm hover:border-brand-500 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center mb-3">
+            <i data-lucide="smartphone" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1.5">デジタル活用とハイブリッド発信</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            回覧板・掲示板の温もりを残しつつ、LINE公式や簡易Webでタイムリーに防災・行事情報を伝達。紙とスマホの二刀流を実現。
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-sm hover:border-brand-500 hover:shadow-md transition">
+          <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mb-3">
+            <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-bold text-slate-800 text-sm mb-1.5">次世代へ引き継げる運営モデル</h4>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            業務マニュアル化とクラウド保存により「誰でも引き継げる環境」を完成。市原市内の地域活性化モデルケースとして発信。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Strategic Priority Framework Section -->
+    <section id="strategic-framework" class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm">
+      <div class="border-b border-slate-200 pb-4 mb-6">
+        <span class="text-xs font-bold text-blue-600 tracking-wider uppercase">Strategic Logic</span>
+        <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2 mt-1">
+          <i data-lucide="arrow-left-right" class="w-5 h-5 text-blue-600"></i>
+          優先順位の戦略的「再定義」（なぜ順番を変える必要があるのか？）
+        </h3>
+        <p class="text-xs sm:text-sm text-slate-600 mt-1">
+          協議会の当初想定（①担い手確保 → ②情報発信 → ③見える化）のまま進めると、多忙な状態のまま新人を呼び込んでしまい、定着せず破綻するリスクがあります。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <!-- Conventional trap -->
+        <div class="lg:col-span-5 bg-rose-50/60 rounded-xl p-5 border border-rose-200">
+          <div class="flex items-center space-x-2 text-rose-800 font-bold text-sm mb-3">
+            <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-600"></i>
+            <span>従来の着手順（陥りがちな落とし穴）</span>
+          </div>
+          <ol class="space-y-2.5 text-xs text-slate-700">
+            <li class="p-2.5 bg-white rounded-lg border border-rose-100 flex items-start gap-2">
+              <span class="font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">1</span>
+              <span><strong>担い手募集を急ぐ:</strong> 業務がブラックボックスのまま「手伝ってください」と頼むため、若手が敬遠。</span>
+            </li>
+            <li class="p-2.5 bg-white rounded-lg border border-rose-100 flex items-start gap-2">
+              <span class="font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">2</span>
+              <span><strong>情報発信だけ先行:</strong> ツールを増やしても更新する役員の負担が増加し、数カ月で休眠状態に。</span>
+            </li>
+            <li class="p-2.5 bg-white rounded-lg border border-rose-100 flex items-start gap-2">
+              <span class="font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded">3</span>
+              <span><strong>業務改善が後回し:</strong> 結局現役員の背負い込みが続き、高齢化・疲弊が加速してしまう。</span>
+            </li>
+          </ol>
+        </div>
+
+        <!-- Arrow -->
+        <div class="lg:col-span-2 flex flex-col items-center justify-center text-slate-400">
+          <div class="hidden lg:flex items-center justify-center w-10 h-10 rounded-full bg-slate-100 border border-slate-200">
+            <i data-lucide="arrow-right" class="w-5 h-5 text-slate-600"></i>
+          </div>
+          <span class="text-xs font-bold text-brand-700 mt-1">戦略的逆転</span>
+        </div>
+
+        <!-- Proposed solution -->
+        <div class="lg:col-span-5 bg-teal-50/70 rounded-xl p-5 border border-teal-200">
+          <div class="flex items-center space-x-2 text-teal-900 font-bold text-sm mb-3">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600"></i>
+            <span>本ロードマップの着手順（成果が出る順番）</span>
+          </div>
+          <ol class="space-y-2.5 text-xs text-slate-800">
+            <li class="p-2.5 bg-white rounded-lg border border-teal-100 flex items-start gap-2 shadow-xs">
+              <span class="font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded">1年目</span>
+              <span><strong>まず「見える化・減量化」:</strong> プロボノとともに業務を3割削減。役員の余白を作ってから次へ。</span>
+            </li>
+            <li class="p-2.5 bg-white rounded-lg border border-teal-100 flex items-start gap-2 shadow-xs">
+              <span class="font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded">2年目</span>
+              <span><strong>「小さく頼む」情報発信:</strong> 減量化されたタスク（受付・撮影など）をLINE/Webでスポット募集。</span>
+            </li>
+            <li class="p-2.5 bg-white rounded-lg border border-teal-100 flex items-start gap-2 shadow-xs">
+              <span class="font-bold text-teal-700 bg-teal-100 px-2 py-0.5 rounded">3年目</span>
+              <span><strong>「自然な担い手登用」と連携:</strong> 参加経験者から役員へ。防災・福祉・市原市全体へ好循環モデルを展開。</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3-Year Interactive Roadmap -->
+    <section id="roadmap" class="space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div>
+          <span class="text-xs font-bold text-brand-700 tracking-wider uppercase">Execution Roadmap</span>
+          <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+            <i data-lucide="calendar" class="w-5 h-5 text-brand-600"></i>
+            3カ年ロードマップ詳細
+          </h3>
+        </div>
+        <!-- Year filter buttons -->
+        <div class="inline-flex p-1 bg-slate-200/80 rounded-xl text-xs font-bold text-slate-700 space-x-1">
+          <button onclick="switchYear('all')" id="tab-all" class="year-tab px-3 py-1.5 rounded-lg bg-white shadow-xs text-brand-800">全期間表示</button>
+          <button onclick="switchYear('y1')" id="tab-y1" class="year-tab px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">1年目（基盤整備）</button>
+          <button onclick="switchYear('y2')" id="tab-y2" class="year-tab px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">2年目（発信・参加）</button>
+          <button onclick="switchYear('y3')" id="tab-y3" class="year-tab px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">3年目（発展・モデル化）</button>
+        </div>
+      </div>
+
+      <!-- Timeline Container -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- YEAR 1 CARD -->
+        <div id="card-y1" class="year-card bg-white rounded-2xl border-2 border-brand-500 shadow-md p-6 flex flex-col justify-between transition-all">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <span class="px-2.5 py-1 rounded-md text-xs font-extrabold bg-teal-100 text-teal-800">1年目 (令和8年度)</span>
+              <span class="text-xs text-slate-500 font-medium">土台づくりフェーズ</span>
+            </div>
+            
+            <h4 class="text-lg font-bold text-slate-800 mt-3 mb-2">基盤整備と「外の力」の活用</h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              プロボノプロジェクトを活用し、長年の個人依存を解消。「何を止めて、何を残すか」の棚卸しと引き継ぎ体制を確立します。
+            </p>
+
+            <!-- Milestones inside Year 1 -->
+            <div class="space-y-3">
+              <div class="bg-teal-50/70 p-3 rounded-xl border border-teal-200/70">
+                <div class="flex items-center space-x-2 text-xs font-bold text-teal-900">
+                  <span class="w-2 h-2 rounded-full bg-teal-600"></span>
+                  <span>前期（10月〜2月：プロボノ連携）</span>
+                </div>
+                <ul class="mt-1.5 space-y-1 text-xs text-slate-700 pl-4 list-disc">
+                  <li>役員業務棚卸し（廃止・簡素化・分担の仕分け）</li>
+                  <li>簡易Web / 公式LINEアカウントの設計と導入</li>
+                  <li>住民ニーズ客観調査・若手ヒアリングの実施</li>
+                </ul>
+              </div>
+
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <div class="flex items-center space-x-2 text-xs font-bold text-slate-800">
+                  <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                  <span>後期（3月〜翌年度初頭）</span>
+                </div>
+                <ul class="mt-1.5 space-y-1 text-xs text-slate-700 pl-4 list-disc">
+                  <li>「青葉台 引き継ぎマニュアル初版」の現場試行</li>
+                  <li>回覧板＋LINEのハイブリッド情報発信テスト</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-slate-100 bg-slate-50/50 -mx-6 -mb-6 p-4 rounded-b-2xl">
+            <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">年度末の達成状態 (KPI)</div>
+            <div class="text-xs text-slate-700 flex items-center gap-1.5 font-medium">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>役員間タスク可視化100% / LINE登録150名</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- YEAR 2 CARD -->
+        <div id="card-y2" class="year-card bg-white rounded-2xl border border-slate-200 hover:border-brand-400 shadow-sm hover:shadow-md p-6 flex flex-col justify-between transition-all">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <span class="px-2.5 py-1 rounded-md text-xs font-extrabold bg-blue-100 text-blue-800">2年目 (令和9年度)</span>
+              <span class="text-xs text-slate-500 font-medium">参加拡大フェーズ</span>
+            </div>
+            
+            <h4 class="text-lg font-bold text-slate-800 mt-3 mb-2">情報発信の定着と小さな担い手</h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              負担のない「スポット参加」を軸に、子育て世代や若手住民との心理的距離を縮めます。地域の将来を語る座談会も定例化。
+            </p>
+
+            <!-- Milestones inside Year 2 -->
+            <div class="space-y-3">
+              <div class="bg-blue-50/60 p-3 rounded-xl border border-blue-200/70">
+                <div class="flex items-center space-x-2 text-xs font-bold text-blue-900">
+                  <i data-lucide="bell" class="w-3.5 h-3.5 text-blue-600"></i>
+                  <span>生活直結型デジタル発信の定着</span>
+                </div>
+                <p class="text-xs text-slate-700 mt-1">
+                  行事の周知だけでなく、ゴミ出し・防災・防犯・見守りなど住民に直接役立つ情報をスマホへ即時通知。
+                </p>
+              </div>
+
+              <div class="bg-blue-50/60 p-3 rounded-xl border border-blue-200/70">
+                <div class="flex items-center space-x-2 text-xs font-bold text-blue-900">
+                  <i data-lucide="user-plus" class="w-3.5 h-3.5 text-blue-600"></i>
+                  <span>「スポット型ボランティア」公募</span>
+                </div>
+                <p class="text-xs text-slate-700 mt-1">
+                  「広報紙のCanvaデザイン」「祭り撮影」「受付のみ」など、時間・責任を限定した公募を実施。
+                </p>
+              </div>
+
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <div class="flex items-center space-x-2 text-xs font-bold text-slate-800">
+                  <i data-lucide="coffee" class="w-3.5 h-3.5 text-slate-600"></i>
+                  <span>未来共創ワークショップ</span>
+                </div>
+                <p class="text-xs text-slate-700 mt-1">
+                  帝京病院跡地活用や福祉タウン構想をテーマに、住民・若手がアイデアを出すオープン対話会を開催。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-slate-100 bg-slate-50/50 -mx-6 -mb-6 p-4 rounded-b-2xl">
+            <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">年度末の達成状態 (KPI)</div>
+            <div class="text-xs text-slate-700 flex items-center gap-1.5 font-medium">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>スポット協力者20名創出 / LINE世帯浸透30%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- YEAR 3 CARD -->
+        <div id="card-y3" class="year-card bg-white rounded-2xl border border-slate-200 hover:border-brand-400 shadow-sm hover:shadow-md p-6 flex flex-col justify-between transition-all">
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <span class="px-2.5 py-1 rounded-md text-xs font-extrabold bg-amber-100 text-amber-900">3年目 (令和10年度)</span>
+              <span class="text-xs text-slate-500 font-medium">自走・モデル展開</span>
+            </div>
+            
+            <h4 class="text-lg font-bold text-slate-800 mt-3 mb-2">地域連携の深化と市原モデル化</h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              関わったメンバーから次世代役員が誕生する好循環へ。医療・福祉機関と連携した安心の地域インフラを完成させます。
+            </p>
+
+            <!-- Milestones inside Year 3 -->
+            <div class="space-y-3">
+              <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-200/70">
+                <div class="flex items-center space-x-2 text-xs font-bold text-amber-950">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-600"></i>
+                  <span>複合見守り・防災ネットワーク</span>
+                </div>
+                <p class="text-xs text-slate-700 mt-1">
+                  民生委員・医療福祉機関・NPOとデジタル情報網を繋ぎ、平常時からの見守り支援体制を運用。
+                </p>
+              </div>
+
+              <div class="bg-amber-50/60 p-3 rounded-xl border border-amber-200/70">
+                <div class="flex items-center space-x-2 text-xs font-bold text-amber-950">
+                  <i data-lucide="user-check" class="w-3.5 h-3.5 text-amber-600"></i>
+                  <span>次世代役員の自然登用</span>
+                </div>
+                <p class="text-xs text-slate-700 mt-1">
+                  2年目のスポット参加者から数名が副担当やプロジェクトリーダーとしてスムーズに役員就任。
+                </p>
+              </div>
+
+              <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <div class="flex items-center space-x-2 text-xs font-bold text-slate-800">
+                  <i data-lucide="share-2" class="w-3.5 h-3.5 text-slate-600"></i>
+                  <span>市原市内他地域へのモデル波及</span>
+                </div>
+                <p class="text-xs text-slate-700 mt-1">
+                  成功・失敗事例をまとめた「青葉台モデルハンドブック」を公表し、市内他町会へノウハウを寄与。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-slate-100 bg-slate-50/50 -mx-6 -mb-6 p-4 rounded-b-2xl">
+            <div class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-1">年度末の達成状態 (KPI)</div>
+            <div class="text-xs text-slate-700 flex items-center gap-1.5 font-medium">
+              <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>次世代役員2〜3名就任 / 市内発信・見学会実施</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Pro Bono Project Scope (10/18 - Feb) -->
+    <section id="probono-box" class="bg-gradient-to-r from-slate-900 via-slate-800 to-teal-950 rounded-2xl text-white p-6 sm:p-8 shadow-lg">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5 mb-6">
+        <div>
+          <div class="inline-flex items-center space-x-1.5 bg-teal-500/20 text-teal-300 text-xs font-bold px-2.5 py-1 rounded-md border border-teal-500/30">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            <span>重点着手プログラム</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold mt-2">10/18〜2月末 プロボノプロジェクト（約4カ月）の集中設計</h3>
+          <p class="text-xs sm:text-sm text-slate-300 mt-1">
+            「やりたいことはあるが進め方が分からない」を解決する、外部専門プロフェッショナルとの協業設計
+          </p>
+        </div>
+        <div class="text-right">
+          <span class="text-xs text-slate-400 block">推進体制</span>
+          <span class="text-sm font-semibold text-teal-200">事務局会議 ⇄ 理事会 ⇄ プロボノチーム</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Col 1 -->
+        <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+          <div class="text-xs font-bold text-teal-300 uppercase tracking-wider mb-2">Month 1-2 (10月〜11月)</div>
+          <h4 class="font-bold text-sm text-white mb-2">現状の棚卸しと業務の可視化</h4>
+          <ul class="text-xs text-slate-300 space-y-2">
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-teal-400 mt-0.5"></i>
+              <span>役員個別ヒアリング（属人化した手作業のリスト化）</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-teal-400 mt-0.5"></i>
+              <span>「やめる・簡素化・継続」の仕分けマトリクス作成</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-teal-400 mt-0.5"></i>
+              <span>客観的な視点での課題ツリー整理</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Col 2 -->
+        <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+          <div class="text-xs font-bold text-teal-300 uppercase tracking-wider mb-2">Month 3 (12月〜1月)</div>
+          <h4 class="font-bold text-sm text-white mb-2">情報基盤の設計＆若手ニーズ把握</h4>
+          <ul class="text-xs text-slate-300 space-y-2">
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-teal-400 mt-0.5"></i>
+              <span>「誰でも更新できる」最小限ツールの選定（LINE公式など）</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-teal-400 mt-0.5"></i>
+              <span>子育て・新転入住民へのインタビュー・簡易アンケート実施</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-teal-400 mt-0.5"></i>
+              <span>役員会での共有・方針合意形成</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Col 3 -->
+        <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+          <div class="text-xs font-bold text-teal-300 uppercase tracking-wider mb-2">Month 4 (2月)</div>
+          <h4 class="font-bold text-sm text-white mb-2">引き継ぎマニュアル＆次期計画納品</h4>
+          <ul class="text-xs text-slate-300 space-y-2">
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-teal-400 mt-0.5"></i>
+              <span>「業務引き継ぎフォーマット」の作成・共有</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-teal-400 mt-0.5"></i>
+              <span>新年度（令和9年度）スポット担い手募集プラン策定</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-teal-400 mt-0.5"></i>
+              <span>プロボノ成果報告会（町会協議会総括）</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partner Insight & Interactive Workshop Section -->
+    <section id="interactive-workshop" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Left: Partner Insight Box -->
+      <div class="lg:col-span-6 bg-amber-50/80 rounded-2xl p-6 border border-amber-200/90 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center space-x-2 text-amber-900 font-bold text-base mb-3">
+            <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center">
+              <i data-lucide="lightbulb" class="w-4 h-4"></i>
+            </div>
+            <span>思考パートナーとしての懸念点と問いかけ</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed mb-4">
+            「担い手を増やしたい」という焦りから、<strong>過去20年間の慣習行事や役員会ルールをそのまま残した状態で新しい人を誘うこと</strong>が最大の落とし穴です。忙しい現役世代は、効率の悪い会議や責任の重さに敏感です。
+          </p>
+          <div class="bg-white p-4 rounded-xl border border-amber-200 shadow-2xs space-y-2">
+            <span class="text-xs font-bold text-amber-800 uppercase tracking-wide">役員会で話し合ってほしい問い：</span>
+            <blockquote class="text-sm font-semibold text-slate-800 italic">
+              「プロボノ期間（10〜2月）に、既存の行事や定例会議のなかで、<span class="text-amber-700 underline decoration-amber-400 decoration-2">『思い切ってやめる、または半減させる』</span>と決断できる余地はどれくらいありそうでしょうか？」
+            </blockquote>
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-amber-200/60 text-[11px] text-slate-500 flex items-center gap-1.5">
+          <i data-lucide="info" class="w-3.5 h-3.5 text-amber-600"></i>
+          <span>まずは役員自身の負担を1人あたり月3時間削減することから始まります。</span>
+        </div>
+      </div>
+
+      <!-- Right: Interactive Self-Check / Checklist Tool -->
+      <div class="lg:col-span-6 bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+          <div class="flex items-center space-x-2">
+            <i data-lucide="check-square" class="w-5 h-5 text-brand-600"></i>
+            <h4 class="font-bold text-sm text-slate-800">役員会・プロボノ開始前セルフチェック</h4>
+          </div>
+          <span id="check-counter" class="text-xs font-bold bg-brand-50 text-brand-700 px-2.5 py-0.5 rounded-full border border-brand-200">
+            0 / 5 完了
+          </span>
+        </div>
+
+        <div class="space-y-2.5" id="checklist">
+          <label class="flex items-start space-x-2.5 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition text-xs">
+            <input type="checkbox" onchange="updateCheckCount()" class="mt-0.5 rounded text-brand-600 focus:ring-brand-500 border-slate-300 w-4 h-4">
+            <span class="text-slate-700 leading-normal">各役員の年間業務一覧（回覧配布、会計、行事準備等）がメモ書きでも出揃っている</span>
+          </label>
+          <label class="flex items-start space-x-2.5 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition text-xs">
+            <input type="checkbox" onchange="updateCheckCount()" class="mt-0.5 rounded text-brand-600 focus:ring-brand-500 border-slate-300 w-4 h-4">
+            <span class="text-slate-700 leading-normal">「やめても誰も困らないかもしれない行事・手順」の候補が1〜2個挙がっている</span>
+          </label>
+          <label class="flex items-start space-x-2.5 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition text-xs">
+            <input type="checkbox" onchange="updateCheckCount()" class="mt-0.5 rounded text-brand-600 focus:ring-brand-500 border-slate-300 w-4 h-4">
+            <span class="text-slate-700 leading-normal">プロボノとの月1回定例・進捗確認ができるキーパーソン（窓口役）が決まっている</span>
+          </label>
+          <label class="flex items-start space-x-2.5 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition text-xs">
+            <input type="checkbox" onchange="updateCheckCount()" class="mt-0.5 rounded text-brand-600 focus:ring-brand-500 border-slate-300 w-4 h-4">
+            <span class="text-slate-700 leading-normal">町会内にいる「少しパソコン・スマホが得意な住民」に声かけする準備がある</span>
+          </label>
+          <label class="flex items-start space-x-2.5 p-2 rounded-lg hover:bg-slate-50 cursor-pointer transition text-xs">
+            <input type="checkbox" onchange="updateCheckCount()" class="mt-0.5 rounded text-brand-600 focus:ring-brand-500 border-slate-300 w-4 h-4">
+            <span class="text-slate-700 leading-normal">民生委員・医療関係者との連絡ルートがいつでも取れる状態にある</span>
+          </label>
+        </div>
+
+        <!-- Interactive note saving box -->
+        <div class="mt-4 pt-3 border-t border-slate-100">
+          <label class="block text-[11px] font-bold text-slate-600 mb-1">役員会での検討メモ（ブラウザに一時保持されます）</label>
+          <div class="flex gap-2">
+            <input type="text" id="meeting-memo" placeholder="例：秋祭りの紙チケットを来期廃止できるか検討する" class="flex-1 text-xs border border-slate-300 rounded-lg px-3 py-1.5 focus:outline-none focus:border-brand-500">
+            <button onclick="saveMemo()" class="text-xs bg-brand-700 text-white px-3 py-1.5 rounded-lg hover:bg-brand-800 transition font-medium">追加</button>
+          </div>
+          <ul id="memo-list" class="mt-2 space-y-1 text-xs text-slate-600 max-h-24 overflow-y-auto custom-scrollbar"></ul>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-16 bg-white border-t border-slate-200 py-8 no-print">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-2">
+      <p class="font-semibold text-slate-700">市原市 青葉台町会協議会 活性化プロジェクト推進資料</p>
+      <p>※本ロードマップは協議会ヒアリング資料をもとに作成された構想提案です。協議会役員会およびプロボノチームとの協議により順次更新されます。</p>
+      <div class="pt-2 text-[10px] text-slate-400">作成：青葉台運営協議会 企画検討支援チーム</div>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Year Tab Filter Logic
+    function switchYear(selected) {
+      const cards = {
+        y1: document.getElementById('card-y1'),
+        y2: document.getElementById('card-y2'),
+        y3: document.getElementById('card-y3')
+      };
+      
+      const tabs = {
+        all: document.getElementById('tab-all'),
+        y1: document.getElementById('tab-y1'),
+        y2: document.getElementById('tab-y2'),
+        y3: document.getElementById('tab-y3')
+      };
+
+      // Reset tabs style
+      Object.values(tabs).forEach(t => {
+        t.className = 'year-tab px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition';
+      });
+      tabs[selected].className = 'year-tab px-3 py-1.5 rounded-lg bg-white shadow-xs text-brand-800 font-bold transition';
+
+      // Toggle card visibility
+      if (selected === 'all') {
+        cards.y1.classList.remove('hidden');
+        cards.y2.classList.remove('hidden');
+        cards.y3.classList.remove('hidden');
+      } else {
+        cards.y1.classList.add('hidden');
+        cards.y2.classList.add('hidden');
+        cards.y3.classList.add('hidden');
+        cards[selected].classList.remove('hidden');
+      }
+    }
+
+    // Interactive Checklist Counter
+    function updateCheckCount() {
+      const checkboxes = document.querySelectorAll('#checklist input[type="checkbox"]');
+      const checked = Array.from(checkboxes).filter(c => c.checked).length;
+      const counter = document.getElementById('check-counter');
+      counter.innerText = `${checked} / ${checkboxes.length} 完了`;
+      if (checked === checkboxes.length) {
+        counter.className = 'text-xs font-bold bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full border border-emerald-300';
+      } else {
+        counter.className = 'text-xs font-bold bg-brand-50 text-brand-700 px-2.5 py-0.5 rounded-full border border-brand-200';
+      }
+    }
+
+    // Meeting Memo Local Handling
+    const memos = [];
+    function saveMemo() {
+      const input = document.getElementById('meeting-memo');
+      const val = input.value.trim();
+      if (!val) return;
+      memos.push(val);
+      input.value = '';
+      renderMemos();
+    }
+
+    function removeMemo(index) {
+      memos.splice(index, 1);
+      renderMemos();
+    }
+
+    function renderMemos() {
+      const list = document.getElementById('memo-list');
+      list.innerHTML = '';
+      memos.forEach((memo, idx) => {
+        const li = document.createElement('li');
+        li.className = 'flex items-center justify-between bg-slate-50 px-2.5 py-1 rounded border border-slate-200';
+        li.innerHTML = `
+          <span>・${memo}</span>
+          <button onclick="removeMemo(${idx})" class="text-rose-500 hover:text-rose-700 ml-2 font-bold text-xs">×</button>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    // Support 'Enter' key on memo input
+    document.getElementById('meeting-memo').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        saveMemo();
+      }
+    });
+  </script>
+</body>
+</html>
