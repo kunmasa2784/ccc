@@ -8,6 +8,317 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Phosphor Icons for clear, accessible iconography -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  
+  <!-- 初期プリセットデータをグローバルに先行定義 -->
+  <script>
+    window.INITIAL_LINKS = [
+      {
+        id: 'link-chiba-1',
+        title: '千葉県 防災ポータルサイト（災害対策本部速報）',
+        org: '千葉県 防災危機管理部',
+        url: 'https://www.bousai.pref.chiba.lg.jp/',
+        category: 'CHIBA',
+        region: 'KANTO',
+        desc: '千葉県内の気象警報、市町村ごとの避難指示・発令状況、被害集計、災害警戒本部の最新公式発表。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-chiba-2',
+        title: 'ちば情報マップ（千葉県ハザードマップ・指定避難所）',
+        org: '千葉県',
+        url: 'https://map.pref.chiba.lg.jp/',
+        category: 'CHIBA',
+        region: 'KANTO',
+        desc: '千葉県全域の洪水浸水想定区域、土砂災害警戒区域、津波浸水想定および避難場所のオンライン地図。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-chiba-3',
+        title: '千葉県内 停電情報・復旧進捗状況',
+        org: '東京電力パワーグリッド（千葉総支社）',
+        url: 'https://teideninfo.tepco.co.jp/',
+        category: 'CHIBA',
+        region: 'KANTO',
+        desc: '千葉県各市町村ごとの停電戸数、原因、復旧見込み時間および倒木・電線断線の現場進捗状況。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-1',
+        title: '避難情報・警報・注意報（キキクル）',
+        org: '気象庁',
+        url: 'https://www.jma.go.jp/bosai/',
+        category: 'GOV',
+        region: 'NATIONAL',
+        desc: '土砂災害・浸水害・洪水の危険度分布（キキクル）および全国の気象警報。避難指示の確認に必須。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-2',
+        title: '災害対策本部・被害状況取りまとめ',
+        org: '首相官邸 / 内閣府防災',
+        url: 'https://www.bousai.go.jp/',
+        category: 'GOV',
+        region: 'NATIONAL',
+        desc: '日本政府・中央省庁の災害対策本部による被害状況まとめ、激甚災害指定状況、政府方針の公式発表。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-3',
+        title: '全国停電情報 集約マップ',
+        org: '電力各社送配電ネットワーク',
+        url: 'https://www.tepco.co.jp/pg/consignment/for-general/teiden-info/',
+        category: 'LIFELINE',
+        region: 'NATIONAL',
+        desc: '各電力エリアの停電軒数・復旧見込み時間のリアルタイム確認。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-4',
+        title: '通信障害状況・00000JAPAN無料Wi-Fi開設情報',
+        org: '総務省 / 通信事業者各社',
+        url: 'https://www.soumu.go.jp/menu_seisaku/ictseisaku/bousai_portal/',
+        category: 'LIFELINE',
+        region: 'NATIONAL',
+        desc: '携帯キャリア各社の障害復旧状況および、大規模災害時に開放される無料公衆無線LAN「00000JAPAN」の発動案内。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-5',
+        title: '全国道路通行規制・高速道路運行状況',
+        org: '日本道路交通情報センター (JARTIC)',
+        url: 'https://www.jartic.or.jp/',
+        category: 'TRAFFIC',
+        region: 'NATIONAL',
+        desc: '高速道路・主要国道の通行止め、チェーン規制、緊急交通路の指定状況。救援車両以外の通行制限等。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-5-sub',
+        title: '国交省 道路情報提供システム（関東・全国規制情報）',
+        org: '国土交通省 道路局',
+        url: 'https://www.road-info-prvs.mlit.go.jp/roadinfo/content.php?mode=pc&lang=jp&area=10&page=00&table=0',
+        category: 'TRAFFIC',
+        region: 'NATIONAL',
+        desc: '国交省直轄国道等のリアルタイム通行規制、カメラ画像、降雨・積雪情報。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-6',
+        title: '全国鉄道運行情報まとめ',
+        org: 'JR各社・大手私鉄',
+        url: 'https://transit.yahoo.co.jp/diainfo/',
+        category: 'TRAFFIC',
+        region: 'NATIONAL',
+        desc: '新幹線、在来線、地下鉄の運転見合わせ・遅延・計画運休の状況一覧。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-7',
+        title: '指定緊急避難場所・開設避難所マップ',
+        org: '国土地理院 / 自治体オープンデータ',
+        url: 'https://maps.gsi.go.jp/',
+        category: 'SHELTER',
+        region: 'NATIONAL',
+        desc: '現在地周辺の指定避難場所（洪水・土砂・津波・地震別）およびハザードマップ確認。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-8',
+        title: '給水所開設マップ・給水支援ステーション',
+        org: '日本水道協会 / 各地方自治体水道局',
+        url: 'https://www.water.go.jp/',
+        category: 'SHELTER',
+        region: 'NATIONAL',
+        desc: '断水発生地域における給水車の巡回情報、持参容器の推奨サイズ、給水ポイント。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-10',
+        title: 'web171 災害用伝言ダイヤル(インターネット版)',
+        org: 'NTT東日本 / NTT西日本',
+        url: 'https://www.web171.jp/',
+        category: 'SAFETY',
+        region: 'NATIONAL',
+        desc: '音声171ダイヤルに加え、文字で被災者へ安否メッセージを残せる公式サービス。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-11',
+        title: '被災地災害ボランティアセンター開設・募集情報',
+        org: '全国社会福祉協議会 (全社協)',
+        url: 'https://www.shakyo.or.jp/index.html',
+        category: 'VOLUNTEER',
+        region: 'NATIONAL',
+        desc: '全国社会福祉協議会による被災地支援・災害ボランティアセンター開設速報および公式情報。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-12',
+        title: '災害義援金・物資支援公式窓口',
+        org: '日本赤十字社',
+        url: 'https://www.jrc.or.jp/contribution/',
+        category: 'VOLUNTEER',
+        region: 'NATIONAL',
+        desc: '被災者へ直接届く公式義援金の振込口座および活動支援金、物資受け入れ方針。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      }
+    ];
+  </script>
+
+  <!-- Firebase SDK (Firestore & Auth for cloud sync) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // --- Firebase 設定 ---
+    // GitHub Pages等で独自運用する場合は、下記オブジェクトにご自身のFirebase設定をご記入ください。
+    const defaultFirebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const firebaseConfig = typeof __firebase_config !== 'undefined'
+      ? JSON.parse(__firebase_config)
+      : defaultFirebaseConfig;
+
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'disaster-portal-chiba';
+
+    let db = null;
+    let auth = null;
+    let isCloudConnected = false;
+
+    // クラウドデータベースの初期化
+    async function initFirebase() {
+      try {
+        if (!firebaseConfig || firebaseConfig.apiKey === "YOUR_API_KEY") {
+          console.log("Firebase設定が未設定のため、ローカル保存モードで動作します。");
+          return;
+        }
+
+        const app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+
+        // 認証処理（トークンまたは匿名認証）
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          await signInAnonymously(auth);
+        }
+
+        const user = auth.currentUser;
+        if (!user) return;
+
+        isCloudConnected = true;
+        updateCloudStatusBadge(true);
+
+        // クラウド上のデータをリアルタイム同期購読
+        const linksCol = collection(db, 'artifacts', appId, 'public', 'data', 'links');
+        onSnapshot(linksCol, (snapshot) => {
+          if (!snapshot.empty) {
+            const cloudLinks = [];
+            snapshot.forEach((docSnap) => {
+              cloudLinks.push({ id: docSnap.id, ...docSnap.data() });
+            });
+            window.linksData = cloudLinks;
+            window.saveLinksLocal(); // オフライン用キャッシュ
+            window.updateCategoryCounts();
+            window.renderLinks();
+          } else {
+            // クラウドが空の場合は初期データを投入
+            seedInitialLinksToCloud();
+          }
+        }, (err) => {
+          console.error("Firestore sync error:", err);
+          updateCloudStatusBadge(false);
+        });
+
+      } catch (err) {
+        console.warn("クラウド初期化をスキップしてローカルモードで動作中:", err);
+        updateCloudStatusBadge(false);
+      }
+    }
+
+    // 初回クラウド投入
+    async function seedInitialLinksToCloud() {
+      if (!db || !auth.currentUser) return;
+      try {
+        const initialList = window.INITIAL_LINKS || [];
+        for (const item of initialList) {
+          const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'links', item.id);
+          await setDoc(docRef, item);
+        }
+      } catch (e) {
+        console.error("初期データ投入エラー:", e);
+      }
+    }
+
+    // クラウド保存用公開APIをwindowに紐付け
+    window.cloudSaveLink = async function(linkObj) {
+      if (!isCloudConnected || !db || !auth?.currentUser) {
+        return false;
+      }
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'links', linkObj.id);
+        await setDoc(docRef, linkObj);
+        return true;
+      } catch (err) {
+        console.error("クラウド保存エラー:", err);
+        return false;
+      }
+    };
+
+    window.cloudDeleteLink = async function(linkId) {
+      if (!isCloudConnected || !db || !auth?.currentUser) {
+        return false;
+      }
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'links', linkId);
+        await deleteDoc(docRef);
+        return true;
+      } catch (err) {
+        console.error("クラウド削除エラー:", err);
+        return false;
+      }
+    };
+
+    function updateCloudStatusBadge(online) {
+      const badge = document.getElementById('cloudStatusIndicator');
+      if (badge) {
+        if (online) {
+          badge.className = "inline-flex items-center gap-1.5 text-[11px] font-semibold px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800";
+          badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span><span>クラウド同期中 (全員に即反映)</span>';
+        } else {
+          badge.className = "inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400";
+          badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span><span>端末内保存 (オフライン)</span>';
+        }
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initFirebase();
+    });
+  </script>
   <!-- Tailwind custom configuration -->
   <script>
     tailwind.config = {
@@ -122,6 +433,11 @@
               </h1>
               <span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
                 一次情報統合型
+              </span>
+              <!-- クラウド同期ステータス表示 -->
+              <span id="cloudStatusIndicator" class="inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
+                <span>端末内保存 (オフライン)</span>
               </span>
             </div>
             <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
@@ -710,175 +1026,6 @@
   </div>
 
   <script>
-    // 初期プリセットデータ（公的機関・ライフライン・避難所・支援など）
-    const INITIAL_LINKS = [
-      {
-        id: 'link-chiba-1',
-        title: '千葉県 防災ポータルサイト（災害対策本部速報）',
-        org: '千葉県 防災危機管理部',
-        url: 'https://www.bousai.pref.chiba.lg.jp/',
-        category: 'CHIBA',
-        region: 'KANTO',
-        desc: '千葉県内の気象警報、市町村ごとの避難指示・発令状況、被害集計、災害警戒本部の最新公式発表。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-chiba-2',
-        title: 'ちば情報マップ（千葉県ハザードマップ・指定避難所）',
-        org: '千葉県',
-        url: 'https://map.pref.chiba.lg.jp/',
-        category: 'CHIBA',
-        region: 'KANTO',
-        desc: '千葉県全域の洪水浸水想定区域、土砂災害警戒区域、津波浸水想定および避難場所のオンライン地図。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-chiba-3',
-        title: '千葉県内 停電情報・復旧進捗状況',
-        org: '東京電力パワーグリッド（千葉総支社）',
-        url: 'https://teideninfo.tepco.co.jp/',
-        category: 'CHIBA',
-        region: 'KANTO',
-        desc: '千葉県各市町村ごとの停電戸数、原因、復旧見込み時間および倒木・電線断線の現場進捗状況。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-1',
-        title: '避難情報・警報・注意報（キキクル）',
-        org: '気象庁',
-        url: 'https://www.jma.go.jp/bosai/',
-        category: 'GOV',
-        region: 'NATIONAL',
-        desc: '土砂災害・浸水害・洪水の危険度分布（キキクル）および全国の気象警報。避難指示の確認に必須。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-2',
-        title: '災害対策本部・被害状況取りまとめ',
-        org: '首相官邸 / 内閣府防災',
-        url: 'https://www.bousai.go.jp/',
-        category: 'GOV',
-        region: 'NATIONAL',
-        desc: '日本政府・中央省庁の災害対策本部による被害状況まとめ、激甚災害指定状況、政府方針の公式発表。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-3',
-        title: '全国停電情報 集約マップ',
-        org: '電力各社送配電ネットワーク',
-        url: 'https://www.tepco.co.jp/pg/consignment/for-general/teiden-info/',
-        category: 'LIFELINE',
-        region: 'NATIONAL',
-        desc: '各電力エリアの停電軒数・復旧見込み時間のリアルタイム確認。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-4',
-        title: '通信障害状況・00000JAPAN無料Wi-Fi開設情報',
-        org: '総務省 / 通信事業者各社',
-        url: 'https://www.soumu.go.jp/menu_seisaku/ictseisaku/bousai_portal/',
-        category: 'LIFELINE',
-        region: 'NATIONAL',
-        desc: '携帯キャリア各社の障害復旧状況および、大規模災害時に開放される無料公衆無線LAN「00000JAPAN」の発動案内。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-5',
-        title: '全国道路通行規制・高速道路運行状況',
-        org: '日本道路交通情報センター (JARTIC)',
-        url: 'https://www.jartic.or.jp/',
-        category: 'TRAFFIC',
-        region: 'NATIONAL',
-        desc: '高速道路・主要国道の通行止め、チェーン規制、緊急交通路の指定状況。救援車両以外の通行制限等。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-5-sub',
-        title: '国交省 道路情報提供システム（関東・全国規制情報）',
-        org: '国土交通省 道路局',
-        url: 'https://www.road-info-prvs.mlit.go.jp/roadinfo/content.php?mode=pc&lang=jp&area=10&page=00&table=0',
-        category: 'TRAFFIC',
-        region: 'NATIONAL',
-        desc: '国交省直轄国道等のリアルタイム通行規制、カメラ画像、降雨・積雪情報。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-6',
-        title: '全国鉄道運行情報まとめ',
-        org: 'JR各社・大手私鉄',
-        url: 'https://transit.yahoo.co.jp/diainfo/',
-        category: 'TRAFFIC',
-        region: 'NATIONAL',
-        desc: '新幹線、在来線、地下鉄の運転見合わせ・遅延・計画運休の状況一覧。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-7',
-        title: '指定緊急避難場所・開設避難所マップ',
-        org: '国土地理院 / 自治体オープンデータ',
-        url: 'https://maps.gsi.go.jp/',
-        category: 'SHELTER',
-        region: 'NATIONAL',
-        desc: '現在地周辺の指定避難場所（洪水・土砂・津波・地震別）およびハザードマップ確認。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-8',
-        title: '給水所開設マップ・給水支援ステーション',
-        org: '日本水道協会 / 各地方自治体水道局',
-        url: 'https://www.water.go.jp/',
-        category: 'SHELTER',
-        region: 'NATIONAL',
-        desc: '断水発生地域における給水車の巡回情報、持参容器の推奨サイズ、給水ポイント。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-10',
-        title: 'web171 災害用伝言ダイヤル(インターネット版)',
-        org: 'NTT東日本 / NTT西日本',
-        url: 'https://www.web171.jp/',
-        category: 'SAFETY',
-        region: 'NATIONAL',
-        desc: '音声171ダイヤルに加え、文字で被災者へ安否メッセージを残せる公式サービス。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-11',
-        title: '被災地災害ボランティアセンター開設・募集情報',
-        org: '全国社会福祉協議会 (全社協)',
-        url: 'https://www.shakyo.or.jp/index.html',
-        category: 'VOLUNTEER',
-        region: 'NATIONAL',
-        desc: '全国社会福祉協議会による被災地支援・災害ボランティアセンター開設速報および公式情報。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
-        id: 'link-12',
-        title: '災害義援金・物資支援公式窓口',
-        org: '日本赤十字社',
-        url: 'https://www.jrc.or.jp/contribution/',
-        category: 'VOLUNTEER',
-        region: 'NATIONAL',
-        desc: '被災者へ直接届く公式義援金の振込口座および活動支援金、物資受け入れ方針。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      }
-    ];
-
     // ローカルストレージキー（最新化のためv3へ）
     const STORAGE_KEY = 'DISASTER_PORTAL_LINKS_v3';
     const BOOKMARKS_KEY = 'DISASTER_PORTAL_BOOKMARKS_v1';
@@ -886,6 +1033,7 @@
     const ADMIN_SESSION_KEY = 'DISASTER_PORTAL_IS_ADMIN_SESSION';
     const DEFAULT_PASSCODE = 'bousai2026';
 
+    const INITIAL_LINKS = window.INITIAL_LINKS || [];
     let linksData = [];
     let bookmarkedIds = new Set();
     let currentCategory = 'ALL';
@@ -1014,9 +1162,31 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(linksData));
       updateCategoryCounts();
     }
+    // 外部から呼べるようにwindowに露出
+    window.saveLinksLocal = saveLinks;
+    window.updateCategoryCounts = updateCategoryCounts;
+    window.renderLinks = renderLinks;
 
     function saveBookmarks() {
       localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(Array.from(bookmarkedIds)));
+    }
+
+    async function executeDeleteLink() {
+      if (!isAdmin || !pendingDeleteId) return;
+
+      const targetId = pendingDeleteId;
+      linksData = linksData.filter(item => item.id !== targetId);
+      bookmarkedIds.delete(targetId);
+      saveLinks();
+      saveBookmarks();
+      renderLinks();
+      closeDeleteConfirmModal();
+
+      // クラウドからも削除（クラウド接続時）
+      if (window.cloudDeleteLink) {
+        await window.cloudDeleteLink(targetId);
+      }
+      showToast('リンクを削除しました（全員の画面に反映されます）');
     }
 
     // カテゴリ表示名・アイコン（やわらかいトーン＆親しみアイコン）
@@ -1261,18 +1431,6 @@
       pendingDeleteId = null;
     }
 
-    function executeDeleteLink() {
-      if (!isAdmin || !pendingDeleteId) return;
-
-      linksData = linksData.filter(item => item.id !== pendingDeleteId);
-      bookmarkedIds.delete(pendingDeleteId);
-      saveLinks();
-      saveBookmarks();
-      renderLinks();
-      closeDeleteConfirmModal();
-      showToast('リンクを削除しました');
-    }
-
     // 初期化モーダル操作
     function openResetConfirmModal() {
       document.getElementById('resetConfirmModal').classList.remove('hidden');
@@ -1294,7 +1452,6 @@
     function closeChecklistModal() {
       document.getElementById('checklistModal').classList.add('hidden');
     }
-
     function openGuidanceModal() {
       document.getElementById('guidanceModal').classList.remove('hidden');
     }
@@ -1302,7 +1459,7 @@
       document.getElementById('guidanceModal').classList.add('hidden');
     }
 
-    function handleLinkSubmit(e) {
+    async function handleLinkSubmit(e) {
       e.preventDefault();
       if (!isAdmin) {
         showToast('管理者のみリンクを追加・変更できます');
@@ -1324,7 +1481,7 @@
         // 既存リンクの更新（変更処理）
         const index = linksData.findIndex(l => l.id === editingId);
         if (index !== -1) {
-          linksData[index] = {
+          const updatedItem = {
             ...linksData[index],
             title,
             org,
@@ -1335,10 +1492,16 @@
             isOfficial,
             dateUpdated: new Date().toISOString().split('T')[0]
           };
+          linksData[index] = updatedItem;
           saveLinks();
           closeAddLinkModal();
           renderLinks();
-          showToast(`「${title}」の情報を変更・更新しました`);
+
+          // クラウドへ反映
+          if (window.cloudSaveLink) {
+            await window.cloudSaveLink(updatedItem);
+          }
+          showToast(`「${title}」の変更を保存しました（全員の画面に反映されます）`);
         }
       } else {
         // 新規リンクの追加
@@ -1358,7 +1521,12 @@
         saveLinks();
         closeAddLinkModal();
         renderLinks();
-        showToast('新しい情報リンクをポータルに追加しました');
+
+        // クラウドへ反映
+        if (window.cloudSaveLink) {
+          await window.cloudSaveLink(newLink);
+        }
+        showToast('新しいリンクを追加しました（全員の画面に即時反映されます）');
       }
     }
 
