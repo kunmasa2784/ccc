@@ -110,6 +110,12 @@
             <i class="ph-bold ph-shield-check"></i>
           </div>
           <div>
+            <div class="flex items-center gap-2 text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mb-0.5">
+              <span class="inline-flex items-center gap-1">
+                <i class="ph-bold ph-buildings text-slate-400"></i>
+                運営・管理：<strong class="font-semibold text-slate-700 dark:text-slate-300">ちば市民活動・市民事業サポートクラブ</strong>
+              </span>
+            </div>
             <div class="flex items-center gap-2.5 flex-wrap">
               <h1 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900 dark:text-white">
                 みんなの防災・災害ポータル
@@ -336,6 +342,13 @@
 
     <!-- 状況集約・ワンタップ公式アンカー（すっきり整ったクイックアクセス） -->
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <a href="https://www.bousai.pref.chiba.lg.jp/" target="_blank" rel="noopener noreferrer" class="p-3 bg-amber-50/60 dark:bg-amber-950/40 rounded-xl border border-amber-300 dark:border-amber-800 soft-card flex flex-col items-center text-center group">
+        <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-900/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
+          <i class="ph-bold ph-shield-check"></i>
+        </div>
+        <span class="text-xs sm:text-sm font-bold text-amber-950 dark:text-amber-200">千葉県 防災ポータル</span>
+        <span class="text-xs text-amber-700/80 dark:text-amber-400 mt-0.5">対策本部・避難速報</span>
+      </a>
       <a href="https://www.jma.go.jp/bosai/map.html" target="_blank" rel="noopener noreferrer" class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 soft-card flex flex-col items-center text-center group">
         <div class="w-9 h-9 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
           <i class="ph-bold ph-cloud-rain"></i>
@@ -350,33 +363,26 @@
         <span class="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">首相官邸 対策</span>
         <span class="text-xs text-slate-400 mt-0.5">政府公式発表</span>
       </a>
-      <a href="https://www.anpi.jp/" target="_blank" rel="noopener noreferrer" class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 soft-card flex flex-col items-center text-center group">
-        <div class="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
-          <i class="ph-bold ph-users"></i>
-        </div>
-        <span class="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">J-anpi 安否情報</span>
-        <span class="text-xs text-slate-400 mt-0.5">一括検索サイト</span>
-      </a>
-      <a href="https://www.mlit.go.jp/road/bosai/" target="_blank" rel="noopener noreferrer" class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 soft-card flex flex-col items-center text-center group">
+      <a href="https://www.road-info-prvs.mlit.go.jp/roadinfo/content.php?mode=pc&lang=jp&area=10&page=00&table=0" target="_blank" rel="noopener noreferrer" class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 soft-card flex flex-col items-center text-center group">
         <div class="w-9 h-9 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
           <i class="ph-bold ph-traffic-cone"></i>
         </div>
         <span class="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">国交省 道路情報</span>
-        <span class="text-xs text-slate-400 mt-0.5">通行止め速報</span>
+        <span class="text-xs text-slate-400 mt-0.5">通行止め・規制情報</span>
       </a>
-      <a href="https://www.saigai.vnet.or.jp/" target="_blank" rel="noopener noreferrer" class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 soft-card flex flex-col items-center text-center group">
+      <a href="https://www.shakyo.or.jp/index.html" target="_blank" rel="noopener noreferrer" class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 soft-card flex flex-col items-center text-center group">
         <div class="w-9 h-9 rounded-lg bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
           <i class="ph-bold ph-heart-handshake"></i>
         </div>
-        <span class="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">全社協 支援本部</span>
-        <span class="text-xs text-slate-400 mt-0.5">救援ボランティア</span>
+        <span class="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">全国社会福祉協議会</span>
+        <span class="text-xs text-slate-400 mt-0.5">全社協 公式サイト</span>
       </a>
-      <button onclick="openGuidanceModal()" class="p-3 bg-amber-50/70 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-900 soft-card flex flex-col items-center text-center group">
+      <button onclick="openGuidanceModal()" class="p-3 bg-slate-50 dark:bg-slate-850 rounded-xl border border-slate-200 dark:border-slate-700 soft-card flex flex-col items-center text-center group">
         <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
           <i class="ph-bold ph-shield-warning"></i>
         </div>
-        <span class="text-xs sm:text-sm font-bold text-amber-900 dark:text-amber-200">情報発信の心得</span>
-        <span class="text-xs text-amber-700 dark:text-amber-400 mt-0.5">デマ防止とルール</span>
+        <span class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">情報発信の心得</span>
+        <span class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">デマ防止とルール</span>
       </button>
     </div>
 
@@ -710,7 +716,7 @@
         id: 'link-chiba-1',
         title: '千葉県 防災ポータルサイト（災害対策本部速報）',
         org: '千葉県 防災危機管理部',
-        url: 'https://bosai.pref.chiba.lg.jp/',
+        url: 'https://www.bousai.pref.chiba.lg.jp/',
         category: 'CHIBA',
         region: 'KANTO',
         desc: '千葉県内の気象警報、市町村ごとの避難指示・発令状況、被害集計、災害警戒本部の最新公式発表。',
@@ -795,6 +801,17 @@
         dateAdded: '2026-09-27'
       },
       {
+        id: 'link-5-sub',
+        title: '国交省 道路情報提供システム（関東・全国規制情報）',
+        org: '国土交通省 道路局',
+        url: 'https://www.road-info-prvs.mlit.go.jp/roadinfo/content.php?mode=pc&lang=jp&area=10&page=00&table=0',
+        category: 'TRAFFIC',
+        region: 'NATIONAL',
+        desc: '国交省直轄国道等のリアルタイム通行規制、カメラ画像、降雨・積雪情報。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
         id: 'link-6',
         title: '全国鉄道運行情報まとめ',
         org: 'JR各社・大手私鉄',
@@ -828,17 +845,6 @@
         dateAdded: '2026-09-27'
       },
       {
-        id: 'link-9',
-        title: 'J-anpi 安否情報統合検索システム',
-        org: 'NTT東日本・西日本 / 官民共同',
-        url: 'https://www.anpi.jp/',
-        category: 'SAFETY',
-        region: 'NATIONAL',
-        desc: '各通信会社の災害用伝言板、報道機関の安否確認情報を電話番号や氏名で横断検索可能。',
-        isOfficial: true,
-        dateAdded: '2026-09-27'
-      },
-      {
         id: 'link-10',
         title: 'web171 災害用伝言ダイヤル(インターネット版)',
         org: 'NTT東日本 / NTT西日本',
@@ -853,10 +859,10 @@
         id: 'link-11',
         title: '被災地災害ボランティアセンター開設・募集情報',
         org: '全国社会福祉協議会 (全社協)',
-        url: 'https://www.saigai.vnet.or.jp/',
+        url: 'https://www.shakyo.or.jp/index.html',
         category: 'VOLUNTEER',
         region: 'NATIONAL',
-        desc: '現地ボランティア受け入れ状況（事前登録制・地域限定・ボランティア保険の案内）。勝手な押し掛け防止のための公式指針。',
+        desc: '全国社会福祉協議会による被災地支援・災害ボランティアセンター開設速報および公式情報。',
         isOfficial: true,
         dateAdded: '2026-09-27'
       },
@@ -873,8 +879,8 @@
       }
     ];
 
-    // ローカルストレージキー
-    const STORAGE_KEY = 'DISASTER_PORTAL_LINKS_v1';
+    // ローカルストレージキー（最新化のためv3へ）
+    const STORAGE_KEY = 'DISASTER_PORTAL_LINKS_v3';
     const BOOKMARKS_KEY = 'DISASTER_PORTAL_BOOKMARKS_v1';
     const ADMIN_PASS_KEY = 'DISASTER_PORTAL_ADMIN_PASS_v1';
     const ADMIN_SESSION_KEY = 'DISASTER_PORTAL_IS_ADMIN_SESSION';
