@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>災害情報ポータルサイト - Disaster Info Hub</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons for clear, accessible iconography -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- Tailwind custom configuration -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              warm: '#FDFBF7',
+              coral: '#FA5252',
+              orange: '#FD7E14',
+              chiba: '#E8590C',
+              teal: '#12B886',
+              sky: '#228BE6',
+              navy: '#1A365D',
+            }
+          },
+          fontFamily: {
+            sans: ['"BIZ UDPGothic"', '"Noto Sans JP"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'BIZ UDPGothic', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      letter-spacing: -0.01em;
+    }
+    .badge-verified {
+      background-color: #E6FCF5;
+      color: #087F5B;
+      border: 1px solid #63E6BE;
+    }
+    .dark .badge-verified {
+      background-color: #083327;
+      color: #63E6BE;
+      border-color: #12B886;
+    }
+    /* 洗練されたカードシャドウ */
+    .soft-card {
+      box-shadow: 0 2px 10px -2px rgba(15, 23, 42, 0.05), 0 1px 3px 0 rgba(15, 23, 42, 0.04);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .soft-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.08), 0 4px 8px -2px rgba(15, 23, 42, 0.04);
+    }
+    /* Simple toast notification */
+    #toast {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    }
+  </style>
+</head>
+<body class="bg-[#F8F9FA] text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-200">
+
+  <!-- 緊急ステータス・ダイヤルバー（洗練された視認性の高いバー） -->
+  <aside aria-label="緊急時ホットライン" class="bg-gradient-to-r from-red-600 via-rose-600 to-amber-600 text-white px-3.5 py-2 text-xs sm:text-sm font-semibold shadow-sm sticky top-0 z-40 backdrop-blur">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2.5">
+      <div class="flex items-center space-x-2.5">
+        <span class="inline-flex items-center justify-center px-1.5 py-0.5 bg-white/20 rounded-md text-xs font-bold tracking-wider uppercase">
+          緊急直通
+        </span>
+        <span class="space-x-3 sm:space-x-4 inline-flex flex-wrap items-center text-xs sm:text-sm font-bold">
+          <a href="tel:171" class="hover:bg-white/20 px-2 py-0.5 rounded transition inline-flex items-center gap-1">
+            <span class="opacity-80 font-normal">伝言ダイヤル:</span><span class="underline underline-offset-2">171</span>
+          </a>
+          <a href="tel:119" class="hover:bg-white/20 px-2 py-0.5 rounded transition inline-flex items-center gap-1">
+            <span class="opacity-80 font-normal">火災・救急:</span><span class="underline underline-offset-2">119</span>
+          </a>
+          <a href="tel:110" class="hover:bg-white/20 px-2 py-0.5 rounded transition inline-flex items-center gap-1">
+            <span class="opacity-80 font-normal">警察:</span><span class="underline underline-offset-2">110</span>
+          </a>
+          <a href="tel:#7119" class="hover:bg-white/20 px-2 py-0.5 rounded transition inline-flex items-center gap-1">
+            <span class="opacity-80 font-normal">救急安心:</span><span class="underline underline-offset-2">#7119</span>
+          </a>
+        </span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <!-- 省電力・低通信量モード切替 -->
+        <button id="togglePowerSaveBtn" onclick="togglePowerSaving()" class="bg-black/25 hover:bg-black/40 text-white px-3 py-1 rounded-lg text-xs flex items-center gap-1.5 transition font-medium">
+          <i class="ph-bold ph-battery-charging text-yellow-300"></i>
+          <span id="powerSaveLabel">省電力モード</span>
+        </button>
+        <!-- ダークモードトグル -->
+        <button onclick="toggleDarkMode()" class="p-1 px-2 rounded-lg bg-black/25 hover:bg-black/40 text-white transition" title="ダークモード切替">
+          <i class="ph-bold ph-moon" id="themeIcon"></i>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ヘッダー（すっきりとした信頼感のあるUI） -->
+  <header class="bg-white/95 dark:bg-slate-900/95 backdrop-blur border-b border-slate-200/80 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 py-3.5 sm:px-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-rose-500 text-white flex items-center justify-center text-xl shadow-sm">
+            <i class="ph-bold ph-shield-check"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <h1 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+                みんなの防災・災害ポータル
+              </h1>
+              <span class="text-xs font-semibold px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                一次情報統合型
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+              各自治体・インフラ・公的機関の確かな情報を、迷わず・素早く見つかる場所に
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- アクションボタン群 -->
+      <div class="flex items-center gap-2 self-start md:self-auto flex-wrap">
+        <!-- 管理者専用アクション（非ログイン時は非表示） -->
+        <div id="adminActionGroup" class="hidden items-center gap-2 flex-wrap">
+          <span class="text-xs bg-amber-50 text-amber-800 dark:bg-amber-950/80 dark:text-amber-200 font-bold px-2.5 py-1.5 rounded-lg border border-amber-200 dark:border-amber-800 flex items-center gap-1.5 shadow-2xs">
+            <i class="ph-bold ph-lock-key-open text-amber-600"></i>
+            管理者モード中
+          </span>
+          <button onclick="openAddLinkModal()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold shadow-xs transition">
+            <i class="ph-bold ph-plus-circle text-base"></i>
+            <span>リンクを追加</span>
+          </button>
+          <button onclick="document.getElementById('importFileInput').click()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-medium transition border border-slate-200 dark:border-slate-700 shadow-2xs" title="JSONまたはCSVからリンクを一括取り込み">
+            <i class="ph-bold ph-file-arrow-up text-indigo-500"></i>
+            <span>一括取り込み</span>
+          </button>
+          <input type="file" id="importFileInput" accept=".json,.csv" onchange="handleFileImport(event)" class="hidden">
+          <button onclick="openResetConfirmModal()" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs sm:text-sm transition border border-slate-200 dark:border-slate-700 shadow-2xs" title="初期登録リンクの状態に復元">
+            <i class="ph-bold ph-arrow-counter-clockwise text-slate-500"></i>
+            <span class="hidden sm:inline">初期状態に戻す</span>
+          </button>
+          <button onclick="openChangePassModal()" class="p-1.5 rounded-lg bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm border border-slate-200 dark:border-slate-700 shadow-2xs" title="管理者パスコードの変更">
+            <i class="ph-bold ph-key text-amber-600"></i>
+          </button>
+          <button onclick="logoutAdmin()" class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/50 dark:hover:bg-rose-900/60 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-semibold transition border border-rose-200 dark:border-rose-800" title="管理者モードを終了">
+            <i class="ph-bold ph-sign-out"></i>
+            <span>終了</span>
+          </button>
+        </div>
+
+        <!-- 一般ユーザー向け：管理者ログインボタン -->
+        <button id="adminLoginBtn" onclick="openLoginModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-medium transition border border-slate-200 dark:border-slate-700 shadow-2xs" title="関係者・管理者ログイン">
+          <i class="ph-bold ph-lock-key text-slate-400"></i>
+          <span>管理者用</span>
+        </button>
+
+        <!-- 共通ツール -->
+        <button onclick="openChecklistModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold transition shadow-xs">
+          <i class="ph-bold ph-clipboard-text"></i>
+          <span>非常時持ち出しチェック</span>
+        </button>
+        <button onclick="exportPortalData()" class="p-2 rounded-lg bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm border border-slate-200 dark:border-slate-700 shadow-2xs" title="登録リンク集をバックアップ(JSON書き出し)">
+          <i class="ph-bold ph-download-simple"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ヒーロー・洗練されたモダンバナーセクション -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-5 w-full">
+    <div class="bg-gradient-to-br from-amber-500/10 via-orange-500/5 to-blue-500/5 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-7 relative overflow-hidden shadow-2xs flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="z-10 max-w-2xl space-y-2.5 text-center md:text-left">
+        <div class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-md bg-white dark:bg-slate-800 text-amber-800 dark:text-amber-300 border border-amber-200/80 dark:border-slate-700 shadow-2xs">
+          <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          一次情報リンクを直接集約・掲載中
+        </div>
+        <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white leading-snug">
+          いざという時も、日常の備えも。<br class="hidden sm:inline">確かな公的情報を、迷わず手元へ。
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl">
+          SNS等の未確認情報に惑わされず、自治体・ライフライン各社の公式発表へ直接アクセスできます。ご家族や地域の方への正確な情報共有にお役立てください。
+        </p>
+      </div>
+
+      <!-- 洗練されたミニマル・インフォグラフィック風ベクターイラスト -->
+      <div class="shrink-0 flex items-center justify-center p-2">
+        <svg class="w-56 h-32 sm:w-72 sm:h-36" viewBox="0 0 300 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bgGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.15" />
+              <stop offset="100%" stop-color="#10B981" stop-opacity="0.15" />
+            </linearGradient>
+            <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3B82F6" />
+              <stop offset="100%" stop-color="#0284C7" />
+            </linearGradient>
+            <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#F59E0B" />
+              <stop offset="100%" stop-color="#EA580C" />
+            </linearGradient>
+            <filter id="subtleShadow" x="-10%" y="-10%" width="130%" height="130%">
+              <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.1" />
+            </filter>
+          </defs>
+
+          <!-- 背景ベースサークル -->
+          <circle cx="150" cy="75" r="68" fill="url(#bgGlow)" />
+          
+          <!-- 洗練されたネットワークライン & ノード -->
+          <path d="M40 100 L95 65 L150 85 L205 55 L260 85" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6"/>
+          <path d="M95 65 L150 40 L205 55" stroke="#94A3B8" stroke-width="1.5" opacity="0.4"/>
+          
+          <!-- ノードポイント -->
+          <circle cx="40" cy="100" r="4" fill="#0EA5E9" />
+          <circle cx="260" cy="85" r="4" fill="#10B981" />
+
+          <!-- 左側: 自治体・情報ビルディング（洗練されたフラット建築） -->
+          <g filter="url(#subtleShadow)">
+            <rect x="75" y="45" width="40" height="70" rx="4" fill="#FFFFFF" class="dark:fill-slate-800" stroke="#CBD5E1" stroke-width="1"/>
+            <rect x="83" y="55" width="7" height="6" rx="1.5" fill="#93C5FD"/>
+            <rect x="98" y="55" width="7" height="6" rx="1.5" fill="#93C5FD"/>
+            <rect x="83" y="67" width="7" height="6" rx="1.5" fill="#93C5FD"/>
+            <rect x="98" y="67" width="7" height="6" rx="1.5" fill="#93C5FD"/>
+            <rect x="83" y="79" width="7" height="6" rx="1.5" fill="#93C5FD"/>
+            <rect x="98" y="79" width="7" height="6" rx="1.5" fill="#93C5FD"/>
+            <rect x="89" y="97" width="12" height="18" rx="2" fill="#0284C7"/>
+          </g>
+
+          <!-- 右側: 住宅・地域コミュニティ -->
+          <g filter="url(#subtleShadow)">
+            <path d="M190 70 L215 50 L240 70 V115 H190 V70 Z" fill="#FFFFFF" class="dark:fill-slate-800" stroke="#CBD5E1" stroke-width="1"/>
+            <path d="M187 71 L215 48 L243 71" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+            <rect x="202" y="85" width="10" height="12" rx="2" fill="#E2E8F0" class="dark:fill-slate-700"/>
+            <rect x="218" y="92" width="12" height="23" rx="2" fill="#F59E0B" opacity="0.9"/>
+          </g>
+
+          <!-- 中央: 信頼・セーフティシールド（ポータルの象徴） -->
+          <g filter="url(#subtleShadow)">
+            <path d="M150 30 C165 30 178 36 178 52 C178 82 150 98 150 98 C150 98 122 82 122 52 C122 36 135 30 150 30 Z" fill="url(#shieldGrad)"/>
+            <!-- チェックマーク -->
+            <path d="M141 57 L147 63 L160 50" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- 周囲の安心シグナル（パルス円） -->
+          <circle cx="150" cy="62" r="38" stroke="#F59E0B" stroke-width="1" stroke-dasharray="2 4" opacity="0.4"/>
+          <!-- アンテナ通信ウェーブ -->
+          <path d="M95 38 C91 34 85 34 81 38" stroke="#0284C7" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M98 33 C89 25 78 25 69 33" stroke="#0284C7" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+          <circle cx="88" cy="45" r="2.5" fill="#0284C7"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 検索・絞り込みバー -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-6">
+    <section class="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
+        <!-- キーワード検索入力 -->
+        <div class="md:col-span-6 relative">
+          <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+            <i class="ph-bold ph-magnifying-glass text-lg"></i>
+          </div>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="探したい情報を検索（例: 給水所、停電、千葉、JR、避難場所）"
+            oninput="renderLinks()"
+            class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm font-normal transition"
+          >
+          <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+            <i class="ph-bold ph-x-circle text-lg"></i>
+          </button>
+        </div>
+
+        <!-- エリア・対象地域フィルター -->
+        <div class="md:col-span-3">
+          <select id="regionSelect" onchange="renderLinks()" class="w-full py-2.5 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-800 dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+            <option value="ALL">全国・すべての地域</option>
+            <option value="NATIONAL">🇯🇵 全国共通</option>
+            <option value="HOKKAIDO_TOHOKU">⛄ 北海道・東北</option>
+            <option value="KANTO">🏙️ 関東</option>
+            <option value="CHUBU">🗻 中部・北陸</option>
+            <option value="KINKI">🏯 近畿</option>
+            <option value="CHUGOKU_SHIKOKU">🍊 中国・四国</option>
+            <option value="KYUSHU_OKINAWA">🌴 九州・沖縄</option>
+          </select>
+        </div>
+
+        <!-- 信頼性・種別フィルター -->
+        <div class="md:col-span-3">
+          <select id="verifiedSelect" onchange="renderLinks()" class="w-full py-2.5 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800 text-slate-800 dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+            <option value="ALL">すべて表示（公式・支援）</option>
+            <option value="OFFICIAL_ONLY">✅ 公式機関の発表のみ</option>
+            <option value="BOOKMARKED">⭐ お気に入り登録済み</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- カテゴリタグフィルター -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin text-xs sm:text-sm font-semibold">
+        <span class="text-slate-400 dark:text-slate-500 shrink-0 text-xs font-normal">分類:</span>
+        <button onclick="setCategoryFilter('ALL')" data-category="ALL" class="cat-filter-btn px-3 py-1.5 rounded-lg border transition whitespace-nowrap bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white shadow-2xs">
+          すべて (<span id="count-ALL">0</span>)
+        </button>
+        <button onclick="setCategoryFilter('CHIBA')" data-category="CHIBA" class="cat-filter-btn px-3 py-1.5 rounded-lg border border-amber-300 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/60 text-amber-900 dark:text-amber-200 hover:bg-amber-100 whitespace-nowrap shadow-2xs">
+          🥜 千葉県 (<span id="count-CHIBA">0</span>)
+        </button>
+        <button onclick="setCategoryFilter('GOV')" data-category="GOV" class="cat-filter-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 whitespace-nowrap shadow-2xs">
+          🏛️ 自治体・公的機関
+        </button>
+        <button onclick="setCategoryFilter('LIFELINE')" data-category="LIFELINE" class="cat-filter-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 whitespace-nowrap shadow-2xs">
+          💡 ライフライン (電/水/通信)
+        </button>
+        <button onclick="setCategoryFilter('TRAFFIC')" data-category="TRAFFIC" class="cat-filter-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 whitespace-nowrap shadow-2xs">
+          🚆 交通・道路
+        </button>
+        <button onclick="setCategoryFilter('SHELTER')" data-category="SHELTER" class="cat-filter-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 whitespace-nowrap shadow-2xs">
+          ⛺ 避難所・物資・給水
+        </button>
+        <button onclick="setCategoryFilter('SAFETY')" data-category="SAFETY" class="cat-filter-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 whitespace-nowrap shadow-2xs">
+          📞 安否確認・伝言
+        </button>
+        <button onclick="setCategoryFilter('VOLUNTEER')" data-category="VOLUNTEER" class="cat-filter-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 whitespace-nowrap shadow-2xs">
+          🤝 ボランティア・支援
+        </button>
+      </div>
+    </section>
+
+    <!-- 状況集約・ワンタップ公式アンカー（すっきり整ったクイックアクセス） -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <a href="https://www.jma.go.jp/bosai/map.html" target="_blank" rel="noopener noreferrer" class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 soft-card flex flex-col items-center text-center group">
+        <div class="w-9 h-9 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
+          <i class="ph-bold ph-cloud-rain"></i>
+        </div>
+        <span class="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">気象庁 防災情報</span>
+        <span class="text-xs text-slate-400 mt-0.5">警報・キキクル</span>
+      </a>
+      <a href="https://www.kantei.go.jp/jp/headline/bousai/index.html" target="_blank" rel="noopener noreferrer" class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 soft-card flex flex-col items-center text-center group">
+        <div class="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
+          <i class="ph-bold ph-buildings"></i>
+        </div>
+        <span class="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">首相官邸 対策</span>
+        <span class="text-xs text-slate-400 mt-0.5">政府公式発表</span>
+      </a>
+      <a href="https://www.anpi.jp/" target="_blank" rel="noopener noreferrer" class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 soft-card flex flex-col items-center text-center group">
+        <div class="w-9 h-9 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
+          <i class="ph-bold ph-users"></i>
+        </div>
+        <span class="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">J-anpi 安否情報</span>
+        <span class="text-xs text-slate-400 mt-0.5">一括検索サイト</span>
+      </a>
+      <a href="https://www.mlit.go.jp/road/bosai/" target="_blank" rel="noopener noreferrer" class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 soft-card flex flex-col items-center text-center group">
+        <div class="w-9 h-9 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
+          <i class="ph-bold ph-traffic-cone"></i>
+        </div>
+        <span class="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">国交省 道路情報</span>
+        <span class="text-xs text-slate-400 mt-0.5">通行止め速報</span>
+      </a>
+      <a href="https://www.saigai.vnet.or.jp/" target="_blank" rel="noopener noreferrer" class="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/80 dark:border-slate-800 soft-card flex flex-col items-center text-center group">
+        <div class="w-9 h-9 rounded-lg bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
+          <i class="ph-bold ph-heart-handshake"></i>
+        </div>
+        <span class="text-xs sm:text-sm font-bold text-slate-800 dark:text-white">全社協 支援本部</span>
+        <span class="text-xs text-slate-400 mt-0.5">救援ボランティア</span>
+      </a>
+      <button onclick="openGuidanceModal()" class="p-3 bg-amber-50/70 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-900 soft-card flex flex-col items-center text-center group">
+        <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300 flex items-center justify-center text-lg mb-1.5 group-hover:scale-105 transition">
+          <i class="ph-bold ph-shield-warning"></i>
+        </div>
+        <span class="text-xs sm:text-sm font-bold text-amber-900 dark:text-amber-200">情報発信の心得</span>
+        <span class="text-xs text-amber-700 dark:text-amber-400 mt-0.5">デマ防止とルール</span>
+      </button>
+    </div>
+
+    <!-- リンク一覧ヘッダー・件数表示 -->
+    <div class="flex items-center justify-between pt-2">
+      <div class="flex items-center gap-2">
+        <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <i class="ph-bold ph-list-dashes text-blue-500"></i>
+          <span>情報リンク一覧</span>
+        </h2>
+        <span id="displayCount" class="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+          0件
+        </span>
+      </div>
+      <div class="text-xs text-slate-400 dark:text-slate-500">
+        ※外部公式サイトへ移動します
+      </div>
+    </div>
+
+    <!-- リンクカード一覧グリッドコンテナ -->
+    <div id="linksContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- JavaScriptで動的生成 -->
+    </div>
+
+    <!-- 該当データゼロ件時の案内 -->
+    <div id="emptyState" class="hidden text-center py-12 px-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800">
+      <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 text-2xl">
+        <i class="ph-bold ph-magnifying-glass"></i>
+      </div>
+      <h3 class="text-base font-bold text-slate-800 dark:text-white">該当する情報リンクが見つかりませんでした</h3>
+      <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-md mx-auto">
+        検索キーワードを変えるか、絞り込み条件（対象地域や分類）をリセットしてお試しください。
+      </p>
+      <button onclick="resetFilters()" class="mt-4 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-semibold transition shadow-xs">
+        検索条件をリセット
+      </button>
+    </div>
+  </main>
+
+  <!-- モーダル: 新規リンク登録 / 編集（兼用） -->
+  <div id="addLinkModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+        <h3 id="modalTitleText" class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <i class="ph-bold ph-link-plus text-blue-500" id="modalTitleIcon"></i>
+          <span>新しい情報リンクを連携・登録</span>
+        </h3>
+        <button onclick="closeAddLinkModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+          <i class="ph-bold ph-x text-xl"></i>
+        </button>
+      </div>
+
+      <form id="addLinkForm" onsubmit="handleLinkSubmit(event)" class="space-y-4 mt-4 text-sm">
+        <input type="hidden" id="formEditingId" value="">
+        <div>
+          <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">発信団体・組織名 <span class="text-red-500">*</span></label>
+          <input type="text" id="formOrg" required placeholder="例: ○○県防災危機管理室、東京電力、△△市社協" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white">
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">情報のタイトル <span class="text-red-500">*</span></label>
+          <input type="text" id="formTitle" required placeholder="例: 市内給水所開設一覧（リアルタイム更新）" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white">
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">リンク先 URL <span class="text-red-500">*</span></label>
+          <input type="url" id="formUrl" required placeholder="https://..." class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">分類カテゴリ <span class="text-red-500">*</span></label>
+            <select id="formCategory" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white">
+              <option value="CHIBA" selected>📍 千葉県（県内自治体・特報）</option>
+              <option value="GOV">自治体・公的機関</option>
+              <option value="LIFELINE">ライフライン (電/水/瓦斯/通信)</option>
+              <option value="TRAFFIC">交通・道路</option>
+              <option value="SHELTER">避難所・物資・給水</option>
+              <option value="SAFETY">安否確認・伝言</option>
+              <option value="VOLUNTEER">ボランティア・支援</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">対象地域 <span class="text-red-500">*</span></label>
+            <select id="formRegion" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white">
+              <option value="NATIONAL">全国・広域</option>
+              <option value="HOKKAIDO_TOHOKU">北海道・東北</option>
+              <option value="KANTO">関東</option>
+              <option value="CHUBU">中部・北陸</option>
+              <option value="KINKI">近畿</option>
+              <option value="CHUGOKU_SHIKOKU">中国・四国</option>
+              <option value="KYUSHU_OKINAWA">九州・沖縄</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">概要説明・補足（避難者への留意点など）</label>
+          <textarea id="formDesc" rows="3" placeholder="開設時間や持ち物、一次ソースである旨などを簡潔に記載してください" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white"></textarea>
+        </div>
+
+        <div class="flex items-center gap-2 pt-1">
+          <input type="checkbox" id="formOfficial" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500">
+          <label for="formOfficial" class="text-xs text-slate-600 dark:text-slate-300">公式機関または確認済みの公認情報源である</label>
+        </div>
+
+        <div class="flex justify-end gap-2 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <button type="button" onclick="closeAddLinkModal()" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-sm">
+            キャンセル
+          </button>
+          <button type="submit" id="formSubmitBtn" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow">
+            ポータルに追加する
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- モーダル: 削除確認モーダル（安全なカスタム確認） -->
+  <div id="deleteConfirmModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center gap-3 text-rose-600 dark:text-rose-400 mb-2">
+        <div class="w-10 h-10 rounded-full bg-rose-50 dark:bg-rose-950/60 flex items-center justify-center shrink-0">
+          <i class="ph-bold ph-trash text-xl"></i>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">リンクの削除</h3>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2">
+        「<span id="deleteTargetTitle" class="font-bold text-slate-900 dark:text-white"></span>」をポータルから削除しますか？
+      </p>
+      <div class="mt-5 flex justify-end gap-2">
+        <button onclick="closeDeleteConfirmModal()" class="px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800">
+          キャンセル
+        </button>
+        <button id="confirmDeleteActionBtn" onclick="executeDeleteLink()" class="px-3.5 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold shadow-xs">
+          削除する
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- モーダル: 初期化確認モーダル -->
+  <div id="resetConfirmModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-sm w-full p-5 shadow-2xl border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center gap-3 text-amber-600 dark:text-amber-400 mb-2">
+        <div class="w-10 h-10 rounded-full bg-amber-50 dark:bg-amber-950/60 flex items-center justify-center shrink-0">
+          <i class="ph-bold ph-warning text-xl"></i>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white">初期データへの復元</h3>
+      </div>
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2">
+        現在編集・追加されたリンクをリセットし、初期推奨リンク（千葉県・公的機関・ライフライン等）の状態に戻しますか？
+      </p>
+      <div class="mt-5 flex justify-end gap-2">
+        <button onclick="closeResetConfirmModal()" class="px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800">
+          キャンセル
+        </button>
+        <button onclick="executeResetToInitial()" class="px-3.5 py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold shadow-xs">
+          復元実行
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- モーダル: 避難・備えチェックリスト -->
+  <div id="checklistModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <i class="ph-bold ph-check-square-offset text-emerald-500"></i>
+          緊急避難・備えチェックリスト
+        </h3>
+        <button onclick="closeChecklistModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+          <i class="ph-bold ph-x text-xl"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 mt-4 max-h-[60vh] overflow-y-auto pr-2 text-sm text-slate-700 dark:text-slate-200">
+        <div>
+          <h4 class="font-bold text-red-600 dark:text-red-400 mb-2">⚡ スマートフォン節電心得（最優先）</h4>
+          <ul class="space-y-1.5 pl-2">
+            <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-blue-600"> 画面の明るさを最低限にする</li>
+            <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-blue-600"> 「低電力モード」をオンにする</li>
+            <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-blue-600"> Wi-Fi・Bluetooth・GPSを必要な時以外オフにする</li>
+            <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-blue-600"> 動画の視聴やSNSの無駄な更新・リロードを控える</li>
+          </ul>
+        </div>
+
+        <div class="pt-3 border-t border-slate-200 dark:border-slate-800">
+          <h4 class="font-bold text-slate-900 dark:text-white mb-2">🎒 非常持ち出し品（一次避難）</h4>
+          <ul class="space-y-1.5 pl-2">
+            <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-blue-600"> 身分証・健康保険証・現金（小銭含む）</li>
+            <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-blue-600"> モバイルバッテリー・充電ケーブル</li>
+            <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-blue-600"> 常用薬・お薬手帳</li>
+            <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-blue-600"> 懐中電灯・ホイッスル</li>
+            <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-blue-600"> 飲料水（500ml数本）・非常食（飴やバー）</li>
+            <li class="flex items-center gap-2"><input type="checkbox" class="rounded text-blue-600"> マスク・アルコール除菌シート・簡易トイレ</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-5 flex justify-end">
+        <button onclick="closeChecklistModal()" class="px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 rounded-lg text-sm font-semibold">
+          閉じる
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- モーダル: 管理者ログイン認証 -->
+  <div id="loginModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <i class="ph-bold ph-lock-key text-blue-500"></i>
+          管理者ログイン認証
+        </h3>
+        <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+          <i class="ph-bold ph-x text-xl"></i>
+        </button>
+      </div>
+      <form onsubmit="handleLoginSubmit(event)" class="space-y-4 mt-4 text-sm">
+        <p class="text-xs text-slate-500 dark:text-slate-400">
+          リンクの新規追加や一括登録、削除などの管理権限を有効化します。関係者用パスコードを入力してください。
+        </p>
+        <div>
+          <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">パスコード</label>
+          <input type="password" id="loginPasswordInput" required placeholder="初期パスコード: bousai2026" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+          <p class="text-[11px] text-slate-400 mt-1">※初期設定パスコード: <code class="font-mono bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded">bousai2026</code>（ログイン後に変更可能）</p>
+        </div>
+        <div id="loginErrorMsg" class="hidden text-xs text-red-600 dark:text-red-400 font-semibold flex items-center gap-1">
+          <i class="ph-bold ph-warning-circle"></i>
+          <span>パスコードが正しくありません。</span>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeLoginModal()" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-sm">
+            キャンセル
+          </button>
+          <button type="submit" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow">
+            認証する
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- モーダル: パスコード変更 -->
+  <div id="changePassModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <i class="ph-bold ph-key text-blue-500"></i>
+          管理者パスコードの変更
+        </h3>
+        <button onclick="closeChangePassModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+          <i class="ph-bold ph-x text-xl"></i>
+        </button>
+      </div>
+      <form onsubmit="handleChangePassSubmit(event)" class="space-y-4 mt-4 text-sm">
+        <div>
+          <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">新しいパスコード</label>
+          <input type="password" id="newPasswordInput" required minlength="4" placeholder="4文字以上で入力" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+        </div>
+        <div>
+          <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">確認のため再入力</label>
+          <input type="password" id="confirmPasswordInput" required minlength="4" class="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+        </div>
+        <div id="passChangeErrorMsg" class="hidden text-xs text-red-600 dark:text-red-400 font-semibold flex items-center gap-1">
+          <i class="ph-bold ph-warning-circle"></i>
+          <span>入力されたパスコードが一致しません。</span>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeChangePassModal()" class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-sm">
+            キャンセル
+          </button>
+          <button type="submit" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow">
+            変更を保存
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- モーダル: 避難・備えチェックリスト -->
+  <!-- モーダル: デマ防止・情報共有の心得 -->
+  <div id="guidanceModal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <i class="ph-bold ph-shield-warning text-amber-500"></i>
+          錯綜を防ぐための情報発信・拡散心得
+        </h3>
+        <button onclick="closeGuidanceModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1">
+          <i class="ph-bold ph-x text-xl"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 mt-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+        <div class="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-900">
+          <p class="font-bold text-amber-800 dark:text-amber-200">1. 一次情報（公式発表）を優先する</p>
+          <p class="mt-1">「〜らしい」「友達から聞いた」などの間接情報は拡散せず、公式自治体やインフラ企業の発表URLを直接共有しましょう。</p>
+        </div>
+        <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+          <p class="font-bold text-slate-800 dark:text-slate-200">2. 発信日時を明記する</p>
+          <p class="mt-1">過去の救援情報や解決済みの救助要請が数日後に再拡散すると混乱を招きます。日時のない情報は引用を控えましょう。</p>
+        </div>
+        <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+          <p class="font-bold text-slate-800 dark:text-slate-200">3. 個人の救助要請は「#救助」と正確な現在地を添える</p>
+          <p class="mt-1">119番が繋がらない場合のSNS投稿時は、住所や目印、人数、負傷度合いを簡潔に書きます。救助完了時は投稿を削除または解決と明記してください。</p>
+        </div>
+      </div>
+
+      <div class="mt-5 flex justify-end">
+        <button onclick="closeGuidanceModal()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold">
+          了解しました
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- トースト通知 -->
+  <div id="toast" class="fixed bottom-6 right-6 transform translate-y-24 opacity-0 pointer-events-none z-50 flex items-center gap-2 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl border border-slate-700 text-sm">
+    <i id="toastIcon" class="ph-bold ph-check text-emerald-400 text-lg"></i>
+    <span id="toastMsg">リンクをクリップボードにコピーしました</span>
+  </div>
+
+  <script>
+    // 初期プリセットデータ（公的機関・ライフライン・避難所・支援など）
+    const INITIAL_LINKS = [
+      {
+        id: 'link-chiba-1',
+        title: '千葉県 防災ポータルサイト（災害対策本部速報）',
+        org: '千葉県 防災危機管理部',
+        url: 'https://bosai.pref.chiba.lg.jp/',
+        category: 'CHIBA',
+        region: 'KANTO',
+        desc: '千葉県内の気象警報、市町村ごとの避難指示・発令状況、被害集計、災害警戒本部の最新公式発表。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-chiba-2',
+        title: 'ちば情報マップ（千葉県ハザードマップ・指定避難所）',
+        org: '千葉県',
+        url: 'https://map.pref.chiba.lg.jp/',
+        category: 'CHIBA',
+        region: 'KANTO',
+        desc: '千葉県全域の洪水浸水想定区域、土砂災害警戒区域、津波浸水想定および避難場所のオンライン地図。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-chiba-3',
+        title: '千葉県内 停電情報・復旧進捗状況',
+        org: '東京電力パワーグリッド（千葉総支社）',
+        url: 'https://teideninfo.tepco.co.jp/',
+        category: 'CHIBA',
+        region: 'KANTO',
+        desc: '千葉県各市町村ごとの停電戸数、原因、復旧見込み時間および倒木・電線断線の現場進捗状況。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-1',
+        title: '避難情報・警報・注意報（キキクル）',
+        org: '気象庁',
+        url: 'https://www.jma.go.jp/bosai/',
+        category: 'GOV',
+        region: 'NATIONAL',
+        desc: '土砂災害・浸水害・洪水の危険度分布（キキクル）および全国の気象警報。避難指示の確認に必須。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-2',
+        title: '災害対策本部・被害状況取りまとめ',
+        org: '首相官邸 / 内閣府防災',
+        url: 'https://www.bousai.go.jp/',
+        category: 'GOV',
+        region: 'NATIONAL',
+        desc: '日本政府・中央省庁の災害対策本部による被害状況まとめ、激甚災害指定状況、政府方針の公式発表。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-3',
+        title: '全国停電情報 集約マップ',
+        org: '電力各社送配電ネットワーク',
+        url: 'https://www.tepco.co.jp/pg/consignment/for-general/teiden-info/',
+        category: 'LIFELINE',
+        region: 'NATIONAL',
+        desc: '各電力エリアの停電軒数・復旧見込み時間のリアルタイム確認。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-4',
+        title: '通信障害状況・00000JAPAN無料Wi-Fi開設情報',
+        org: '総務省 / 通信事業者各社',
+        url: 'https://www.soumu.go.jp/menu_seisaku/ictseisaku/bousai_portal/',
+        category: 'LIFELINE',
+        region: 'NATIONAL',
+        desc: '携帯キャリア各社の障害復旧状況および、大規模災害時に開放される無料公衆無線LAN「00000JAPAN」の発動案内。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-5',
+        title: '全国道路通行規制・高速道路運行状況',
+        org: '日本道路交通情報センター (JARTIC)',
+        url: 'https://www.jartic.or.jp/',
+        category: 'TRAFFIC',
+        region: 'NATIONAL',
+        desc: '高速道路・主要国道の通行止め、チェーン規制、緊急交通路の指定状況。救援車両以外の通行制限等。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-6',
+        title: '全国鉄道運行情報まとめ',
+        org: 'JR各社・大手私鉄',
+        url: 'https://transit.yahoo.co.jp/diainfo/',
+        category: 'TRAFFIC',
+        region: 'NATIONAL',
+        desc: '新幹線、在来線、地下鉄の運転見合わせ・遅延・計画運休の状況一覧。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-7',
+        title: '指定緊急避難場所・開設避難所マップ',
+        org: '国土地理院 / 自治体オープンデータ',
+        url: 'https://maps.gsi.go.jp/',
+        category: 'SHELTER',
+        region: 'NATIONAL',
+        desc: '現在地周辺の指定避難場所（洪水・土砂・津波・地震別）およびハザードマップ確認。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-8',
+        title: '給水所開設マップ・給水支援ステーション',
+        org: '日本水道協会 / 各地方自治体水道局',
+        url: 'https://www.water.go.jp/',
+        category: 'SHELTER',
+        region: 'NATIONAL',
+        desc: '断水発生地域における給水車の巡回情報、持参容器の推奨サイズ、給水ポイント。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-9',
+        title: 'J-anpi 安否情報統合検索システム',
+        org: 'NTT東日本・西日本 / 官民共同',
+        url: 'https://www.anpi.jp/',
+        category: 'SAFETY',
+        region: 'NATIONAL',
+        desc: '各通信会社の災害用伝言板、報道機関の安否確認情報を電話番号や氏名で横断検索可能。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-10',
+        title: 'web171 災害用伝言ダイヤル(インターネット版)',
+        org: 'NTT東日本 / NTT西日本',
+        url: 'https://www.web171.jp/',
+        category: 'SAFETY',
+        region: 'NATIONAL',
+        desc: '音声171ダイヤルに加え、文字で被災者へ安否メッセージを残せる公式サービス。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-11',
+        title: '被災地災害ボランティアセンター開設・募集情報',
+        org: '全国社会福祉協議会 (全社協)',
+        url: 'https://www.saigai.vnet.or.jp/',
+        category: 'VOLUNTEER',
+        region: 'NATIONAL',
+        desc: '現地ボランティア受け入れ状況（事前登録制・地域限定・ボランティア保険の案内）。勝手な押し掛け防止のための公式指針。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      },
+      {
+        id: 'link-12',
+        title: '災害義援金・物資支援公式窓口',
+        org: '日本赤十字社',
+        url: 'https://www.jrc.or.jp/contribution/',
+        category: 'VOLUNTEER',
+        region: 'NATIONAL',
+        desc: '被災者へ直接届く公式義援金の振込口座および活動支援金、物資受け入れ方針。',
+        isOfficial: true,
+        dateAdded: '2026-09-27'
+      }
+    ];
+
+    // ローカルストレージキー
+    const STORAGE_KEY = 'DISASTER_PORTAL_LINKS_v1';
+    const BOOKMARKS_KEY = 'DISASTER_PORTAL_BOOKMARKS_v1';
+    const ADMIN_PASS_KEY = 'DISASTER_PORTAL_ADMIN_PASS_v1';
+    const ADMIN_SESSION_KEY = 'DISASTER_PORTAL_IS_ADMIN_SESSION';
+    const DEFAULT_PASSCODE = 'bousai2026';
+
+    let linksData = [];
+    let bookmarkedIds = new Set();
+    let currentCategory = 'ALL';
+    let isPowerSaving = false;
+    let isAdmin = false;
+    let pendingDeleteId = null;
+
+    // 初期化
+    window.addEventListener('DOMContentLoaded', () => {
+      // 管理者セッションの復元
+      isAdmin = sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
+      updateAdminUI();
+
+      // データの読み込み
+      const savedData = localStorage.getItem(STORAGE_KEY);
+      if (savedData) {
+        try {
+          linksData = JSON.parse(savedData);
+        } catch (e) {
+          linksData = [...INITIAL_LINKS];
+        }
+      } else {
+        linksData = [...INITIAL_LINKS];
+        saveLinks();
+      }
+
+      // ブックマークの読み込み
+      const savedBookmarks = localStorage.getItem(BOOKMARKS_KEY);
+      if (savedBookmarks) {
+        try {
+          bookmarkedIds = new Set(JSON.parse(savedBookmarks));
+        } catch (e) {}
+      }
+
+      // システムテーマまたは前回の設定反映
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+        updateThemeIcon(true);
+      }
+
+      checkUrlParamsForSharedLink();
+
+      updateCategoryCounts();
+      renderLinks();
+    });
+
+    // 管理者モード UI の切り替え
+    function updateAdminUI() {
+      const adminGroup = document.getElementById('adminActionGroup');
+      const loginBtn = document.getElementById('adminLoginBtn');
+
+      if (isAdmin) {
+        adminGroup.classList.remove('hidden');
+        adminGroup.classList.add('flex');
+        loginBtn.classList.add('hidden');
+      } else {
+        adminGroup.classList.add('hidden');
+        adminGroup.classList.remove('flex');
+        loginBtn.classList.remove('hidden');
+      }
+    }
+
+    function openLoginModal() {
+      document.getElementById('loginPasswordInput').value = '';
+      document.getElementById('loginErrorMsg').classList.add('hidden');
+      document.getElementById('loginModal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('loginPasswordInput').focus(), 100);
+    }
+
+    function closeLoginModal() {
+      document.getElementById('loginModal').classList.add('hidden');
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const enteredPass = document.getElementById('loginPasswordInput').value;
+      const currentPass = localStorage.getItem(ADMIN_PASS_KEY) || DEFAULT_PASSCODE;
+
+      if (enteredPass === currentPass) {
+        isAdmin = true;
+        sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+        updateAdminUI();
+        closeLoginModal();
+        renderLinks(); // 削除ボタンの表示更新
+        showToast('管理者としてログインしました（登録・編集が有効です）');
+      } else {
+        document.getElementById('loginErrorMsg').classList.remove('hidden');
+      }
+    }
+
+    function logoutAdmin() {
+      isAdmin = false;
+      sessionStorage.removeItem(ADMIN_SESSION_KEY);
+      updateAdminUI();
+      renderLinks(); // 削除ボタンの非表示化
+      showToast('管理者モードを終了（ログアウト）しました');
+    }
+
+    function openChangePassModal() {
+      document.getElementById('newPasswordInput').value = '';
+      document.getElementById('confirmPasswordInput').value = '';
+      document.getElementById('passChangeErrorMsg').classList.add('hidden');
+      document.getElementById('changePassModal').classList.remove('hidden');
+    }
+
+    function closeChangePassModal() {
+      document.getElementById('changePassModal').classList.add('hidden');
+    }
+
+    function handleChangePassSubmit(e) {
+      e.preventDefault();
+      const newPass = document.getElementById('newPasswordInput').value;
+      const confirmPass = document.getElementById('confirmPasswordInput').value;
+
+      if (newPass !== confirmPass) {
+        document.getElementById('passChangeErrorMsg').classList.remove('hidden');
+        return;
+      }
+
+      localStorage.setItem(ADMIN_PASS_KEY, newPass);
+      closeChangePassModal();
+      showToast('管理者パスコードを変更しました');
+    }
+
+    function saveLinks() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(linksData));
+      updateCategoryCounts();
+    }
+
+    function saveBookmarks() {
+      localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(Array.from(bookmarkedIds)));
+    }
+
+    // カテゴリ表示名・アイコン（やわらかいトーン＆親しみアイコン）
+    const CATEGORY_MAP = {
+      'CHIBA': { name: '千葉県', icon: 'ph-map-pin', emoji: '🥜', bg: 'bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-950/80 dark:text-amber-200 dark:border-amber-800' },
+      'GOV': { name: '公的・自治体', icon: 'ph-buildings', emoji: '🏛️', bg: 'bg-indigo-50 text-indigo-800 border border-indigo-200 dark:bg-indigo-950/80 dark:text-indigo-300 dark:border-indigo-800' },
+      'LIFELINE': { name: 'ライフライン', icon: 'ph-lightning', emoji: '💡', bg: 'bg-yellow-50 text-yellow-900 border border-yellow-200 dark:bg-yellow-950/80 dark:text-yellow-300 dark:border-yellow-800' },
+      'TRAFFIC': { name: '交通・道路', icon: 'ph-train', emoji: '🚆', bg: 'bg-blue-50 text-blue-800 border border-blue-200 dark:bg-blue-950/80 dark:text-blue-300 dark:border-blue-800' },
+      'SHELTER': { name: '避難・給水', icon: 'ph-tent', emoji: '⛺', bg: 'bg-emerald-50 text-emerald-800 border border-emerald-200 dark:bg-emerald-950/80 dark:text-emerald-300 dark:border-emerald-800' },
+      'SAFETY': { name: '安否確認', icon: 'ph-phone-call', emoji: '📞', bg: 'bg-purple-50 text-purple-800 border border-purple-200 dark:bg-purple-950/80 dark:text-purple-300 dark:border-purple-800' },
+      'VOLUNTEER': { name: '救援・支援', icon: 'ph-heart-handshake', emoji: '🤝', bg: 'bg-rose-50 text-rose-800 border border-rose-200 dark:bg-rose-950/80 dark:text-rose-300 dark:border-rose-800' }
+    };
+
+    const REGION_MAP = {
+      'NATIONAL': '全国共通',
+      'HOKKAIDO_TOHOKU': '北海道・東北',
+      'KANTO': '関東',
+      'CHUBU': '中部・北陸',
+      'KINKI': '近畿',
+      'CHUGOKU_SHIKOKU': '中国・四国',
+      'KYUSHU_OKINAWA': '九州・沖縄'
+    };
+
+    function setCategoryFilter(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-category') === cat) {
+          btn.className = 'cat-filter-btn px-3 py-1.5 rounded-lg border transition whitespace-nowrap bg-slate-900 text-white border-slate-900 dark:bg-white dark:text-slate-900 dark:border-white shadow-2xs font-semibold';
+        } else {
+          btn.className = 'cat-filter-btn px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 whitespace-nowrap shadow-2xs font-semibold';
+        }
+      });
+      renderLinks();
+    }
+
+    function updateCategoryCounts() {
+      document.getElementById('count-ALL').textContent = linksData.length;
+      const chibaCount = linksData.filter(l => l.category === 'CHIBA').length;
+      const countChibaEl = document.getElementById('count-CHIBA');
+      if (countChibaEl) countChibaEl.textContent = chibaCount;
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      renderLinks();
+    }
+
+    function resetFilters() {
+      currentCategory = 'ALL';
+      setCategoryFilter('ALL');
+      document.getElementById('searchInput').value = '';
+      document.getElementById('regionSelect').value = 'ALL';
+      document.getElementById('verifiedSelect').value = 'ALL';
+      renderLinks();
+    }
+
+    function renderLinks() {
+      const container = document.getElementById('linksContainer');
+      const emptyState = document.getElementById('emptyState');
+      const searchInput = document.getElementById('searchInput');
+      const query = searchInput.value.trim().toLowerCase();
+      const regionFilter = document.getElementById('regionSelect').value;
+      const verifiedFilter = document.getElementById('verifiedSelect').value;
+
+      // クリアボタン表示制御
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (query.length > 0) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+
+      // フィルタリング処理
+      const filtered = linksData.filter(item => {
+        // カテゴリ一致
+        if (currentCategory !== 'ALL' && item.category !== currentCategory) return false;
+        // 地域一致
+        if (regionFilter !== 'ALL' && item.region !== 'NATIONAL' && item.region !== regionFilter) return false;
+        // 公式・ブックマーク一致
+        if (verifiedFilter === 'OFFICIAL_ONLY' && !item.isOfficial) return false;
+        if (verifiedFilter === 'BOOKMARKED' && !bookmarkedIds.has(item.id)) return false;
+        // 検索キーワード一致
+        if (query) {
+          const matchTitle = item.title.toLowerCase().includes(query);
+          const matchOrg = item.org.toLowerCase().includes(query);
+          const matchDesc = (item.desc || '').toLowerCase().includes(query);
+          if (!matchTitle && !matchOrg && !matchDesc) return false;
+        }
+        return true;
+      });
+
+      document.getElementById('displayCount').textContent = `${filtered.length}件`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      // カード群のレンダリング（視認性の高いUDレイアウト）
+      container.innerHTML = filtered.map(link => {
+        const cat = CATEGORY_MAP[link.category] || { name: '一般', icon: 'ph-link', emoji: '📎', bg: 'bg-slate-100 text-slate-700 border border-slate-200' };
+        const isBookmarked = bookmarkedIds.has(link.id);
+        const regionLabel = REGION_MAP[link.region] || '全国';
+
+        return `
+          <article class="bg-white dark:bg-slate-900 rounded-xl border ${isBookmarked ? 'border-amber-400 dark:border-amber-500 shadow-sm' : 'border-slate-200/90 dark:border-slate-800'} p-4 sm:p-5 soft-card flex flex-col justify-between group">
+            <div>
+              <!-- 上部バッジ群 -->
+              <div class="flex items-center justify-between gap-2 mb-2.5">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-md ${cat.bg}">
+                    <span>${cat.emoji}</span>
+                    <span>${cat.name}</span>
+                  </span>
+                  <span class="text-xs font-medium px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                    ${regionLabel}
+                  </span>
+                  ${link.isOfficial ? `
+                    <span class="badge-verified inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-md" title="公的機関・事業者による一次情報">
+                      <i class="ph-bold ph-check text-[11px]"></i>
+                      公式
+                    </span>
+                  ` : ''}
+                </div>
+                <!-- ブックマークトグル -->
+                <button onclick="toggleBookmark('${link.id}')" class="text-slate-300 hover:text-amber-500 transition p-1" title="${isBookmarked ? 'お気に入り解除' : 'お気に入りに保存'}">
+                  <i class="text-xl ${isBookmarked ? 'ph-fill ph-star text-amber-400 drop-shadow-xs' : 'ph-bold ph-star hover:text-amber-400'}"></i>
+                </button>
+              </div>
+
+              <!-- タイトル & 組織 -->
+              <h3 class="font-bold text-base sm:text-[17px] text-slate-900 dark:text-white leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">
+                <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer" class="focus:outline-none flex items-start gap-1">
+                  <span>${escapeHtml(link.title)}</span>
+                  <i class="ph-bold ph-arrow-up-right text-xs shrink-0 mt-1 opacity-60"></i>
+                </a>
+              </h3>
+
+              <div class="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400 mt-1.5 flex items-center gap-1.5">
+                <i class="ph-bold ph-buildings text-slate-400 text-sm"></i>
+                <span>${escapeHtml(link.org)}</span>
+              </div>
+
+              <!-- 概要 -->
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2.5 line-clamp-3 leading-relaxed font-normal">
+                ${escapeHtml(link.desc || '説明はありません。詳細はリンク先をご確認ください。')}
+              </p>
+            </div>
+
+            <!-- 下部アクションバー -->
+            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs sm:text-sm">
+              <a href="${escapeHtml(link.url)}" target="_blank" rel="noopener noreferrer" class="font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 inline-flex items-center gap-1">
+                <span>サイトを見る</span>
+                <i class="ph-bold ph-arrow-right"></i>
+              </a>
+
+              <div class="flex items-center gap-1.5">
+                <button onclick="copyLinkInfo('${escapeHtml(link.title)}', '${escapeHtml(link.url)}')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium inline-flex items-center gap-1 transition" title="URLとタイトルをコピーして家族やSNSで共有">
+                  <i class="ph-bold ph-share-network"></i>
+                  <span>共有</span>
+                </button>
+                ${isAdmin ? `
+                  <!-- 管理者用: 編集ボタン -->
+                  <button onclick="openEditLinkModal('${link.id}')" class="p-1 px-1.5 rounded-lg text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-950 transition inline-flex items-center gap-1 font-semibold text-xs border border-blue-200 dark:border-blue-900" title="このリンクの情報を変更">
+                    <i class="ph-bold ph-pencil-simple text-sm"></i>
+                    <span>変更</span>
+                  </button>
+                  <!-- 管理者用: 削除ボタン -->
+                  <button onclick="openDeleteConfirmModal('${link.id}')" class="p-1 px-1.5 rounded-lg text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950 transition inline-flex items-center gap-1 font-semibold text-xs border border-rose-200 dark:border-rose-900" title="このリンクをポータルから削除">
+                    <i class="ph-bold ph-trash text-sm"></i>
+                    <span>削除</span>
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    //    // 新規登録モーダルを開く
+    function openAddLinkModal() {
+      if (!isAdmin) {
+        openLoginModal();
+        return;
+      }
+      document.getElementById('formEditingId').value = '';
+      document.getElementById('addLinkForm').reset();
+      document.getElementById('modalTitleText').innerHTML = '<i class="ph-bold ph-link-plus text-blue-500"></i><span>新しい情報リンクを連携・登録</span>';
+      document.getElementById('formSubmitBtn').textContent = 'ポータルに追加する';
+      document.getElementById('addLinkModal').classList.remove('hidden');
+    }
+
+    // 既存リンク編集モーダルを開く
+    function openEditLinkModal(id) {
+      if (!isAdmin) {
+        showToast('変更を行うには管理者ログインが必要です');
+        return;
+      }
+      const target = linksData.find(l => l.id === id);
+      if (!target) return;
+
+      document.getElementById('formEditingId').value = target.id;
+      document.getElementById('formOrg').value = target.org || '';
+      document.getElementById('formTitle').value = target.title || '';
+      document.getElementById('formUrl').value = target.url || '';
+      document.getElementById('formCategory').value = target.category || 'CHIBA';
+      document.getElementById('formRegion').value = target.region || 'NATIONAL';
+      document.getElementById('formDesc').value = target.desc || '';
+      document.getElementById('formOfficial').checked = !!target.isOfficial;
+
+      document.getElementById('modalTitleText').innerHTML = '<i class="ph-bold ph-pencil-simple text-amber-500"></i><span>登録情報の変更・更新</span>';
+      document.getElementById('formSubmitBtn').textContent = '変更を保存する';
+      document.getElementById('addLinkModal').classList.remove('hidden');
+    }
+
+    function closeAddLinkModal() {
+      document.getElementById('addLinkModal').classList.add('hidden');
+      document.getElementById('addLinkForm').reset();
+      document.getElementById('formEditingId').value = '';
+    }
+
+    // 削除確認モーダル操作
+    function openDeleteConfirmModal(id) {
+      if (!isAdmin) {
+        showToast('削除を行うには管理者ログインが必要です');
+        return;
+      }
+      const target = linksData.find(l => l.id === id);
+      if (!target) return;
+
+      pendingDeleteId = id;
+      document.getElementById('deleteTargetTitle').textContent = target.title;
+      document.getElementById('deleteConfirmModal').classList.remove('hidden');
+    }
+
+    function closeDeleteConfirmModal() {
+      document.getElementById('deleteConfirmModal').classList.add('hidden');
+      pendingDeleteId = null;
+    }
+
+    function executeDeleteLink() {
+      if (!isAdmin || !pendingDeleteId) return;
+
+      linksData = linksData.filter(item => item.id !== pendingDeleteId);
+      bookmarkedIds.delete(pendingDeleteId);
+      saveLinks();
+      saveBookmarks();
+      renderLinks();
+      closeDeleteConfirmModal();
+      showToast('リンクを削除しました');
+    }
+
+    // 初期化モーダル操作
+    function openResetConfirmModal() {
+      document.getElementById('resetConfirmModal').classList.remove('hidden');
+    }
+    function closeResetConfirmModal() {
+      document.getElementById('resetConfirmModal').classList.add('hidden');
+    }
+    function executeResetToInitial() {
+      linksData = JSON.parse(JSON.stringify(INITIAL_LINKS));
+      saveLinks();
+      renderLinks();
+      closeResetConfirmModal();
+      showToast('初期登録リンクの状態に復元しました');
+    }
+
+    function openChecklistModal() {
+      document.getElementById('checklistModal').classList.remove('hidden');
+    }
+    function closeChecklistModal() {
+      document.getElementById('checklistModal').classList.add('hidden');
+    }
+
+    function openGuidanceModal() {
+      document.getElementById('guidanceModal').classList.remove('hidden');
+    }
+    function closeGuidanceModal() {
+      document.getElementById('guidanceModal').classList.add('hidden');
+    }
+
+    function handleLinkSubmit(e) {
+      e.preventDefault();
+      if (!isAdmin) {
+        showToast('管理者のみリンクを追加・変更できます');
+        return;
+      }
+
+      const editingId = document.getElementById('formEditingId').value;
+      const org = document.getElementById('formOrg').value.trim();
+      const title = document.getElementById('formTitle').value.trim();
+      const url = document.getElementById('formUrl').value.trim();
+      const category = document.getElementById('formCategory').value;
+      const region = document.getElementById('formRegion').value;
+      const desc = document.getElementById('formDesc').value.trim();
+      const isOfficial = document.getElementById('formOfficial').checked;
+
+      if (!org || !title || !url) return;
+
+      if (editingId) {
+        // 既存リンクの更新（変更処理）
+        const index = linksData.findIndex(l => l.id === editingId);
+        if (index !== -1) {
+          linksData[index] = {
+            ...linksData[index],
+            title,
+            org,
+            url,
+            category,
+            region,
+            desc,
+            isOfficial,
+            dateUpdated: new Date().toISOString().split('T')[0]
+          };
+          saveLinks();
+          closeAddLinkModal();
+          renderLinks();
+          showToast(`「${title}」の情報を変更・更新しました`);
+        }
+      } else {
+        // 新規リンクの追加
+        const newLink = {
+          id: 'custom-' + Date.now(),
+          title,
+          org,
+          url,
+          category,
+          region,
+          desc,
+          isOfficial,
+          dateAdded: new Date().toISOString().split('T')[0]
+        };
+
+        linksData.unshift(newLink);
+        saveLinks();
+        closeAddLinkModal();
+        renderLinks();
+        showToast('新しい情報リンクをポータルに追加しました');
+      }
+    }
+
+    // ブックマーク切り替え
+    function toggleBookmark(id) {
+      if (bookmarkedIds.has(id)) {
+        bookmarkedIds.delete(id);
+        showToast('ブックマークから解除しました');
+      } else {
+        bookmarkedIds.add(id);
+        showToast('ブックマークに登録しました');
+      }
+      saveBookmarks();
+      renderLinks();
+    }
+
+    // クリップボードコピー（確実なexecCommandフォールバック利用）
+    function copyLinkInfo(title, url) {
+      const shareText = `【災害情報共有】\n${title}\n${url}\n#防災 #災害ポータル`;
+      
+      const textArea = document.createElement('textarea');
+      textArea.value = shareText;
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          showToast('共有用テキストをコピーしました');
+        } else {
+          showToast('コピーできませんでした');
+        }
+      } catch (err) {
+        showToast('コピーに失敗しました');
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // トースト表示
+    let toastTimeout = null;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = msg;
+      
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 2500);
+    }
+
+    // 省電力・軽量表示モード切替
+    function togglePowerSaving() {
+      isPowerSaving = !isPowerSaving;
+      const btn = document.getElementById('togglePowerSaveBtn');
+      const label = document.getElementById('powerSaveLabel');
+      
+      if (isPowerSaving) {
+        document.body.classList.add('dark');
+        // アニメーション停止などの軽量化スタイル適用
+        document.querySelectorAll('.animate-pulse').forEach(el => el.classList.remove('animate-pulse'));
+        btn.classList.add('bg-emerald-700', 'hover:bg-emerald-600');
+        btn.classList.remove('bg-red-900', 'hover:bg-red-800');
+        label.textContent = '省電力中 (黒画面優先)';
+        showToast('省電力・低負荷モードを有効にしました');
+      } else {
+        btn.classList.remove('bg-emerald-700', 'hover:bg-emerald-600');
+        btn.classList.add('bg-red-900', 'hover:bg-red-800');
+        label.textContent = '省電力・軽量表示';
+        showToast('通常表示に戻しました');
+      }
+    }
+
+    // ダークモードトグル
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      updateThemeIcon(isDark);
+    }
+
+    function updateThemeIcon(isDark) {
+      const icon = document.getElementById('themeIcon');
+      if (isDark) {
+        icon.className = 'ph-bold ph-sun';
+      } else {
+        icon.className = 'ph-bold ph-moon';
+      }
+    }
+
+    // 設定・リンク集JSONエクスポート
+    function exportPortalData() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(linksData, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `disaster_portal_backup_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+      showToast('登録リンク集のバックアップJSONを出力しました');
+    }
+
+    function handleFileImport(e) {
+      if (!isAdmin) {
+        showToast('管理者のみ一括取り込みを実行できます');
+        return;
+      }
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const content = evt.target.result;
+          let importedCount = 0;
+
+          if (file.name.endsWith('.json')) {
+            const data = JSON.parse(content);
+            if (Array.isArray(data)) {
+              data.forEach(item => {
+                if (item.title && item.url) {
+                  linksData.unshift({
+                    id: 'custom-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+                    title: item.title,
+                    org: item.org || '外部インポート',
+                    url: item.url,
+                    category: item.category || 'GOV',
+                    region: item.region || 'NATIONAL',
+                    desc: item.desc || '',
+                    isOfficial: !!item.isOfficial,
+                    dateAdded: item.dateAdded || new Date().toISOString().split('T')[0]
+                  });
+                  importedCount++;
+                }
+              });
+            }
+          } else if (file.name.endsWith('.csv')) {
+            // 単純CSVパーサー（行単位）: タイトル, 団体名, URL, カテゴリ, 地域, 概要
+            const lines = content.split(/\r?\n/).filter(line => line.trim() !== '');
+            // 1行目がヘッダーならスキップ
+            const startIndex = lines[0].includes('http') ? 0 : 1;
+
+            for (let i = startIndex; i < lines.length; i++) {
+              const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+              if (cols.length >= 3 && cols[2].startsWith('http')) {
+                linksData.unshift({
+                  id: 'custom-' + Date.now() + '-' + i,
+                  title: cols[0],
+                  org: cols[1] || '外部インポート',
+                  url: cols[2],
+                  category: cols[3] || 'GOV',
+                  region: cols[4] || 'NATIONAL',
+                  desc: cols[5] || '',
+                  isOfficial: true,
+                  dateAdded: new Date().toISOString().split('T')[0]
+                });
+                importedCount++;
+              }
+            }
+          }
+
+          if (importedCount > 0) {
+            saveLinks();
+            renderLinks();
+            showToast(`${importedCount} 件のリンクを一括取り込みました`);
+          } else {
+            showToast('有効なリンク形式が見つかりませんでした');
+          }
+        } catch (err) {
+          showToast('ファイルの読み込みに失敗しました');
+        }
+        e.target.value = ''; // リセット
+      };
+      reader.readAsText(file, 'utf-8');
+    }
+
+    function checkUrlParamsForSharedLink() {
+      // 管理者のみURLパラメータからの自動取り込みを許可（一般閲覧者の意図しない改変を防止）
+      if (!isAdmin) return;
+
+      const params = new URLSearchParams(window.location.search);
+      const addTitle = params.get('add_title');
+      const addUrl = params.get('add_url');
+      const addOrg = params.get('add_org');
+
+      if (addTitle && addUrl) {
+        // 重複チェック
+        const exists = linksData.some(l => l.url === addUrl);
+        if (!exists) {
+          linksData.unshift({
+            id: 'custom-' + Date.now(),
+            title: decodeURIComponent(addTitle),
+            org: decodeURIComponent(addOrg || '共有リンク'),
+            url: decodeURIComponent(addUrl),
+            category: params.get('add_cat') || 'GOV',
+            region: params.get('add_region') || 'NATIONAL',
+            desc: decodeURIComponent(params.get('add_desc') || ''),
+            isOfficial: params.get('add_official') === '1',
+            dateAdded: new Date().toISOString().split('T')[0]
+          });
+          saveLinks();
+          showToast(`URLから「${decodeURIComponent(addTitle)}」を追加しました`);
+          // URLをすっきり戻す
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+    }
+
+    // XSS対策エスケープ
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>
