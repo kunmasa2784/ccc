@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>千葉県 災害支援情報ポータル</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#2b4d75',
+              darkNavy: '#1b3452',
+              lightNavy: '#f0f5fa',
+              blue: '#4a729e',
+              green: '#4f7f64',
+              lightGreen: '#f0f7f3',
+              purple: '#5e5a87',
+              lightPurple: '#f4f3f9',
+              teal: '#40728c',
+              lightTeal: '#eff6f9',
+              noticeRed: '#b91c1c',
+              noticeBg: '#fef2f2'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', 'Noto Sans JP', sans-serif;
+      background-color: #f7f9fa;
+      color: #333333;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- ヘッダー -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-30">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+      <!-- サイトタイトル・ロゴ -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-12 h-12 rounded-xl bg-slate-700 flex items-center justify-center text-white text-2xl shadow-sm group-hover:bg-brand-navy transition">
+          <i class="fa-solid fa-hand-holding-heart"></i>
+        </div>
+        <div>
+          <h1 id="header-title" class="text-xl md:text-2xl font-bold tracking-tight text-gray-900 flex items-center gap-2">
+            千葉県 災害支援情報ポータル
+          </h1>
+          <p id="header-subtitle" class="text-xs md:text-sm text-gray-500 font-medium tracking-wide">
+            〜 つながる支援　ともに再建へ 〜
+          </p>
+        </div>
+      </a>
+
+      <!-- 右側：最終更新日時 & 検索フォーム -->
+      <div class="flex flex-col items-end gap-1.5 w-full md:w-auto">
+        <div class="flex items-center text-xs text-gray-500 gap-1.5">
+          <span>最終更新：</span>
+          <span id="last-updated" class="font-semibold text-gray-700">2026年9月26日 16:30</span>
+          <button onclick="refreshTime()" title="更新" class="ml-1 text-gray-400 hover:text-brand-navy transition">
+            <i class="fa-solid fa-arrows-rotate"></i> 更新
+          </button>
+        </div>
+        <!-- 検索バー -->
+        <form onsubmit="handleSearch(event)" class="flex w-full md:w-80">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="キーワードで検索 (例: ボランティア、支援金)"
+            class="w-full text-xs md:text-sm px-3.5 py-1.5 bg-gray-50 border border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-brand-blue focus:bg-white"
+          >
+          <button type="submit" class="bg-brand-navy text-white px-3.5 py-1.5 rounded-r-md text-sm hover:bg-brand-darkNavy transition flex items-center justify-center">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- グローバルナビゲーション -->
+    <nav class="bg-slate-100 border-t border-gray-200 text-sm">
+      <div class="max-w-6xl mx-auto px-4 flex overflow-x-auto whitespace-nowrap">
+        <a href="#home" class="px-5 py-2.5 text-brand-navy font-bold border-b-2 border-brand-navy bg-white flex items-center gap-2">
+          <i class="fa-solid fa-house"></i> ホーム
+        </a>
+        <a href="#news-section" class="px-5 py-2.5 text-gray-600 hover:text-brand-navy hover:bg-slate-200 transition flex items-center gap-2">
+          <i class="fa-regular fa-bell"></i> お知らせ
+        </a>
+        <a href="#org-section" class="px-5 py-2.5 text-gray-600 hover:text-brand-navy hover:bg-slate-200 transition flex items-center gap-2">
+          <i class="fa-solid fa-users-gear"></i> 各団体の情報
+        </a>
+        <a href="#faq" onclick="openFaqModal()" class="px-5 py-2.5 text-gray-600 hover:text-brand-navy hover:bg-slate-200 transition flex items-center gap-2">
+          <i class="fa-regular fa-circle-question"></i> よくある質問
+        </a>
+        <a href="#links" onclick="scrollToLinks()" class="px-5 py-2.5 text-gray-600 hover:text-brand-navy hover:bg-slate-200 transition flex items-center gap-2">
+          <i class="fa-solid fa-link"></i> リンク集
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6 flex-grow space-y-6">
+
+    <!-- 緊急告知・災害バナー -->
+    <div id="urgent-banner" class="bg-brand-noticeBg border border-red-200 rounded-lg p-4 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
+      <div class="flex items-start gap-3.5">
+        <div class="text-brand-noticeRed text-2xl md:text-3xl mt-0.5 flex-shrink-0">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div>
+          <h2 id="urgent-title" class="text-base md:text-lg font-bold text-red-900 leading-snug">
+            8月豪雨災害・台風25号 に関するお知らせ
+          </h2>
+          <p id="urgent-desc" class="text-xs md:text-sm text-gray-700 mt-1 leading-relaxed">
+            千葉県内では、8月の豪雨災害および台風25号により、広い地域で被害が発生しました。<br class="hidden sm:inline">
+            最新の被害情報・支援情報をこのポータルでまとめてご覧いただけます。
+          </p>
+        </div>
+      </div>
+      <div class="flex-shrink-0 w-full md:w-auto text-right">
+        <a id="urgent-link" href="https://www.pref.chiba.lg.jp/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 w-full md:w-auto px-5 py-2.5 bg-white border border-brand-navy text-brand-navy text-sm font-bold rounded-md hover:bg-brand-navy hover:text-white transition shadow-sm">
+          <span>県の最新情報はこちら</span>
+          <i class="fa-solid fa-chevron-right text-xs"></i>
+        </a>
+        <p class="text-[11px] text-gray-500 mt-1 text-center md:text-right">(千葉県公式サイトへ)</p>
+      </div>
+    </div>
+
+    <!-- 主要4組織・カテゴリーカード (1〜4) -->
+    <section id="org-section" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- 1. 千葉県 -->
+      <div class="bg-white border-2 border-blue-200 rounded-xl p-5 flex flex-col justify-between hover:shadow-md transition">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-7 h-7 rounded-full bg-brand-navy text-white text-sm font-bold flex items-center justify-center">1</span>
+            <span class="font-bold text-gray-800 text-base" id="card-1-title">千葉県</span>
+          </div>
+          <div class="text-center my-3 text-brand-navy text-3xl">
+            <i class="fa-regular fa-building"></i>
+          </div>
+          <h3 class="text-center font-bold text-gray-900 text-sm md:text-base mb-1" id="card-1-subtitle">被害情報・復旧情報</h3>
+          <p class="text-xs text-gray-600 leading-relaxed mb-4" id="card-1-desc">
+            被害状況、避難情報、ライフライン、インフラの復旧状況などをご確認いただけます。
+          </p>
+        </div>
+        <a id="card-1-link" href="https://www.pref.chiba.lg.jp/" target="_blank" rel="noopener noreferrer" class="w-full py-2 px-3 bg-brand-blue text-white rounded-md text-xs md:text-sm font-medium text-center flex items-center justify-center gap-1.5 hover:bg-brand-navy transition">
+          <span>詳しく見る</span>
+          <i class="fa-solid fa-chevron-right text-xs"></i>
+        </a>
+      </div>
+
+      <!-- 2. ちばのWA地域づくり基金 -->
+      <div class="bg-white border-2 border-emerald-200 rounded-xl p-5 flex flex-col justify-between hover:shadow-md transition">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-7 h-7 rounded-full bg-brand-green text-white text-sm font-bold flex items-center justify-center">2</span>
+            <span class="font-bold text-gray-800 text-sm leading-tight" id="card-2-title">ちばのWA<br>地域づくり基金</span>
+          </div>
+          <div class="text-center my-3 text-brand-green text-3xl">
+            <i class="fa-solid fa-seedling"></i>
+          </div>
+          <h3 class="text-center font-bold text-gray-900 text-sm md:text-base mb-1" id="card-2-subtitle">災害支援活動団体助成</h3>
+          <p class="text-xs text-gray-600 leading-relaxed mb-4" id="card-2-desc">
+            災害支援活動を行う団体への助成金情報を掲載しています。
+          </p>
+        </div>
+        <a id="card-2-link" href="https://chibanowa.net/" target="_blank" rel="noopener noreferrer" class="w-full py-2 px-3 bg-brand-green text-white rounded-md text-xs md:text-sm font-medium text-center flex items-center justify-center gap-1.5 hover:bg-emerald-800 transition">
+          <span>詳しく見る</span>
+          <i class="fa-solid fa-chevron-right text-xs"></i>
+        </a>
+      </div>
+
+      <!-- 3. CVOAD -->
+      <div class="bg-white border-2 border-indigo-200 rounded-xl p-5 flex flex-col justify-between hover:shadow-md transition">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-7 h-7 rounded-full bg-brand-purple text-white text-sm font-bold flex items-center justify-center">3</span>
+            <div class="leading-tight">
+              <span class="font-bold text-gray-800 text-base" id="card-3-title">CVOAD</span>
+              <span class="block text-[11px] text-gray-500">(災害支援ネットワーク千葉)</span>
+            </div>
+          </div>
+          <div class="text-center my-3 text-brand-purple text-3xl">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <h3 class="text-center font-bold text-gray-900 text-sm md:text-base mb-1" id="card-3-subtitle">災害支援情報</h3>
+          <p class="text-xs text-gray-600 leading-relaxed mb-4" id="card-3-desc">
+            ボランティアセンターの開設状況、現在のニーズ、支援活動の情報をご覧いただけます。
+          </p>
+        </div>
+        <a id="card-3-link" href="https://cvoad.jp/" target="_blank" rel="noopener noreferrer" class="w-full py-2 px-3 bg-brand-purple text-white rounded-md text-xs md:text-sm font-medium text-center flex items-center justify-center gap-1.5 hover:bg-indigo-900 transition">
+          <span>詳しく見る</span>
+          <i class="fa-solid fa-chevron-right text-xs"></i>
+        </a>
+      </div>
+
+      <!-- 4. スマートサプライビジョン -->
+      <div class="bg-white border-2 border-cyan-200 rounded-xl p-5 flex flex-col justify-between hover:shadow-md transition">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-7 h-7 rounded-full bg-brand-teal text-white text-sm font-bold flex items-center justify-center">4</span>
+            <span class="font-bold text-gray-800 text-sm leading-tight" id="card-4-title">スマートサプライビジョン</span>
+          </div>
+          <div class="text-center my-3 text-brand-teal text-3xl">
+            <i class="fa-solid fa-boxes-stacked"></i>
+          </div>
+          <h3 class="text-center font-bold text-gray-900 text-sm md:text-base mb-1" id="card-4-subtitle">支援物資・ニーズ情報</h3>
+          <p class="text-xs text-gray-600 leading-relaxed mb-4" id="card-4-desc">
+            必要な物資・支援の具体的な情報を掲載しています。<br>(8月豪雨災害・千葉県関連プロジェクト含む)
+          </p>
+        </div>
+        <a id="card-4-link" href="https://smart-supply.org/" target="_blank" rel="noopener noreferrer" class="w-full py-2 px-3 bg-brand-teal text-white rounded-md text-xs md:text-sm font-medium text-center flex items-center justify-center gap-1.5 hover:bg-slate-700 transition">
+          <span>詳しく見る</span>
+          <i class="fa-solid fa-chevron-right text-xs"></i>
+        </a>
+      </div>
+
+    </section>
+
+    <!-- いま必要な情報（立場別クイックリンク） -->
+    <section class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+      <div class="flex items-center gap-2 mb-1">
+        <i class="fa-solid fa-bullhorn text-brand-navy text-xl"></i>
+        <h2 class="text-lg font-bold text-gray-900">いま必要な情報</h2>
+      </div>
+      <p class="text-xs text-gray-500 mb-4">あなたの立場に合わせて、必要な情報をすぐに見つけられます。</p>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <!-- 被災者 -->
+        <a id="persona-1-link" href="#disaster-victims" onclick="filterByPersona('victim')" class="border border-brand-navy rounded-lg p-3 text-center hover:bg-brand-lightNavy transition group flex flex-col items-center justify-center gap-1">
+          <i class="fa-solid fa-user text-brand-navy text-lg group-hover:scale-110 transition-transform"></i>
+          <span class="text-sm font-bold text-gray-800">被災者</span>
+          <span class="text-[11px] text-gray-500">(生活再建のために)</span>
+        </a>
+        <!-- 支援したい個人 -->
+        <a id="persona-2-link" href="#volunteers" onclick="filterByPersona('volunteer')" class="border border-gray-200 rounded-lg p-3 text-center hover:bg-brand-lightNavy hover:border-brand-navy transition group flex flex-col items-center justify-center gap-1">
+          <i class="fa-solid fa-heart text-brand-navy text-lg group-hover:scale-110 transition-transform"></i>
+          <span class="text-sm font-bold text-gray-800">支援したい個人</span>
+          <span class="text-[11px] text-gray-500">(ボランティアなど)</span>
+        </a>
+        <!-- NPO・団体 -->
+        <a id="persona-3-link" href="#npo" onclick="filterByPersona('npo')" class="border border-gray-200 rounded-lg p-3 text-center hover:bg-brand-lightNavy hover:border-brand-navy transition group flex flex-col items-center justify-center gap-1">
+          <i class="fa-solid fa-users text-brand-navy text-lg group-hover:scale-110 transition-transform"></i>
+          <span class="text-sm font-bold text-gray-800">NPO・団体</span>
+          <span class="text-[11px] text-gray-500">(活動・助成金など)</span>
+        </a>
+        <!-- 企業 -->
+        <a id="persona-4-link" href="#companies" onclick="filterByPersona('company')" class="border border-gray-200 rounded-lg p-3 text-center hover:bg-brand-lightNavy hover:border-brand-navy transition group flex flex-col items-center justify-center gap-1">
+          <i class="fa-solid fa-building text-brand-navy text-lg group-hover:scale-110 transition-transform"></i>
+          <span class="text-sm font-bold text-gray-800">企業</span>
+          <span class="text-[11px] text-gray-500">(物資・寄付など)</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2カラム構成：千葉県の被害状況・復旧情報 ＆ 最新情報（更新履歴） -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- 左側：千葉県の被害状況・復旧情報 (7 cols) -->
+      <section class="lg:col-span-7 bg-white rounded-xl border border-gray-200 p-5 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded bg-brand-navy text-white flex items-center justify-center text-sm font-bold">
+                <i class="fa-solid fa-map-location-dot"></i>
+              </span>
+              <h2 class="text-base md:text-lg font-bold text-gray-900">千葉県の被害状況・復旧情報</h2>
+            </div>
+            <a id="map-detail-link" href="https://www.pref.chiba.lg.jp/bousai/" target="_blank" rel="noopener noreferrer" class="text-xs text-brand-navy font-semibold hover:underline flex items-center gap-1">
+              <span>詳細を見る</span>
+              <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </a>
+          </div>
+
+          <!-- 地図とステータス表示 -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+            
+            <!-- SVGマップ（千葉県のシルエット風ベクター） -->
+            <div class="md:col-span-6 flex justify-center relative p-2">
+              <svg viewBox="0 0 240 280" class="w-56 h-64 drop-shadow-sm select-none" xmlns="http://www.w3.org/2000/svg">
+                <!-- 千葉県半島ベースパス -->
+                <path d="M 60 40 
+                         C 80 30, 110 35, 140 45
+                         C 170 55, 190 70, 190 90
+                         C 180 120, 190 140, 180 170
+                         C 170 200, 140 230, 110 245
+                         C 90 255, 60 255, 55 240
+                         C 50 220, 60 190, 70 170
+                         C 80 150, 70 130, 60 110
+                         C 40 80, 45 50, 60 40 Z" 
+                      fill="#cbd5e1" stroke="#94a3b8" stroke-width="2" class="transition-colors hover:fill-slate-300" />
+                
+                <!-- 被災ホットスポット（円） -->
+                <circle cx="85" cy="55" r="16" fill="#f87171" opacity="0.35" class="animate-pulse" />
+                <circle cx="145" cy="155" r="18" fill="#f87171" opacity="0.4" class="animate-pulse" />
+                <circle cx="80" cy="225" r="14" fill="#60a5fa" opacity="0.4" />
+
+                <!-- 市町村名ピン -->
+                <!-- 野田市 -->
+                <g class="cursor-pointer">
+                  <rect x="25" y="32" width="46" height="18" rx="9" fill="#ffffff" stroke="#64748b" stroke-width="1.2"/>
+                  <text x="48" y="44" font-size="9" font-weight="bold" fill="#334155" text-anchor="middle">野田市</text>
+                  <circle cx="68" cy="48" r="3" fill="#ef4444"/>
+                </g>
+
+                <!-- 柏市 -->
+                <g class="cursor-pointer">
+                  <rect x="95" y="58" width="40" height="18" rx="9" fill="#ffffff" stroke="#64748b" stroke-width="1.2"/>
+                  <text x="115" y="70" font-size="9" font-weight="bold" fill="#334155" text-anchor="middle">柏市</text>
+                  <circle cx="98" cy="74" r="3" fill="#ef4444"/>
+                </g>
+
+                <!-- 千葉市 -->
+                <g class="cursor-pointer">
+                  <rect x="55" y="110" width="46" height="18" rx="9" fill="#ffffff" stroke="#64748b" stroke-width="1.2"/>
+                  <text x="78" y="122" font-size="9" font-weight="bold" fill="#334155" text-anchor="middle">千葉市</text>
+                  <circle cx="80" cy="128" r="3" fill="#3b82f6"/>
+                </g>
+
+                <!-- 茂原市 (被害大) -->
+                <g class="cursor-pointer">
+                  <rect x="140" y="150" width="46" height="18" rx="9" fill="#ffffff" stroke="#64748b" stroke-width="1.2"/>
+                  <text x="163" y="162" font-size="9" font-weight="bold" fill="#334155" text-anchor="middle">茂原市</text>
+                  <circle cx="140" cy="165" r="4" fill="#ef4444"/>
+                </g>
+
+                <!-- 茂原市南/長生郡 -->
+                <g class="cursor-pointer">
+                  <rect x="135" y="185" width="46" height="18" rx="9" fill="#ffffff" stroke="#64748b" stroke-width="1.2"/>
+                  <text x="158" y="197" font-size="9" font-weight="bold" fill="#334155" text-anchor="middle">茂原市南</text>
+                  <circle cx="138" cy="200" r="3" fill="#94a3b8"/>
+                </g>
+
+                <!-- 君津市 -->
+                <g class="cursor-pointer">
+                  <rect x="75" y="195" width="46" height="18" rx="9" fill="#ffffff" stroke="#64748b" stroke-width="1.2"/>
+                  <text x="98" y="207" font-size="9" font-weight="bold" fill="#334155" text-anchor="middle">君津市</text>
+                  <circle cx="85" cy="210" r="3" fill="#3b82f6"/>
+                </g>
+
+                <!-- 館山市 -->
+                <g class="cursor-pointer">
+                  <rect x="52" y="240" width="46" height="18" rx="9" fill="#ffffff" stroke="#64748b" stroke-width="1.2"/>
+                  <text x="75" y="252" font-size="9" font-weight="bold" fill="#334155" text-anchor="middle">館山市</text>
+                  <circle cx="70" cy="238" r="3" fill="#94a3b8"/>
+                </g>
+              </svg>
+            </div>
+
+            <!-- 被害状況サマリー & 凡例 -->
+            <div class="md:col-span-6 space-y-3">
+              <div>
+                <h4 class="text-xs font-bold text-gray-700 mb-2">主な被害状況 <span class="text-gray-400 font-normal">(市町村別の一部抜粋)</span></h4>
+                <ul class="space-y-2 text-xs">
+                  <li class="flex items-center gap-2">
+                    <span class="w-3.5 h-3.5 rounded-full bg-red-400 flex-shrink-0"></span>
+                    <span class="text-gray-800 font-semibold">大きな被害</span>
+                    <span class="text-gray-500">(道路・河川の氾濫、土砂災害など)</span>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="w-3.5 h-3.5 rounded-full bg-blue-400 flex-shrink-0"></span>
+                    <span class="text-gray-800 font-semibold">一部被害</span>
+                    <span class="text-gray-500">(冠水・停電など)</span>
+                  </li>
+                  <li class="flex items-center gap-2">
+                    <span class="w-3.5 h-3.5 rounded-full bg-gray-400 flex-shrink-0"></span>
+                    <span class="text-gray-800 font-semibold">現在、調査中</span>
+                  </li>
+                </ul>
+                <p class="text-[11px] text-gray-400 mt-2">※ 詳細は千葉県の公式サイトをご確認ください。</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 主な情報へのリンク（4本） -->
+          <div class="mt-4 pt-3 border-t border-gray-100">
+            <h4 class="text-xs font-bold text-gray-700 mb-2">主な情報へのリンク</h4>
+            <div class="grid grid-cols-1 gap-2">
+              <a id="sublink-1" href="https://www.pref.chiba.lg.jp/bousai/saigai/index.html" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-slate-100 rounded-md border border-gray-200 transition group">
+                <span class="flex items-center gap-2.5 text-xs md:text-sm font-semibold text-gray-800">
+                  <i class="fa-regular fa-newspaper text-brand-navy w-4 text-center"></i>
+                  <span>被害状況・災害対応（千葉県）</span>
+                </span>
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400 group-hover:translate-x-0.5 transition-transform"></i>
+              </a>
+
+              <a id="sublink-2" href="https://www.pref.chiba.lg.jp/bousai/hinanjo.html" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-slate-100 rounded-md border border-gray-200 transition group">
+                <span class="flex items-center gap-2.5 text-xs md:text-sm font-semibold text-gray-800">
+                  <i class="fa-solid fa-person-walking text-brand-navy w-4 text-center"></i>
+                  <span>避難情報・避難所一覧</span>
+                </span>
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400 group-hover:translate-x-0.5 transition-transform"></i>
+              </a>
+
+              <a id="sublink-3" href="https://www.pref.chiba.lg.jp/bousai/lifeline.html" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-slate-100 rounded-md border border-gray-200 transition group">
+                <span class="flex items-center gap-2.5 text-xs md:text-sm font-semibold text-gray-800">
+                  <i class="fa-solid fa-faucet-drip text-brand-navy w-4 text-center"></i>
+                  <span>ライフライン（電気・水道・通信）</span>
+                </span>
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400 group-hover:translate-x-0.5 transition-transform"></i>
+              </a>
+
+              <a id="sublink-4" href="https://www.pref.chiba.lg.jp/douro/koutsuu.html" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-slate-100 rounded-md border border-gray-200 transition group">
+                <span class="flex items-center gap-2.5 text-xs md:text-sm font-semibold text-gray-800">
+                  <i class="fa-solid fa-car text-brand-navy w-4 text-center"></i>
+                  <span>道路・交通情報</span>
+                </span>
+                <i class="fa-solid fa-chevron-right text-xs text-gray-400 group-hover:translate-x-0.5 transition-transform"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 右側：最新情報（更新履歴） (5 cols) -->
+      <section id="news-section" class="lg:col-span-5 bg-white rounded-xl border border-gray-200 p-5 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded bg-brand-navy text-white flex items-center justify-center text-sm font-bold">
+                <i class="fa-regular fa-clock"></i>
+              </span>
+              <h2 class="text-base md:text-lg font-bold text-gray-900">最新情報 <span class="text-xs font-normal text-gray-500">(更新履歴)</span></h2>
+            </div>
+            <a href="#all-news" onclick="openAllNewsModal()" class="text-xs text-brand-navy font-semibold hover:underline flex items-center gap-1">
+              <span>一覧を見る</span>
+              <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </a>
+          </div>
+
+          <!-- 最新ニュースリスト -->
+          <div id="news-list" class="divide-y divide-gray-100 max-h-[380px] overflow-y-auto custom-scrollbar pr-1">
+            <!-- JavaScriptで動的生成されます -->
+          </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-t border-gray-100">
+          <button onclick="openAllNewsModal()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-brand-navy text-xs font-bold rounded text-center transition flex items-center justify-center gap-1">
+            <span>最新情報をもっと見る</span>
+            <i class="fa-solid fa-chevron-right text-[10px]"></i>
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- すぐにできる支援・行動 -->
+    <section class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+      <div class="flex items-center gap-2 mb-1">
+        <i class="fa-solid fa-bullhorn text-brand-navy text-xl"></i>
+        <h2 class="text-lg font-bold text-gray-900">すぐにできる支援・行動</h2>
+      </div>
+      <p class="text-xs text-gray-500 mb-4">あなたにできる支援があります。ぜひご協力ください。</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <!-- ボランティアに参加する -->
+        <div class="flex flex-col">
+          <a id="action-1-link" href="https://cvoad.jp/volunteer/" target="_blank" rel="noopener noreferrer" class="bg-slate-600 hover:bg-slate-700 text-white rounded-lg p-4 flex flex-col items-center justify-center min-h-[95px] relative group transition shadow-sm">
+            <i class="fa-solid fa-users text-2xl mb-1.5"></i>
+            <span class="text-sm font-bold">ボランティアに参加する</span>
+            <i class="fa-solid fa-chevron-right absolute right-3 top-1/2 -translate-y-1/2 text-xs opacity-75 group-hover:translate-x-1 transition-transform"></i>
+          </a>
+          <p class="text-[11px] text-gray-600 mt-2 px-1 leading-snug">
+            現地での支援活動、災害ボランティアの募集情報を確認できます。
+          </p>
+        </div>
+
+        <!-- 物資・寄付で支援する -->
+        <div class="flex flex-col">
+          <a id="action-2-link" href="https://smart-supply.org/projects" target="_blank" rel="noopener noreferrer" class="bg-slate-600 hover:bg-slate-700 text-white rounded-lg p-4 flex flex-col items-center justify-center min-h-[95px] relative group transition shadow-sm">
+            <i class="fa-solid fa-box text-2xl mb-1.5"></i>
+            <span class="text-sm font-bold">物資・寄付で支援する</span>
+            <i class="fa-solid fa-chevron-right absolute right-3 top-1/2 -translate-y-1/2 text-xs opacity-75 group-hover:translate-x-1 transition-transform"></i>
+          </a>
+          <p class="text-[11px] text-gray-600 mt-2 px-1 leading-snug">
+            必要な物資の提供・寄付の方法をご案内します。
+          </p>
+        </div>
+
+        <!-- 助成金を探す -->
+        <div class="flex flex-col">
+          <a id="action-3-link" href="https://chibanowa.net/grant/" target="_blank" rel="noopener noreferrer" class="bg-slate-600 hover:bg-slate-700 text-white rounded-lg p-4 flex flex-col items-center justify-center min-h-[95px] relative group transition shadow-sm">
+            <i class="fa-solid fa-seedling text-2xl mb-1.5"></i>
+            <span class="text-sm font-bold">助成金を探す</span>
+            <i class="fa-solid fa-chevron-right absolute right-3 top-1/2 -translate-y-1/2 text-xs opacity-75 group-hover:translate-x-1 transition-transform"></i>
+          </a>
+          <p class="text-[11px] text-gray-600 mt-2 px-1 leading-snug">
+            NPO・団体向けの助成金情報をご確認いただけます。
+          </p>
+        </div>
+
+        <!-- 被害・復旧情報を見る -->
+        <div class="flex flex-col">
+          <a id="action-4-link" href="https://www.pref.chiba.lg.jp/bousai/" target="_blank" rel="noopener noreferrer" class="bg-slate-600 hover:bg-slate-700 text-white rounded-lg p-4 flex flex-col items-center justify-center min-h-[95px] relative group transition shadow-sm">
+            <i class="fa-regular fa-file-lines text-2xl mb-1.5"></i>
+            <span class="text-sm font-bold">被害・復旧情報を見る</span>
+            <i class="fa-solid fa-chevron-right absolute right-3 top-1/2 -translate-y-1/2 text-xs opacity-75 group-hover:translate-x-1 transition-transform"></i>
+          </a>
+          <p class="text-[11px] text-gray-600 mt-2 px-1 leading-snug">
+            地域ごとの被害状況・復旧状況を確認できます。
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 連携・情報提供 フッター -->
+  <footer id="links" class="bg-[#2c435c] text-white pt-8 pb-6 border-t border-slate-700 mt-10">
+    <div class="max-w-6xl mx-auto px-4">
+      <h3 class="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-5">
+        連携・情報提供（4つの団体・組織）
+      </h3>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-8 border-b border-slate-600">
+        
+        <!-- 千葉県 -->
+        <a id="footer-org-1" href="https://www.pref.chiba.lg.jp/" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 group hover:text-blue-200 transition">
+          <div class="text-2xl text-slate-300 group-hover:text-white mt-1">
+            <i class="fa-regular fa-building"></i>
+          </div>
+          <div>
+            <div class="font-bold text-sm">千葉県</div>
+            <div class="text-xs text-slate-300 flex items-center gap-1 mt-0.5">
+              <span>被害情報・復旧情報 (千葉県公式サイト)</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- ちばのWA地域づくり基金 -->
+        <a id="footer-org-2" href="https://chibanowa.net/" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 group hover:text-emerald-200 transition">
+          <div class="text-2xl text-slate-300 group-hover:text-white mt-1">
+            <i class="fa-solid fa-seedling"></i>
+          </div>
+          <div>
+            <div class="font-bold text-sm">ちばのWA地域づくり基金</div>
+            <div class="text-xs text-slate-300 flex items-center gap-1 mt-0.5">
+              <span>災害支援活動団体助成 (公益財団法人ちばのWA地域づくり基金)</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- CVOAD -->
+        <a id="footer-org-3" href="https://cvoad.jp/" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 group hover:text-indigo-200 transition">
+          <div class="text-2xl text-slate-300 group-hover:text-white mt-1">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div>
+            <div class="font-bold text-sm">CVOAD</div>
+            <div class="text-xs text-slate-300 flex items-center gap-1 mt-0.5">
+              <span>災害支援情報 (NPO法人 千葉県災害支援ネットワーク)</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- スマートサプライビジョン -->
+        <a id="footer-org-4" href="https://smart-supply.org/" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 group hover:text-cyan-200 transition">
+          <div class="text-2xl text-slate-300 group-hover:text-white mt-1">
+            <i class="fa-solid fa-boxes-stacked"></i>
+          </div>
+          <div>
+            <div class="font-bold text-sm">スマートサプライビジョン</div>
+            <div class="text-xs text-slate-300 flex items-center gap-1 mt-0.5">
+              <span>支援物資・ニーズ情報 (株式会社スマートサプライビジョン)</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- コピーライト & メッセージ -->
+      <div class="pt-6 text-center text-xs text-slate-400 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+        <span>千葉県 災害支援情報ポータル</span>
+        <span class="hidden sm:inline">|</span>
+        <span>地域の力をつなぎ、災害からの復興を支えます</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 右下の編集ボタン（内容・リンクを画面上で変更可能にする機能） -->
+  <div class="fixed bottom-6 right-6 z-40">
+    <button onclick="openEditorModal()" class="bg-amber-500 hover:bg-amber-600 text-white px-4 py-3 rounded-full shadow-lg font-bold text-sm flex items-center gap-2 transition hover:scale-105">
+      <i class="fa-solid fa-pen-to-square"></i>
+      <span>サイト内容・リンクの編集</span>
+    </button>
+  </div>
+
+  <!-- 編集モーダル -->
+  <div id="editor-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- モーダルヘッダー -->
+      <div class="px-6 py-4 bg-slate-800 text-white flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-sliders text-amber-400"></i>
+          <h3 class="font-bold text-base md:text-lg">ポータルサイト内容・リンクの簡単編集</h3>
+        </div>
+        <button onclick="closeEditorModal()" class="text-slate-400 hover:text-white text-xl">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- モーダル本文（タブ形式で変更可能） -->
+      <div class="p-6 overflow-y-auto space-y-6 text-sm flex-grow">
+        <p class="text-xs text-gray-500 bg-amber-50 border border-amber-200 p-3 rounded-lg">
+          💡 ここで入力したURLやタイトル、お知らせはブラウザ（ローカル環境）に保存され、即座に画面全体に反映されます。また、コード用に設定JSONをコピーすることも可能です。
+        </p>
+
+        <!-- 緊急バナー編集 -->
+        <div class="border border-gray-200 rounded-lg p-4 space-y-3">
+          <h4 class="font-bold text-gray-800 flex items-center gap-2">
+            <i class="fa-solid fa-bullhorn text-red-500"></i> 緊急お知らせバナー
+          </h4>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">バナー見出し</label>
+            <input type="text" id="edit-urgent-title" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">説明文</label>
+            <textarea id="edit-urgent-desc" rows="2" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm"></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">ボタンリンク先 URL</label>
+            <input type="url" id="edit-urgent-link" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+          </div>
+        </div>
+
+        <!-- 主要4団体 リンク先編集 -->
+        <div class="border border-gray-200 rounded-lg p-4 space-y-4">
+          <h4 class="font-bold text-gray-800 flex items-center gap-2">
+            <i class="fa-solid fa-link text-brand-navy"></i> 主要4団体のリンク先URL
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">1. 千葉県 URL</label>
+              <input type="url" id="edit-card-1-url" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">2. ちばのWA基金 URL</label>
+              <input type="url" id="edit-card-2-url" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">3. CVOAD URL</label>
+              <input type="url" id="edit-card-3-url" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">4. スマートサプライ URL</label>
+              <input type="url" id="edit-card-4-url" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+            </div>
+          </div>
+        </div>
+
+        <!-- 被害状況リンク4本 -->
+        <div class="border border-gray-200 rounded-lg p-4 space-y-3">
+          <h4 class="font-bold text-gray-800 flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-brand-blue"></i> 被害状況リンクURL
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">被害状況・災害対応</label>
+              <input type="url" id="edit-sublink-1-url" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">避難情報・避難所一覧</label>
+              <input type="url" id="edit-sublink-2-url" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">ライフライン</label>
+              <input type="url" id="edit-sublink-3-url" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">道路・交通情報</label>
+              <input type="url" id="edit-sublink-4-url" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+            </div>
+          </div>
+        </div>
+
+        <!-- お知らせの新規追加 -->
+        <div class="border border-gray-200 rounded-lg p-4 space-y-3">
+          <h4 class="font-bold text-gray-800 flex items-center gap-2">
+            <i class="fa-regular fa-bell text-brand-green"></i> お知らせ・更新情報の追加
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">日時</label>
+              <input type="text" id="new-news-date" value="2026/09/28 10:00" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-semibold text-gray-600 mb-1">タイトル</label>
+              <input type="text" id="new-news-title" placeholder="例: 〇〇地区の給水所開設について" class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1">リンクURL (任意)</label>
+            <input type="url" id="new-news-url" placeholder="https://..." class="w-full px-3 py-1.5 border border-gray-300 rounded text-sm">
+          </div>
+          <button type="button" onclick="addNewNewsItem()" class="px-3 py-1.5 bg-brand-green hover:bg-emerald-700 text-white rounded text-xs font-bold transition">
+            ＋ このお知らせを一番上に追加する
+          </button>
+        </div>
+
+      </div>
+
+      <!-- モーダルフッター -->
+      <div class="px-6 py-3.5 bg-gray-50 border-t border-gray-200 flex items-center justify-between">
+        <button onclick="resetToDefaults()" class="text-xs text-red-600 hover:underline">初期状態に戻す</button>
+        <div class="flex gap-2">
+          <button onclick="closeEditorModal()" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md text-xs font-bold transition">
+            キャンセル
+          </button>
+          <button onclick="saveEditorChanges()" class="px-5 py-2 bg-brand-navy hover:bg-brand-darkNavy text-white rounded-md text-xs font-bold transition shadow">
+            変更を反映して保存
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * ポータルサイトの全データ設定オブジェクト
+     * ここを書き換えるだけで、コード上からもサイト内容とリンクを完全に変更できます。
+     */
+    const DEFAULT_CONFIG = {
+      header: {
+        title: "千葉県 災害支援情報ポータル",
+        subtitle: "〜 つながる支援　ともに再建へ 〜",
+        lastUpdated: "2026年9月26日 16:30"
+      },
+      urgentBanner: {
+        title: "8月豪雨災害・台風25号 に関するお知らせ",
+        desc: "千葉県内では、8月の豪雨災害および台風25号により、広い地域で被害が発生しました。最新の被害情報・支援情報をこのポータルでまとめてご覧いただけます。",
+        linkText: "県の最新情報はこちら",
+        url: "https://www.pref.chiba.lg.jp/"
+      },
+      cards: [
+        {
+          id: 1,
+          title: "千葉県",
+          subtitle: "被害情報・復旧情報",
+          desc: "被害状況、避難情報、ライフライン、インフラの復旧状況などをご確認いただけます。",
+          url: "https://www.pref.chiba.lg.jp/"
+        },
+        {
+          id: 2,
+          title: "ちばのWA地域づくり基金",
+          subtitle: "災害支援活動団体助成",
+          desc: "災害支援活動を行う団体への助成金情報を掲載しています。",
+          url: "https://chibanowa.net/"
+        },
+        {
+          id: 3,
+          title: "CVOAD",
+          subtitle: "災害支援情報",
+          desc: "ボランティアセンターの開設状況、現在のニーズ、支援活動の情報をご覧いただけます。",
+          url: "https://cvoad.jp/"
+        },
+        {
+          id: 4,
+          title: "スマートサプライビジョン",
+          subtitle: "支援物資・ニーズ情報",
+          desc: "必要な物資・支援の具体的な情報を掲載しています。(8月豪雨災害・千葉県関連プロジェクト含む)",
+          url: "https://smart-supply.org/"
+        }
+      ],
+      sublinks: [
+        { id: 1, text: "被害状況・災害対応（千葉県）", url: "https://www.pref.chiba.lg.jp/bousai/saigai/index.html" },
+        { id: 2, text: "避難情報・避難所一覧", url: "https://www.pref.chiba.lg.jp/bousai/hinanjo.html" },
+        { id: 3, text: "ライフライン（電気・水道・通信）", url: "https://www.pref.chiba.lg.jp/bousai/lifeline.html" },
+        { id: 4, text: "道路・交通情報", url: "https://www.pref.chiba.lg.jp/douro/koutsuu.html" }
+      ],
+      actions: [
+        { id: 1, title: "ボランティアに参加する", url: "https://cvoad.jp/volunteer/" },
+        { id: 2, title: "物資・寄付で支援する", url: "https://smart-supply.org/projects" },
+        { id: 3, title: "助成金を探す", url: "https://chibanowa.net/grant/" },
+        { id: 4, title: "被害・復旧情報を見る", url: "https://www.pref.chiba.lg.jp/bousai/" }
+      ],
+      news: [
+        {
+          date: "2026/09/26 16:30",
+          title: "千葉県 災害ボランティアセンターの開設状況を更新しました（市原市 ほか）",
+          url: "https://cvoad.jp/"
+        },
+        {
+          date: "2026/09/26 14:20",
+          title: "ちばのWA地域づくり基金 災害支援活動団体助成の募集を開始しました",
+          url: "https://chibanowa.net/"
+        },
+        {
+          date: "2026/09/26 11:15",
+          title: "CVOAD 支援ニーズ情報を更新しました（ボランティア・物資など）",
+          url: "https://cvoad.jp/"
+        },
+        {
+          date: "2026/09/26 10:05",
+          title: "スマートサプライビジョン 支援物資の募集情報を追加しました（8月豪雨災害・千葉県関連）",
+          url: "https://smart-supply.org/"
+        },
+        {
+          date: "2026/09/25 17:40",
+          title: "千葉県 土砂災害警戒情報の解除について",
+          url: "https://www.pref.chiba.lg.jp/"
+        },
+        {
+          date: "2026/09/25 13:12",
+          title: "ちばのWA 災害支援活動団体助成の相談窓口を設置しました",
+          url: "https://chibanowa.net/"
+        }
+      ]
+    };
+
+    // ローカルストレージがあれば読み込み、なければデフォルト
+    let currentConfig = JSON.parse(localStorage.getItem('CHIBA_PORTAL_CONFIG')) || DEFAULT_CONFIG;
+
+    function renderPortal() {
+      // 最終更新日
+      document.getElementById('last-updated').textContent = currentConfig.header.lastUpdated;
+
+      // 緊急バナー
+      document.getElementById('urgent-title').textContent = currentConfig.urgentBanner.title;
+      document.getElementById('urgent-desc').innerHTML = currentConfig.urgentBanner.desc.replace(/\n/g, '<br>');
+      document.getElementById('urgent-link').href = currentConfig.urgentBanner.url;
+
+      // 4枚のカード
+      currentConfig.cards.forEach(card => {
+        const linkElem = document.getElementById(`card-1-link`);
+        if (card.id === 1) {
+          document.getElementById('card-1-title').textContent = card.title;
+          document.getElementById('card-1-subtitle').textContent = card.subtitle;
+          document.getElementById('card-1-desc').textContent = card.desc;
+          document.getElementById('card-1-link').href = card.url;
+        } else if (card.id === 2) {
+          document.getElementById('card-2-subtitle').textContent = card.subtitle;
+          document.getElementById('card-2-desc').textContent = card.desc;
+          document.getElementById('card-2-link').href = card.url;
+        } else if (card.id === 3) {
+          document.getElementById('card-3-subtitle').textContent = card.subtitle;
+          document.getElementById('card-3-desc').textContent = card.desc;
+          document.getElementById('card-3-link').href = card.url;
+        } else if (card.id === 4) {
+          document.getElementById('card-4-subtitle').textContent = card.subtitle;
+          document.getElementById('card-4-desc').innerHTML = card.desc.replace(/\n/g, '<br>');
+          document.getElementById('card-4-link').href = card.url;
+        }
+      });
+
+      // サブリンク
+      currentConfig.sublinks.forEach(sub => {
+        const el = document.getElementById(`sublink-${sub.id}`);
+        if (el) el.href = sub.url;
+      });
+
+      // アクションリンク
+      currentConfig.actions.forEach(act => {
+        const el = document.getElementById(`action-${act.id}-link`);
+        if (el) el.href = act.url;
+      });
+
+      // フッターリンク
+      document.getElementById('footer-org-1').href = currentConfig.cards[0].url;
+      document.getElementById('footer-org-2').href = currentConfig.cards[1].url;
+      document.getElementById('footer-org-3').href = currentConfig.cards[2].url;
+      document.getElementById('footer-org-4').href = currentConfig.cards[3].url;
+
+      // ニュースリストのレンダリング
+      const newsListContainer = document.getElementById('news-list');
+      newsListContainer.innerHTML = '';
+      currentConfig.news.forEach(item => {
+        const itemElem = document.createElement('a');
+        itemElem.href = item.url || '#';
+        if (item.url) {
+          itemElem.target = "_blank";
+          itemElem.rel = "noopener noreferrer";
+        }
+        itemElem.className = "py-3 flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-4 hover:bg-slate-50 px-2 rounded transition group";
+        itemElem.innerHTML = `
+          <div class="text-xs text-gray-500 font-medium whitespace-nowrap flex items-center gap-1">
+            <i class="fa-regular fa-clock text-slate-400 text-[10px]"></i>
+            ${item.date}
+          </div>
+          <div class="text-xs md:text-sm text-gray-800 group-hover:text-brand-navy group-hover:underline flex-grow leading-snug">
+            ${item.title}
+          </div>
+          <i class="fa-solid fa-chevron-right text-[10px] text-gray-300 group-hover:text-brand-navy self-end sm:self-center"></i>
+        `;
+        newsListContainer.appendChild(itemElem);
+      });
+    }
+
+    // 編集モーダルを開く
+    function openEditorModal() {
+      document.getElementById('edit-urgent-title').value = currentConfig.urgentBanner.title;
+      document.getElementById('edit-urgent-desc').value = currentConfig.urgentBanner.desc;
+      document.getElementById('edit-urgent-link').value = currentConfig.urgentBanner.url;
+
+      document.getElementById('edit-card-1-url').value = currentConfig.cards[0].url;
+      document.getElementById('edit-card-2-url').value = currentConfig.cards[1].url;
+      document.getElementById('edit-card-3-url').value = currentConfig.cards[2].url;
+      document.getElementById('edit-card-4-url').value = currentConfig.cards[3].url;
+
+      document.getElementById('edit-sublink-1-url').value = currentConfig.sublinks[0].url;
+      document.getElementById('edit-sublink-2-url').value = currentConfig.sublinks[1].url;
+      document.getElementById('edit-sublink-3-url').value = currentConfig.sublinks[2].url;
+      document.getElementById('edit-sublink-4-url').value = currentConfig.sublinks[3].url;
+
+      document.getElementById('editor-modal').classList.remove('hidden');
+    }
+
+    // 編集モーダルを閉じる
+    function closeEditorModal() {
+      document.getElementById('editor-modal').classList.add('hidden');
+    }
+
+    // 編集内容の保存
+    function saveEditorChanges() {
+      currentConfig.urgentBanner.title = document.getElementById('edit-urgent-title').value;
+      currentConfig.urgentBanner.desc = document.getElementById('edit-urgent-desc').value;
+      currentConfig.urgentBanner.url = document.getElementById('edit-urgent-link').value;
+
+      currentConfig.cards[0].url = document.getElementById('edit-card-1-url').value;
+      currentConfig.cards[1].url = document.getElementById('edit-card-2-url').value;
+      currentConfig.cards[2].url = document.getElementById('edit-card-3-url').value;
+      currentConfig.cards[3].url = document.getElementById('edit-card-4-url').value;
+
+      currentConfig.sublinks[0].url = document.getElementById('edit-sublink-1-url').value;
+      currentConfig.sublinks[1].url = document.getElementById('edit-sublink-2-url').value;
+      currentConfig.sublinks[2].url = document.getElementById('edit-sublink-3-url').value;
+      currentConfig.sublinks[3].url = document.getElementById('edit-sublink-4-url').value;
+
+      // 日時を現在時刻に更新
+      const now = new Date();
+      currentConfig.header.lastUpdated = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+      // 保存 & 再描画
+      localStorage.setItem('CHIBA_PORTAL_CONFIG', JSON.stringify(currentConfig));
+      renderPortal();
+      closeEditorModal();
+      showToast('設定とリンク先を保存しました！');
+    }
+
+    // 新規お知らせ追加
+    function addNewNewsItem() {
+      const date = document.getElementById('new-news-date').value.trim();
+      const title = document.getElementById('new-news-title').value.trim();
+      const url = document.getElementById('new-news-url').value.trim();
+
+      if (!title) {
+        showToast('お知らせのタイトルを入力してください。', true);
+        return;
+      }
+
+      currentConfig.news.unshift({
+        date: date || "本日",
+        title: title,
+        url: url || "#"
+      });
+
+      document.getElementById('new-news-title').value = '';
+      document.getElementById('new-news-url').value = '';
+      showToast('お知らせを追加しました！「変更を反映して保存」を押してください。');
+    }
+
+    // 初期化に戻す
+    function resetToDefaults() {
+      if (confirm('初期データに戻してもよろしいですか？')) {
+        currentConfig = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+        localStorage.removeItem('CHIBA_PORTAL_CONFIG');
+        renderPortal();
+        closeEditorModal();
+        showToast('初期設定に戻しました。');
+      }
+    }
+
+    // トースト通知UI
+    function showToast(msg, isError = false) {
+      const toast = document.createElement('div');
+      toast.className = `fixed top-5 right-5 z-50 px-4 py-2.5 rounded-lg shadow-xl text-xs md:text-sm font-bold text-white transition-all transform duration-300 ${isError ? 'bg-red-600' : 'bg-brand-navy'}`;
+      toast.innerHTML = `<i class="fa-solid ${isError ? 'fa-circle-exclamation' : 'fa-circle-check'} mr-2"></i>${msg}`;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // 検索処理ハンドラ
+    function handleSearch(e) {
+      e.preventDefault();
+      const query = document.getElementById('search-input').value.trim();
+      if (!query) {
+        showToast('検索キーワードを入力してください。', true);
+        return;
+      }
+      showToast(`「${query}」に関する情報を検索中...`);
+      // 外部検索または該当箇所ハイライト
+      setTimeout(() => {
+        window.open(`https://www.google.com/search?q=千葉県+災害+${encodeURIComponent(query)}`, '_blank');
+      }, 500);
+    }
+
+    // 時刻の簡易リフレッシュ
+    function refreshTime() {
+      const now = new Date();
+      currentConfig.header.lastUpdated = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      renderPortal();
+      showToast('最新情報に更新しました');
+    }
+
+    // 立場別フィルタークリック時のガイダンス
+    function filterByPersona(type) {
+      const map = {
+        victim: "被災された方向けの支援金・避難所・生活再建情報を表示します。",
+        volunteer: "災害ボランティアセンターおよび活動募集情報を表示します。",
+        npo: "復旧・支援活動を行うNPO・市民団体向けの助成金情報を表示します。",
+        company: "企業からの物資提供や義援金・支援物資の受付情報を表示します。"
+      };
+      showToast(map[type]);
+    }
+
+    function scrollToLinks() {
+      document.getElementById('links').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function openFaqModal() {
+      showToast('よくある質問：り災証明書の発行、ボランティアの受付条件などを確認できます。');
+    }
+
+    function openAllNewsModal() {
+      showToast('更新履歴の一覧を開きます。');
+    }
+
+    // 初期起動実行
+    window.addEventListener('DOMContentLoaded', () => {
+      renderPortal();
+    });
+  </script>
+</body>
+</html>
