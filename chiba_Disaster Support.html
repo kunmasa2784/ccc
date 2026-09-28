@@ -241,31 +241,8 @@
       </div>
       <p class="text-xs text-gray-500 mb-4">あなたの立場に合わせて、必要な情報をすぐに見つけられます。</p>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <!-- 被災者 -->
-        <a id="persona-1-link" href="#disaster-victims" onclick="filterByPersona('victim')" class="border border-brand-navy rounded-lg p-3 text-center hover:bg-brand-lightNavy transition group flex flex-col items-center justify-center gap-1">
-          <i class="fa-solid fa-user text-brand-navy text-lg group-hover:scale-110 transition-transform"></i>
-          <span class="text-sm font-bold text-gray-800">被災者</span>
-          <span class="text-[11px] text-gray-500">(生活再建のために)</span>
-        </a>
-        <!-- 支援したい個人 -->
-        <a id="persona-2-link" href="#volunteers" onclick="filterByPersona('volunteer')" class="border border-gray-200 rounded-lg p-3 text-center hover:bg-brand-lightNavy hover:border-brand-navy transition group flex flex-col items-center justify-center gap-1">
-          <i class="fa-solid fa-heart text-brand-navy text-lg group-hover:scale-110 transition-transform"></i>
-          <span class="text-sm font-bold text-gray-800">支援したい個人</span>
-          <span class="text-[11px] text-gray-500">(ボランティアなど)</span>
-        </a>
-        <!-- NPO・団体 -->
-        <a id="persona-3-link" href="#npo" onclick="filterByPersona('npo')" class="border border-gray-200 rounded-lg p-3 text-center hover:bg-brand-lightNavy hover:border-brand-navy transition group flex flex-col items-center justify-center gap-1">
-          <i class="fa-solid fa-users text-brand-navy text-lg group-hover:scale-110 transition-transform"></i>
-          <span class="text-sm font-bold text-gray-800">NPO・団体</span>
-          <span class="text-[11px] text-gray-500">(活動・助成金など)</span>
-        </a>
-        <!-- 企業 -->
-        <a id="persona-4-link" href="#companies" onclick="filterByPersona('company')" class="border border-gray-200 rounded-lg p-3 text-center hover:bg-brand-lightNavy hover:border-brand-navy transition group flex flex-col items-center justify-center gap-1">
-          <i class="fa-solid fa-building text-brand-navy text-lg group-hover:scale-110 transition-transform"></i>
-          <span class="text-sm font-bold text-gray-800">企業</span>
-          <span class="text-[11px] text-gray-500">(物資・寄付など)</span>
-        </a>
+      <div id="personas-container" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <!-- JavaScriptで動的生成されます -->
       </div>
     </section>
 
@@ -671,6 +648,90 @@
           </div>
         </div>
 
+        <!-- いま必要な情報（立場別リンク）編集 -->
+        <div class="border border-gray-200 rounded-lg p-4 space-y-4">
+          <h4 class="font-bold text-gray-800 flex items-center gap-2">
+            <i class="fa-solid fa-user-group text-brand-navy"></i> 「いま必要な情報」のリンク・項目編集
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- 1. 被災者 -->
+            <div class="p-3 bg-slate-50 border border-gray-200 rounded-lg space-y-2">
+              <span class="text-xs font-bold text-brand-navy block">項目 1</span>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">見出し</label>
+                  <input type="text" id="edit-persona-title-1" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">補足テキスト</label>
+                  <input type="text" id="edit-persona-sub-1" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+                </div>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">リンク先 URL</label>
+                <input type="url" id="edit-persona-url-1" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+              </div>
+            </div>
+
+            <!-- 2. 支援したい個人 -->
+            <div class="p-3 bg-slate-50 border border-gray-200 rounded-lg space-y-2">
+              <span class="text-xs font-bold text-brand-navy block">項目 2</span>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">見出し</label>
+                  <input type="text" id="edit-persona-title-2" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">補足テキスト</label>
+                  <input type="text" id="edit-persona-sub-2" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+                </div>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">リンク先 URL</label>
+                <input type="url" id="edit-persona-url-2" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+              </div>
+            </div>
+
+            <!-- 3. NPO・団体 -->
+            <div class="p-3 bg-slate-50 border border-gray-200 rounded-lg space-y-2">
+              <span class="text-xs font-bold text-brand-navy block">項目 3</span>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">見出し</label>
+                  <input type="text" id="edit-persona-title-3" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">補足テキスト</label>
+                  <input type="text" id="edit-persona-sub-3" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+                </div>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">リンク先 URL</label>
+                <input type="url" id="edit-persona-url-3" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+              </div>
+            </div>
+
+            <!-- 4. 企業 -->
+            <div class="p-3 bg-slate-50 border border-gray-200 rounded-lg space-y-2">
+              <span class="text-xs font-bold text-brand-navy block">項目 4</span>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">見出し</label>
+                  <input type="text" id="edit-persona-title-4" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+                </div>
+                <div>
+                  <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">補足テキスト</label>
+                  <input type="text" id="edit-persona-sub-4" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+                </div>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-gray-600 mb-0.5">リンク先 URL</label>
+                <input type="url" id="edit-persona-url-4" class="w-full px-2 py-1 border border-gray-300 rounded text-xs">
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- 被害状況リンク4本 -->
         <div class="border border-gray-200 rounded-lg p-4 space-y-3">
           <h4 class="font-bold text-gray-800 flex items-center gap-2">
@@ -790,6 +851,36 @@
         { id: 3, text: "ライフライン（電気・水道・通信）", url: "https://www.pref.chiba.lg.jp/bousai/lifeline.html" },
         { id: 4, text: "道路・交通情報", url: "https://www.pref.chiba.lg.jp/douro/koutsuu.html" }
       ],
+      personas: [
+        {
+          id: 1,
+          title: "被災者",
+          subtext: "(生活再建のために)",
+          url: "https://www.pref.chiba.lg.jp/bousai/saigai/index.html",
+          icon: "fa-user"
+        },
+        {
+          id: 2,
+          title: "支援したい個人",
+          subtext: "(ボランティアなど)",
+          url: "https://cvoad.jp/volunteer/",
+          icon: "fa-heart"
+        },
+        {
+          id: 3,
+          title: "NPO・団体",
+          subtext: "(活動・助成金など)",
+          url: "https://chibanowa.net/grant/",
+          icon: "fa-users"
+        },
+        {
+          id: 4,
+          title: "企業",
+          subtext: "(物資・寄付など)",
+          url: "https://smart-supply.org/projects",
+          icon: "fa-building"
+        }
+      ],
       actions: [
         { id: 1, title: "ボランティアに参加する", url: "https://cvoad.jp/volunteer/" },
         { id: 2, title: "物資・寄付で支援する", url: "https://smart-supply.org/projects" },
@@ -833,6 +924,11 @@
     // ローカルストレージがあれば読み込み、なければデフォルト
     let currentConfig = JSON.parse(localStorage.getItem('CHIBA_PORTAL_CONFIG')) || DEFAULT_CONFIG;
 
+    // 後から追加されたプロパティのフォールバック
+    if (!currentConfig.personas) {
+      currentConfig.personas = JSON.parse(JSON.stringify(DEFAULT_CONFIG.personas));
+    }
+
     function renderPortal() {
       // 最終更新日
       document.getElementById('last-updated').textContent = currentConfig.header.lastUpdated;
@@ -844,7 +940,6 @@
 
       // 4枚のカード
       currentConfig.cards.forEach(card => {
-        const linkElem = document.getElementById(`card-1-link`);
         if (card.id === 1) {
           document.getElementById('card-1-title').textContent = card.title;
           document.getElementById('card-1-subtitle').textContent = card.subtitle;
@@ -864,6 +959,27 @@
           document.getElementById('card-4-link').href = card.url;
         }
       });
+
+      // いま必要な情報（立場別クイックリンク）のレンダリング
+      const personasContainer = document.getElementById('personas-container');
+      if (personasContainer && currentConfig.personas) {
+        personasContainer.innerHTML = '';
+        currentConfig.personas.forEach(p => {
+          const a = document.createElement('a');
+          a.href = p.url || '#';
+          if (p.url && (p.url.startsWith('http://') || p.url.startsWith('https://'))) {
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+          }
+          a.className = "border border-gray-200 hover:border-brand-navy rounded-lg p-3 text-center hover:bg-brand-lightNavy transition group flex flex-col items-center justify-center gap-1 shadow-sm";
+          a.innerHTML = `
+            <i class="fa-solid ${p.icon || 'fa-arrow-right'} text-brand-navy text-lg group-hover:scale-110 transition-transform"></i>
+            <span class="text-sm font-bold text-gray-800">${p.title}</span>
+            <span class="text-[11px] text-gray-500">${p.subtext}</span>
+          `;
+          personasContainer.appendChild(a);
+        });
+      }
 
       // サブリンク
       currentConfig.sublinks.forEach(sub => {
@@ -919,6 +1035,19 @@
       document.getElementById('edit-card-3-url').value = currentConfig.cards[2].url;
       document.getElementById('edit-card-4-url').value = currentConfig.cards[3].url;
 
+      // いま必要な情報のフォーム反映
+      if (currentConfig.personas) {
+        currentConfig.personas.forEach((p, idx) => {
+          const num = idx + 1;
+          const titleInput = document.getElementById(`edit-persona-title-${num}`);
+          const subInput = document.getElementById(`edit-persona-sub-${num}`);
+          const urlInput = document.getElementById(`edit-persona-url-${num}`);
+          if (titleInput) titleInput.value = p.title || '';
+          if (subInput) subInput.value = p.subtext || '';
+          if (urlInput) urlInput.value = p.url || '';
+        });
+      }
+
       document.getElementById('edit-sublink-1-url').value = currentConfig.sublinks[0].url;
       document.getElementById('edit-sublink-2-url').value = currentConfig.sublinks[1].url;
       document.getElementById('edit-sublink-3-url').value = currentConfig.sublinks[2].url;
@@ -942,6 +1071,20 @@
       currentConfig.cards[1].url = document.getElementById('edit-card-2-url').value;
       currentConfig.cards[2].url = document.getElementById('edit-card-3-url').value;
       currentConfig.cards[3].url = document.getElementById('edit-card-4-url').value;
+
+      // いま必要な情報の更新
+      if (!currentConfig.personas) {
+        currentConfig.personas = JSON.parse(JSON.stringify(DEFAULT_CONFIG.personas));
+      }
+      currentConfig.personas.forEach((p, idx) => {
+        const num = idx + 1;
+        const titleInput = document.getElementById(`edit-persona-title-${num}`);
+        const subInput = document.getElementById(`edit-persona-sub-${num}`);
+        const urlInput = document.getElementById(`edit-persona-url-${num}`);
+        if (titleInput) p.title = titleInput.value;
+        if (subInput) p.subtext = subInput.value;
+        if (urlInput) p.url = urlInput.value;
+      });
 
       currentConfig.sublinks[0].url = document.getElementById('edit-sublink-1-url').value;
       currentConfig.sublinks[1].url = document.getElementById('edit-sublink-2-url').value;
