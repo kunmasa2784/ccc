@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>自治会問題解決プロンプト集</title>
+<style>
+:root{
+  --green:#155b43;--green2:#1f7657;--light:#eef7f2;--pale:#f7fbf9;
+  --accent:#d8a83e;--text:#24352e;--muted:#64736d;--line:#d7e4de;
+  --white:#fff;--danger:#b54a45;--shadow:0 8px 24px rgba(21,91,67,.10)
+}
+*{box-sizing:border-box} body{margin:0;background:#f4f7f5;color:var(--text);
+font-family:-apple-system,BlinkMacSystemFont,"Yu Gothic",Meiryo,sans-serif;line-height:1.65}
+header{background:linear-gradient(135deg,#155b43,#0e4935);color:white;padding:28px 20px}
+.wrap{max-width:1200px;margin:auto}.eyebrow{font-size:13px;letter-spacing:.12em;opacity:.85}
+h1{margin:4px 0;font-size:30px} header p{margin:6px 0 0;opacity:.9}
+.layout{display:grid;grid-template-columns:300px 1fr;gap:20px;padding:22px 0}
+.card{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+.sidebar{padding:16px;position:sticky;top:15px;height:max-content}
+.search{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;font-size:15px}
+.cat{margin:14px 0 6px;color:var(--green);font-weight:700;font-size:13px}
+button{font:inherit;cursor:pointer}
+.promptBtn{display:block;width:100%;text-align:left;border:0;background:transparent;padding:9px 10px;border-radius:9px;color:var(--text)}
+.promptBtn:hover,.promptBtn.active{background:var(--light);color:var(--green);font-weight:700}
+.main{padding:22px}.titleRow{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}
+h2{margin:0;color:var(--green);font-size:23px}.tag{background:#edf5d9;color:#5e6c28;border-radius:20px;padding:4px 9px;font-size:12px;white-space:nowrap}
+.desc{color:var(--muted);margin:5px 0 20px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{font-weight:700;font-size:14px} textarea,input,select{width:100%;margin-top:5px;border:1px solid var(--line);border-radius:10px;padding:11px;background:#fff;font:inherit}
+textarea{min-height:85px;resize:vertical}.wide{grid-column:1/-1}
+.output{margin-top:20px;background:#102f25;color:#eef8f3;border-radius:14px;padding:16px}
+.outputTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.output h3{margin:0;font-size:16px}.copy{background:var(--accent);border:0;color:#30250e;padding:9px 14px;border-radius:9px;font-weight:700}
+#preview{white-space:pre-wrap;min-height:300px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:13px}
+.actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}.primary{background:var(--green);color:white;border:0;padding:11px 18px;border-radius:10px;font-weight:700}
+.secondary{background:white;color:var(--green);border:1px solid var(--green);padding:11px 18px;border-radius:10px}
+.note{margin-top:18px;padding:13px;background:#fff8e9;border-left:4px solid var(--accent);border-radius:8px;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}.stat{padding:13px;text-align:center;background:var(--pale);border-radius:12px}.stat b{display:block;color:var(--green);font-size:20px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{position:static}.fields{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="eyebrow">自治会・町内会のための AI活用ツール</div>
+<h1>自治会問題解決プロンプト集</h1>
+<p>「困った」をAIとの対話で整理し、具体的な「次の一手」に変える。</p>
+</div></header>
+
+<div class="wrap layout">
+<aside class="card sidebar">
+<input id="search" class="search" placeholder="🔎 プロンプトを検索">
+<div id="menu"></div>
+</aside>
+
+<main class="card main">
+<div class="stats"><div class="stat"><b id="count">36</b>収録プロンプト</div><div class="stat"><b>9</b>分野</div><div class="stat"><b>4</b>段階</div><div class="stat"><b>1</b>共通テンプレート</div></div>
+<div class="titleRow"><div><h2 id="title"></h2><div id="desc" class="desc"></div></div><span id="tag" class="tag"></span></div>
+
+<div class="fields">
+<div><label>自治会の状況<input id="situation" placeholder="例：役員の高齢化が進み、毎年同じ人が役員をしている"></label></div>
+<div><label>目指したい状態<input id="goal" placeholder="例：負担を減らし、若い世代も参加しやすくしたい"></label></div>
+<div><label>地域の特徴<input id="area" placeholder="例：高齢者が多い集合住宅。子育て世帯も約30世帯"></label></div>
+<div><label>制約・気になる点<input id="constraint" placeholder="例：予算が少ない、ITが苦手な役員が多い"></label></div>
+<div class="wide"><label>追加したい相談内容<textarea id="extra" placeholder="自由に書いてください。まだ整理できていなくても大丈夫です。"></textarea></label></div>
+</div>
+
+<div class="actions"><button class="primary" onclick="makePrompt()">✨ プロンプトを作る</button><button class="secondary" onclick="clearFields()">入力をクリア</button></div>
+<div class="output"><div class="outputTop"><h3>AIにそのまま貼り付けるプロンプト</h3><button class="copy" onclick="copyPrompt()">コピー</button></div><div id="preview"></div></div>
+<div class="note"><b>使い方のコツ：</b>AIに一度で正解を求めず、「課題整理 → 原因分析 → アイデア → 優先順位 → 実行計画」の順に対話してください。地域名・個人名・電話番号などの個人情報は入力しないでください。</div>
+</main>
+</div>
+
+<script>
+const common=`あなたは自治会・町内会支援の専門家です。
+地域コミュニティの活性化、役員の負担軽減、加入促進、担い手づくり、防災、防犯、高齢者支援、子育て支援、デジタル化、広報、合意形成、行事の見直し、会計・運営改善などに精通しています。
+
+私は自治会のサポートに取り組んでいます。あなたには「答えを押しつける専門家」ではなく、課題を一緒に整理する伴走者として対応してほしいです。
+
+【回答の基本ルール】
+・最初に事実と推測を分けて整理する
+・自治会側の事情を尊重し、できない理由も含めて考える
+・「理想論」ではなく、今ある人・時間・予算でできる案を優先する
+・高齢者、子育て世帯、仕事を持つ人、外国人など多様な住民の視点を入れる
+・一部の人に負担が集中しないか確認する
+・既存の活動を増やす前に「やめる・減らす・まとめる」案も検討する
+・提案は小さく試し、結果を見て改善できる形にする
+・必要なら「まず3か月」「まず10人」など小さな実験にする
+・自治会の規約、自治体の制度、補助金等は地域差があるため、確認が必要な事項を明記する
+・個人情報やプライバシーに配慮する
+・不確かな成功事例を事実のように断定しない
+
+【出力】
+「①課題の整理」「②背景・原因」「③可能な対応策」「④優先順位」「⑤具体的な最初の一歩」「⑥注意点」の順に、見出し＋箇条書きで、やさしい日本語で回答してください。`;
+
+const data=[
+["運営・役員","役員の負担が重い","役員の仕事を棚卸しし、減らせる仕事・分担できる仕事・外部化できる仕事を見つける。","役員の仕事を減らすにはどうすればよい？"],
+["運営・役員","役員のなり手がいない","役職を細かく分ける、任期を短くする、チーム制など担い手を増やす方法を考える。","役員のなり手不足を解決したい。"],
+["運営・役員","毎年同じ人が役員","固定化の原因を分析し、参加のハードルを下げる仕組みを考える。","役員が固定化している問題を解決したい。"],
+["運営・役員","会議が長い・多い","会議を減らし、短時間化し、事前共有・書面確認などに変える。","会議を短く、少なくする方法を考えたい。"],
+["運営・役員","仕事の引き継ぎが大変","引継ぎ書・年間カレンダー・チェックリストなどを設計する。","役員交代時の引継ぎを簡単にしたい。"],
+["運営・役員","活動がマンネリ化","活動を「続ける・変える・やめる」に分類し、目的から見直す。","自治会行事をマンネリから脱却させたい。"],
+["加入・担い手","自治会加入率が低い","加入しない理由を想定し、メリット・接点・参加方法を改善する。","自治会への加入を増やしたい。"],
+["加入・担い手","若い世代が参加しない","若い世代の生活時間や関心を踏まえ、短時間参加・単発参加などを考える。","子育て世代・現役世代が参加しやすくしたい。"],
+["加入・担い手","参加する人がいつも同じ","「参加者を増やす」だけでなく、参加方法を多様化する。","活動参加者の固定化を解消したい。"],
+["加入・担い手","自治会の価値が伝わらない","自治会が何をしているかを住民目線で見える化する。","自治会に入るメリットを分かりやすく伝えたい。"],
+["住民・交流","住民同士の交流が少ない","交流の目的を明確にし、参加しやすい小規模・低負担の場を設計する。","住民同士の交流を増やしたい。"],
+["住民・交流","孤立している高齢者が心配","見守りを「監視」にしない仕組みを考え、既存資源との連携も検討する。","高齢者の孤立を防ぐ自治会活動を考えたい。"],
+["住民・交流","子ども・子育て世帯との接点がない","子育て世帯が「自治会活動に参加する側」だけでなく「使う側」になる企画を考える。","子育て世帯との接点をつくりたい。"],
+["住民・交流","世代間交流が進まない","無理に交流会を作らず、共同作業・遊び・学びなど自然な接点を設計する。","高齢者と子どもの交流を増やしたい。"],
+["防災・防犯","防災訓練の参加率が低い","訓練をイベント化し、短時間・体験型・家族参加型にする。","防災訓練への参加率を上げたい。"],
+["防災・防犯","災害時の要支援者対応が不安","個人情報に配慮しつつ、平時からできる備えと役割分担を整理する。","災害時に支援が必要な人への対応を考えたい。"],
+["防災・防犯","防犯活動の担い手不足","見回りだけに頼らず、声かけ・環境改善・情報共有などを組み合わせる。","防犯活動の負担を減らしながら続けたい。"],
+["広報","回覧板が届きにくい","紙を残しつつ、掲示板・LINE等との組み合わせを考える。","自治会情報をもっと届きやすくしたい。"],
+["広報","自治会の情報発信が弱い","住民が知りたい情報を中心に、発信内容・頻度・媒体を整理する。","自治会広報を改善したい。"],
+["広報","LINEなどデジタル化したい","ITが苦手な人を置き去りにしない段階的な導入計画を作る。","自治会のデジタル化を無理なく始めたい。"],
+["IT・DX","役員がITを苦手としている","「全員が使う」前提をやめ、得意な人が支えながら小さく導入する。","ITが苦手な役員でも進められる方法を考えたい。"],
+["IT・DX","ファイルや情報がバラバラ","ファイル名・保存場所・共有方法など最低限のルールを作る。","自治会の資料を整理・共有したい。"],
+["IT・DX","生成AIを自治会で使いたい","文章作成・議事録整理・アイデア出し等、安全性の高い用途から導入する。","自治会活動で生成AIを使える場面を考えたい。"],
+["行事","行事が多すぎる","各行事の目的・参加者・負担・効果を比較して整理する。","行事を減らすべきか判断したい。"],
+["行事","イベントの参加者を増やしたい","日時・内容・告知・参加方法・心理的ハードルを分解して改善する。","自治会イベントの参加者を増やしたい。"],
+["行事","行事を事業に変えたい","「毎年やる行事」から「地域課題を解決する活動」へ再設計する。","自治会行事を地域課題解決型に変えたい。"],
+["合意形成","意見が対立する","立場ではなく論点を分け、共通目的・選択肢・判断基準を整理する。","自治会内の意見対立を解決したい。"],
+["合意形成","新しいことに反対される","反対理由を分類し、リスクを小さくする試行案を作る。","新しい提案への反対を乗り越えたい。"],
+["合意形成","総会で話がまとまらない","事前説明・論点整理・選択肢提示など、会議前の設計を改善する。","総会で意思決定しやすくしたい。"],
+["お金・制度","予算が足りない","目的を維持しながら費用を下げる案、外部資源、補助制度確認の順に考える。","自治会活動の費用を抑えたい。"],
+["お金・制度","会費への不満がある","会費の使途を見える化し、必要な支出と見直せる支出を分ける。","会費について住民に納得してもらいたい。"],
+["地域連携","自治体・学校・社協などと連携したい","自治会だけで抱え込まず、地域の組織・専門機関との役割分担を考える。","自治会と地域団体の連携を進めたい。"],
+["地域連携","地域の施設を活用したい","公民館・集会所・商店等の地域資源を洗い出し、協力可能性を考える。","地域資源を自治会活動に活かしたい。"],
+["新しい発想","高齢者eスポーツをやってみたい","IT不安を減らし、交流・健康・楽しさを軸に、小規模体験会から始める。","高齢者eスポーツを自治会活動に取り入れたい。"],
+["新しい発想","自治会にカフェ型の居場所を作りたい","相談・交流・情報提供を組み合わせた低負担の居場所を設計する。","住民が気軽に立ち寄れる場を作りたい。"],
+["総合診断","自治会の問題が多すぎる","課題を一覧化し、「重要度×緊急度×実行しやすさ」で優先順位をつける。","自治会の課題が多すぎるので優先順位をつけたい。"]
+];
+
+let current=data[0];
+function renderMenu(filter=""){
+ const m=document.getElementById("menu"); m.innerHTML="";
+ let last="";
+ data.forEach((x,i)=>{
+  if(filter && !x.join(" ").toLowerCase().includes(filter.toLowerCase())) return;
+  if(x[0]!==last){let d=document.createElement("div");d.className="cat";d.textContent=x[0];m.appendChild(d);last=x[0]}
+  let b=document.createElement("button");b.className="promptBtn"+(i===0?" active":"");b.textContent=x[1];
+  b.onclick=()=>select(i,b);m.appendChild(b);
+ });
+}
+function select(i,b){
+ current=data[i]; document.querySelectorAll(".promptBtn").forEach(x=>x.classList.remove("active")); b.classList.add("active");
+ document.getElementById("title").textContent=current[1]; document.getElementById("desc").textContent=current[2]; document.getElementById("tag").textContent=current[0];
+ makePrompt();
+}
+function makePrompt(){
+ const s=document.getElementById("situation").value||"（まだ整理できていません。必要な質問をしてください）";
+ const g=document.getElementById("goal").value||"（未定）";
+ const a=document.getElementById("area").value||"（未記入）";
+ const c=document.getElementById("constraint").value||"（特になし）";
+ const e=document.getElementById("extra").value||"（なし）";
+ const task=current[3];
+ document.getElementById("preview").textContent=common+`
+
+【今回の相談テーマ】
+${task}
+
+【自治会の状況】
+${s}
+
+【目指したい状態】
+${g}
+
+【地域の特徴】
+${a}
+
+【制約・気になる点】
+${c}
+
+【追加相談】
+${e}
+
+【今回特に重視してほしいこと】
+1. まず、私が見落としている可能性のある点を3つ以内で指摘してください。
+2. 「すぐできる」「少し準備が必要」「中長期」の3段階で具体策を出してください。
+3. 各案について「期待できる効果／必要な人手／費用感／想定される反対意見／その対応」を簡潔に示してください。
+4. 最後に、自治会役員会でそのまま使える「最初の一歩」を1つだけ提案してください。
+5. 判断に必要な情報が不足している場合は、重要度の高い質問を最大3つしてください。ただし、質問だけで終わらず、現時点での仮案も示してください。`;
+}
+function copyPrompt(){
+ navigator.clipboard.writeText(document.getElementById("preview").textContent).then(()=>{
+  const b=document.querySelector(".copy");let old=b.textContent;b.textContent="コピーしました ✓";setTimeout(()=>b.textContent=old,1300)
+ });
+}
+function clearFields(){["situation","goal","area","constraint","extra"].forEach(id=>document.getElementById(id).value="");makePrompt()}
+document.getElementById("search").addEventListener("input",e=>renderMenu(e.target.value));
+document.getElementById("count").textContent=data.length;
+renderMenu(); select(0,document.querySelector(".promptBtn")); 
+</script>
+</body>
+</html>
