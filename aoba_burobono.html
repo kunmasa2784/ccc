@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>青葉台「未来の暮らし」共創プロボノ提案・企画書（提出用）</title>
+<style>
+  @page { size: A4 portrait; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    color: #1e293b;
+    background: #f1f5f9;
+    line-height: 1.45;
+    font-size: 9.5pt;
+  }
+  .page {
+    width: 210mm;
+    height: 297mm;
+    padding: 12mm 14mm 14mm 14mm;
+    background: #ffffff;
+    margin: 0 auto 5mm auto;
+    position: relative;
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  @media print {
+    body { background: #ffffff; }
+    .page { margin: 0; box-shadow: none; }
+  }
+  /* 共通ヘッダー・フッター */
+  .footer {
+    border-top: 1px solid #cbd5e1;
+    padding-top: 4px;
+    font-size: 8pt;
+    color: #64748b;
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+  .sec-title {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 6px 12px;
+    font-size: 11.5pt;
+    font-weight: bold;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .sec-title span.badge {
+    background: #38bdf8;
+    color: #0f172a;
+    font-size: 8pt;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+  }
+  .sub-title {
+    font-size: 10pt;
+    font-weight: bold;
+    color: #0369a1;
+    border-left: 4px solid #0284c7;
+    padding-left: 8px;
+    margin: 8px 0 6px 0;
+  }
+  .box {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 8px 10px;
+    background: #f8fafc;
+    margin-bottom: 8px;
+  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .q-card {
+    border: 1px solid #94a3b8;
+    border-radius: 5px;
+    padding: 6px 8px;
+    margin-bottom: 6px;
+    background: #fff;
+  }
+  .q-head {
+    font-weight: bold;
+    color: #0f172a;
+    background: #e0f2fe;
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9pt;
+  }
+  .q-tag {
+    background: #0284c7;
+    color: #fff;
+    font-size: 7.5pt;
+    padding: 1px 6px;
+    border-radius: 3px;
+  }
+  .q-intent {
+    background: #fef9c3;
+    border-left: 3px solid #eab308;
+    padding: 3px 6px;
+    font-size: 8pt;
+    margin-top: 4px;
+    color: #713f12;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.5pt;
+    margin-bottom: 8px;
+  }
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 4px 6px;
+    text-align: left;
+  }
+  th { background: #e2e8f0; font-weight: bold; color: #0f172a; }
+  ul.opt-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 10px;
+    font-size: 8.5pt;
+    padding-left: 4px;
+  }
+  ul.opt-list-1 {
+    list-style: none;
+    font-size: 8.5pt;
+    padding-left: 4px;
+  }
+  .chapter-bar {
+    background: #e2e8f0;
+    color: #0f172a;
+    font-weight: bold;
+    padding: 4px 8px;
+    font-size: 9pt;
+    border-left: 4px solid #0f172a;
+    margin: 6px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== Page 1 ==================== -->
+<div class="page">
+  <div>
+    <div style="background:#0284c7; color:#fff; display:inline-block; padding:3px 10px; border-radius:4px; font-size:8.5pt; font-weight:bold; margin-bottom:8px;">
+      【第1回ミーティング結果反映・書面審議用提案書（初版納品版）】
+    </div>
+    <h1 style="font-size:18pt; color:#0f172a; line-height:1.3; margin-bottom:6px;">
+      青葉台「未来の暮らし」共創プロボノ提案・企画書
+    </h1>
+    <p style="font-size:10.5pt; color:#475569; font-weight:bold; margin-bottom:14px;">
+      住民の意識・行動変容を促す全数調査設計、マイクロタスク受け皿構築、および持続可能な地域経営基盤への統合計画
+    </p>
+
+    <div class="box" style="background:#f0f9ff; border-color:#bae6fd; margin-bottom:12px;">
+      <p style="font-weight:bold; font-size:10pt; margin-bottom:4px;">提案主体：いちはら町会プロボノ（支援）</p>
+      <p style="font-weight:bold; font-size:10pt; margin-bottom:2px;">提出先：一般社団法人 青葉台町会協議会 御中</p>
+      <p style="font-size:8.5pt; color:#334155;">
+        代表理事 古寺純爾様、副会長 信賀徹様、事務局長 田中功夫様、事務局員 高柴隆次様、井前省吾様、役員・理事・各町会長の皆様
+      </p>
+      <p style="font-size:8.5pt; color:#334155; margin-top:4px;">
+        <strong>提出年月：</strong>2026年10月 ／ <strong>審議形態：</strong>書面精査・照会方式
+      </p>
+    </div>
+
+    <div class="box" style="margin-bottom:12px;">
+      <div style="font-weight:bold; color:#0369a1; margin-bottom:6px; font-size:10pt;">
+        【本書の提示にあたって（審議・修正依頼手続きのご案内）】
+      </div>
+      <p style="margin-bottom:6px;">
+        第1回ミーティングにおいて、協議会の抱える構造的課題（コア層と現役世代の乖離、戸建てと集合住宅の温度差、事務局への業務集中、2029年問題）およびプロボノ（支援）に対する具体的要望が明確になりました。
+      </p>
+      <p style="margin-bottom:6px;">
+        これを受け、当初予定していた「手探りでの長期伴走」から進め方を変更し、<strong>「プロボノ（支援）にて要件を満たす最終完成形に近い詳細企画書（質問票全問、広報・回収計画、工数試算、受け皿タスク定義）を先行して提示し、協議会役員会・理事会において書面にて精査いただき、書面によるご質問・追加・修正依頼をいただいて最終確定・実務移行する方式」</strong>へと移行いたしました。
+      </p>
+      <p>
+        本書面の内容をご確認いただき、修正・追加・割愛のご要望を別紙「書面フィードバックシート」等にてお寄せいただけますようお願い申し上げます。
+      </p>
+    </div>
+
+    <div class="box" style="background:#fffbeb; border-color:#fde68a; margin-bottom:14px;">
+      <div style="font-weight:bold; color:#b45309; margin-bottom:4px; font-size:9.5pt;">
+        【役員会・理事会の皆様へ：本書の位置づけについて】
+      </div>
+      <p style="font-size:9pt;">
+        本書は役員・理事・各町会長の皆様に調査設計の妥当性や意図、回収体制を書面審査いただくための「包括的企画書」です。後日、全3,200世帯へ実際に配布する「住民向けアンケート用紙」は、本書の確定後にA4両面2枚（4ページ程度）の直感的なレイアウトで別刷り作成いたします。
+      </p>
+    </div>
+
+    <div class="sub-title">目次（構成一覧）</div>
+    <div class="grid-2" style="margin-bottom:14px;">
+      <div class="box" style="margin:0;">
+        <p><strong>1.</strong> プロジェクトの前提と支援スキームの変更概要</p>
+        <p><strong>2.</strong> 地域分析と基本設計方針（戸建て×集合住宅）</p>
+        <p><strong>3.</strong> 【詳細質問票】全21問の設問設計と意図</p>
+        <p><strong>4.</strong> 現役世代に届くセグメント別広報・回収計画</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <p><strong>5.</strong> 回答直後の「受け皿」づくり：マイクロタスク10選</p>
+        <p><strong>6.</strong> 回収・集計体制と業務工数試算（役員負担極小化）</p>
+        <p><strong>7.</strong> 中長期構想（福祉タウン・推進法人）への接続</p>
+        <p><strong>8.</strong> 今後の進め方（概要）</p>
+      </div>
+    </div>
+
+    <div class="box" style="background:#f1f5f9; border-left:4px solid #0f172a;">
+      <strong>審議期間と照会窓口：</strong>本企画書に関するご意見・修正依頼は、審議期間中にお取りまとめいただき、11月中旬までに<strong>プロボノ（支援）</strong>へご提示いただけますようお願い申し上げます。
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>青葉台町会協議会 審議用提案書 | 未来の暮らし共創プロボノ提案・企画書</span>
+    <span>Page 1 of 8</span>
+  </div>
+</div>
+
+<!-- ==================== Page 2 ==================== -->
+<div class="page">
+  <div>
+    <div class="sec-title">
+      <span>1. プロジェクトの前提と支援スキームの変更概要</span>
+      <span class="badge">背景共有・進め方確定</span>
+    </div>
+
+    <div class="sub-title">1.1 組織の歩みと第1回MTで合意された背景</div>
+    <p style="font-size:8.8pt; margin-bottom:8px;">
+      青葉台町会協議会は、1990年の住環境保全運動を原点に、2018年の「将来予測（高齢化率55%・空き家率25%）」を機に発足した「39プロジェクト（39PJ）」、交流カフェ「青葉ノアール」、歩行者天国を実現した「青葉台フェスタ」など、全国に誇る住民主導のまちづくりを展開し、2021年度には内閣総理大臣賞を受賞されました。さらに一般社団法人化を果たし、次世代型地域運営組織（RMO）の確立を目指されています。しかし、前回の全世帯アンケートから5年が経過する中、第1回ミーティングにおいて以下の深刻な構造的課題が共有されました。
+    </p>
+
+    <div class="grid-3" style="margin-bottom:10px;">
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; color:#b91c1c; margin-bottom:3px;">推進コア層と一般住民の乖離</div>
+        <p style="font-size:8.2pt;">日常の意思決定や実務が一部熱心な事務局に過度集中。次世代の担い手不足が進めば5〜10年後に組織維持が危ぶまれる。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; color:#b91c1c; margin-bottom:3px;">3,200世帯の多様なニーズ未把握</div>
+        <p style="font-size:8.2pt;">1〜7丁目の戸建てと8丁目・マンションでは生活課題が大きく異なるが、現行の回覧板中心のアプローチでは声が届かない。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; color:#b91c1c; margin-bottom:3px;">「回答して終わり」の調査の限界</div>
+        <p style="font-size:8.2pt;">従来の意識調査では意見は集まるものの、「誰がそれをやるのか」という実践アクションや主体的関わりに結びついてこなかった。</p>
+      </div>
+    </div>
+
+    <div class="sub-title">1.2 支援プロセスの変更（書面審議・フィードバック方式）</div>
+    <p style="font-size:8.8pt; margin-bottom:6px;">
+      長期間のヒアリングによる会議負担を避け、プロボノ（支援）側が調査票原本・回収運用設計・受入タスク定義までを網羅した完成版企画書を策定し、協議会側で書面審査・追記修正いただく実務的かつ迅速な確定プロセスを採用します。
+    </p>
+
+    <div class="grid-4" style="margin-bottom:12px;">
+      <div class="box" style="margin:0; background:#e0f2fe; border-color:#7dd3fc;">
+        <div style="font-weight:bold; font-size:8.5pt; color:#0369a1;">① プロボノ（支援）<br>完成版企画書提出</div>
+        <p style="font-size:7.8pt; margin-top:3px;">設問全21問案、運用・受入タスク設計（本書）</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.5pt;">② 役員会・理事会<br>回覧・書面審議</div>
+        <p style="font-size:7.8pt; margin-top:3px;">地域の視点から内容精査・妥当性を検証</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.5pt;">③ 協議会→プロボノ（支援）<br>質問・修正依頼</div>
+        <p style="font-size:7.8pt; margin-top:3px;">書面フィードバックにて追加・修正・割愛指示</p>
+      </div>
+      <div class="box" style="margin:0; background:#dcfce7; border-color:#86efac;">
+        <div style="font-weight:bold; font-size:8.5pt; color:#15803d;">④ プロボノ（支援）<br>最終調整版納品</div>
+        <p style="font-size:7.8pt; margin-top:3px;">印刷原稿・フォーム完成、テスト経て全数配布へ</p>
+      </div>
+    </div>
+
+    <div class="sec-title">
+      <span>2. 地域分析と基本設計方針</span>
+      <span class="badge">エリア特性×設計5原則</span>
+    </div>
+
+    <div class="sub-title">2.1 戸建てと集合住宅（団地・マンション）の温度差への戦略的アプローチ</div>
+    <p style="font-size:8.8pt; margin-bottom:6px;">
+      青葉台地区（約3,200世帯）は均質ではありません。単一の呼びかけでは現役世代に響かないため、本計画では明確にセグメントを分離して設計します。
+    </p>
+
+    <div class="grid-2" style="margin-bottom:10px;">
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; color:#0369a1; margin-bottom:4px;">戸建てエリア（1〜7丁目：約2,500世帯）</div>
+        <p style="font-size:8.2pt; margin-bottom:4px;"><strong>生活関心事：</strong>庭木の越境・雑草、近隣の空き家・空き地、ゴミ集積所の当番維持、生活道路の速度抑制（ゾーン30プラス）、大地震時の家具固定・近所同士の安否確認。</p>
+        <p style="font-size:8.2pt;"><strong>現役世代の意識：</strong>「自治会業務が重い」「休日に拘束されたくないが、街並みや治安・資産価値は維持したい」。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; color:#0369a1; margin-bottom:4px;">集合住宅エリア（8丁目・ダイアパレス：約700世帯）</div>
+        <p style="font-size:8.2pt; margin-bottom:4px;"><strong>生活関心事：</strong>管理組合と町会の役割分担・二重負担感、子どもの通学路の安全、買い物・バス路線の維持、過度な人間関係への警戒。</p>
+        <p style="font-size:8.2pt;"><strong>現役世代の意識：</strong>「回覧板が回ってこない/見ない」「マンション内で完結しており、戸建て主体の町会活動に関わる必然性を感じにくい」。</p>
+      </div>
+    </div>
+
+    <div class="sub-title">2.2 意識と行動を変える5つの設計原則</div>
+    <div class="grid-5">
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.2pt; color:#0f172a;">①生活不安への引寄</div>
+        <p style="font-size:7.6pt; margin-top:2px;">「高齢化率」でなく「10年後運転をやめたら？」等、当事者視点で問う。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.2pt; color:#0f172a;">②中立性と募集の分離</div>
+        <p style="font-size:7.6pt; margin-top:2px;">否定肢も等しく含め完全無記名で真の阻害要因を抽出。募集は任意。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.2pt; color:#0f172a;">③マイクロタスク提示</div>
+        <p style="font-size:7.6pt; margin-top:2px;">「役員」ではなく「1時間の受付」「スマホ撮影」等、隙間時間で提示。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.2pt; color:#0f172a;">④精緻な属性設計</div>
+        <p style="font-size:7.6pt; margin-top:2px;">戸建て/集合、居住年数、就労・子育てを掛け合わせ温度差を科学。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.2pt; color:#0f172a;">⑤所要10〜12分UI</div>
+        <p style="font-size:7.6pt; margin-top:2px;">全21問をテンポよくスクロール回答できるスマホ最適化UIを実装。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>青葉台町会協議会 審議用提案書 | 未来の暮らし共創プロボノ提案・企画書</span>
+    <span>Page 2 of 8</span>
+  </div>
+</div>
+
+<!-- ==================== Page 3 ==================== -->
+<div class="page">
+  <div>
+    <div class="sec-title">
+      <span>3.【詳細質問票】全21問の設問設計と意図 (Q1〜Q6)</span>
+      <span class="badge">フロー：属性(現状)→不安(自分事化)</span>
+    </div>
+
+    <div class="chapter-bar">第1章：回答者属性と居住環境 (Q1〜Q3) ― 目的：戸建て・集合住宅、居住年数、家族構成のクロス集計によりセグメント別傾向を科学的に把握</div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q1. あなたがお住まいの町会（エリア）を教えてください。</span>
+        <span class="q-tag">必須・単一選択</span>
+      </div>
+      <ul class="opt-list" style="grid-template-columns:1fr 1fr 1fr;">
+        <li>1. 青葉台1丁目町会</li><li>2. 青葉台2丁目町会</li><li>3. 青葉台3丁目町会</li>
+        <li>4. 青葉台4丁目町会</li><li>5. 青葉台5丁目町会</li><li>6. 青葉台6丁目町会</li>
+        <li>7. 青葉台7丁目町会</li><li>8. 青葉台8丁目町会(集合住宅等)</li><li>9. ダイアパレス町会(マンション)</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】1〜7丁目の戸建てエリアと、8丁目・ダイアパレスの集合住宅エリアでの回答傾向・回収率を明確に比較し、今後の町会別施策の基礎データとします。</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q2. 青葉台にお住まいになってからの年数を教えてください。</span>
+        <span class="q-tag">必須・単一選択</span>
+      </div>
+      <ul class="opt-list">
+        <li>1. 3年未満（新転入世帯）</li><li>2. 3年以上〜10年未満（定着期）</li>
+        <li>3. 10年以上〜20年未満（中堅層）</li><li>4. 20年以上〜30年未満（長期居住）</li>
+        <li>5. 30年以上（初期分譲時からの居住）</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】街の定着層と新転入層の比率を把握し、新住民が町会に馴染めない理由や、新旧住民の意識差を分析します。</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q3. ご自身の年代と、ご同居のご家族の状況について教えてください。</span>
+        <span class="q-tag">年代必須・状況複数可</span>
+      </div>
+      <p style="font-size:8.3pt; margin-bottom:3px;"><strong>ご自身の年代：</strong> 10代 / 20代 / 30代 / 40代 / 50代 / 60代 / 70代 / 80代以上 / 答えたくない</p>
+      <ul class="opt-list">
+        <li>・未就学児がいる（乳幼児・保育園・幼稚園）</li><li>・小・中学生がいる</li>
+        <li>・高校生・大学生・専門学校生がいる</li><li>・フルタイムで働いている（共働き含む）</li>
+        <li style="grid-column:span 2;">・高齢者（75歳以上）と同居している、または自身が高齢者単身・夫婦のみ</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】「働く現役世代」「子育て層」「高齢単身世帯」を抽出し、ペルソナごとのニーズの違いを浮き彫りにします。</div>
+    </div>
+
+    <div class="chapter-bar">第2章：10年後の生活不安と将来ビジョン (Q4〜Q6) ― 目的：住民一人ひとりの生活に焦点を当て、地域の未来課題を「自分事」として引き寄せる</div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q4. ご自身やご家族の「10年後の青葉台での暮らし」を想像したとき、どのようなことに不安や課題を感じますか？</span>
+        <span class="q-tag">最大3つまで</span>
+      </div>
+      <ul class="opt-list-1">
+        <li>1. <strong>日常の移動・通院：</strong>運転免許の返納や高齢化に伴い、スーパーや病院への移動手段がなくなること</li>
+        <li>2. <strong>日常の買い物：</strong>近隣の商店や商業施設の撤退・縮小により、買い物が不便になること</li>
+        <li>3. <strong>医療・介護・ケア：</strong>帝京大学病院の移転後、身近に頼れる医療や介護・見守り機能が不足すること</li>
+        <li>4. <strong>街の景観・防犯：</strong>近隣の空き家・空き地の放置、庭木の越境、雑草繁茂、防犯上の死角が増えること</li>
+        <li>5. <strong>防災・災害時の孤立：</strong>大地震や大型台風時に、近所に頼れる人がおらず安否確認や避難が遅れること</li>
+        <li>6. <strong>子育て・教育環境：</strong>子どもの安全な遊び場、放課後の居場所、地域で見守る環境が減ること</li>
+        <li>7. <strong>地域コミュニティの希薄化：</strong>近所付き合いがなくなり、困ったときに相談できる人がいない・孤立すること</li>
+        <li>8. 特に不安や課題は感じていない ／ 9. その他（自由記述）</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】統計数値ではなく、回答者が直面する生活実感としての不安を特定し、39PJの各施策（交通、空き家、防災等）への住民受容性を検証します。</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="q-card" style="margin:0;">
+        <div class="q-head">
+          <span>Q5.「福祉タウン構想」「地域再生推進法人」の認知</span>
+          <span class="q-tag">単一選択</span>
+        </div>
+        <ul class="opt-list-1">
+          <li>1. よく知っており、内容にも大いに期待している</li>
+          <li>2. 名前や概要は聞いたことがあるが、内容はよく知らない</li>
+          <li>3. 初めて聞いた（知らなかった）</li>
+          <li>4. あまり関心がない・必要性を感じない</li>
+        </ul>
+        <div class="q-intent">■【意図】中長期構想の浸透度を客観的に把握。</div>
+      </div>
+
+      <div class="q-card" style="margin:0;">
+        <div class="q-head">
+          <span>Q6.「福祉タウン構想」で利用したい機能</span>
+          <span class="q-tag">複数選択可</span>
+        </div>
+        <ul class="opt-list-1">
+          <li>1. 日常的な健康相談・フレイル予防・軽運動スペース</li>
+          <li>2. 巡回グリスロ（小型電動車）の停留所</li>
+          <li>3. 多世代交流カフェ・コミュニティスペース・自習室</li>
+          <li>4. 日常の困りごと助け合い相談窓口（草むしり等）</li>
+          <li>5. 災害時の福祉避難機能・非常用電源ステーション / 6.特になし</li>
+        </ul>
+        <div class="q-intent">■【意図】住民が切望する機能を定量化し大学・企業交渉の根拠に。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>青葉台町会協議会 審議用提案書 | 未来の暮らし共創プロボノ提案・企画書</span>
+    <span>Page 3 of 8</span>
+  </div>
+</div>
+
+<!-- ==================== Page 4 ==================== -->
+<div class="page">
+  <div>
+    <div class="sec-title">
+      <span>3.【詳細質問票】現在の活動評価と生活メリット (Q7〜Q11)</span>
+      <span class="badge">フロー：評価(活動認知)→共感形成</span>
+    </div>
+
+    <div class="chapter-bar">第3章：現在の活動（39PJ・イベント）の評価と生活メリット (Q7〜Q11) ― 目的：39PJの各実践活動を「住民生活へのメリット」に翻訳して提示し、理解と共感を促す</div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q7. 高齢者の移動・外出支援（分野1）について、地域の助け合いとして関心のあるものはどれですか？</span>
+        <span class="q-tag">複数選択可</span>
+      </div>
+      <ul class="opt-list">
+        <li>1. 近隣スーパーやバス停までの「ちょっとした移動サポート（付き添い・送迎ボランティア）」</li>
+        <li>2. 免許返納者向けの「シニアカー・電動カートの体験・共同利用」</li>
+        <li>3. ネットスーパーや共同配送を活用した買い物代行支援</li>
+        <li>4. 自分にはまだ関係ないが、将来のために地域に仕組みとして残してほしい</li>
+        <li>5. 関心がない／必要性を感じない</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】移動弱者支援のニーズと、それを支える住民ボランティアの潜在比率を測定します。</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q8. 地域の防災・安全（分野2）について、ご家庭で実践していること・地域に期待することは何ですか？</span>
+        <span class="q-tag">複数選択可</span>
+      </div>
+      <ul class="opt-list">
+        <li>1. 自宅の家具転倒防止や3日分以上の非常用備蓄を完了している</li>
+        <li>2. 災害時にスマホやLINEで近所同士の無事を報告し合える「デジタル安否確認」を使いたい</li>
+        <li>3. 高齢者世帯や要援護者の見守り・初期消火などの近所助け合い体制が必要だと思う</li>
+        <li>4. 通学路や生活道路の交通安全対策（ゾーン30プラス、速度抑制）をさらに強化してほしい</li>
+        <li>5. 特に期待することはない</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】地区防災計画の策定やゾーン30プラスの取り組みに対する住民の関心度を測り、防災訓練の参加率向上へ繋げます。</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q9. 街の美化・空き家対策（分野3）について、共感できる・協力してもよいと思う活動はありますか？</span>
+        <span class="q-tag">複数選択可</span>
+      </div>
+      <ul class="opt-list">
+        <li>1. 青葉中央通りの並木下などを花で彩る「ohanaいっぱい活動」（花植え・水やり）</li>
+        <li>2. 放置された空き家・空き地を早期に発見し、適正管理や移住者へ斡旋する取り組み</li>
+        <li>3. 自宅の庭木・雑草の定期的な適正管理</li>
+        <li>4. 関心がない</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】景観保全・美化活動への参加意欲と、空き家問題への危機感のレベルを把握します。</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q10. 子どもの居場所・多世代交流（分野4・5）について、利用したい・関わりたいものはありますか？</span>
+        <span class="q-tag">複数選択可</span>
+      </div>
+      <ul class="opt-list">
+        <li>1. 空き店舗を活用したカフェ「青葉ノアール」の利用（ランチ・お茶・イベント）</li>
+        <li>2. 高校生や若者が企画する体験ワークショップや「こどもミライ会議」</li>
+        <li>3. 歩行者天国やキッチンカーが出店する「青葉台フェスタ」への来場・参加</li>
+        <li>4. 放課後の子どもの見守りや、絵本の読み聞かせなどの小さな支援</li>
+        <li>5. 関心がない／利用したことがない</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】青葉ノアールや青葉台フェスタが、どの程度多世代（特に若いファミリー層）に浸透しているかを測定します。</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q11. あなたにとって「青葉台が10年後も価値を保ち続ける（住みやすい街である）」ために最も重要だと思うことは何ですか？</span>
+        <span class="q-tag">単一選択</span>
+      </div>
+      <ul class="opt-list">
+        <li>1. 治安の良さと災害への強さ（安全・安心）</li>
+        <li>2. 商業施設や医療機関へのアクセス（生活利便性）</li>
+        <li>3. 街並みの美しさと閑静な住環境（資産価値の保全）</li>
+        <li>4. 多世代が挨拶し合える温かいつながり（孤立防止）</li>
+        <li>5. 若い世代が新しく転入してくる活気</li>
+        <li>6. わからない／特になし</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】住民が街に求めている「本質的価値」を特定し、町会協議会の今後の広報メッセージの軸（タグライン）を決定します。</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>青葉台町会協議会 審議用提案書 | 未来の暮らし共創プロボノ提案・企画書</span>
+    <span>Page 4 of 8</span>
+  </div>
+</div>
+
+<!-- ==================== Page 5 ==================== -->
+<div class="page">
+  <div>
+    <div class="sec-title">
+      <span>3.【詳細質問票】参画障壁とマイクロタスク意向 (Q12〜Q17)</span>
+      <span class="badge">フロー：参画障壁(本音)→行動変容(タスク提案)</span>
+    </div>
+
+    <div class="chapter-bar">第4章：町会への関わりと参加のハードル (Q12〜Q15) ― 目的：住民が地域活動に関わりにくい「真のボトルネック」を本音レベルで抽出する</div>
+
+    <div class="grid-2" style="margin-bottom:6px;">
+      <div class="q-card" style="margin:0;">
+        <div class="q-head">
+          <span>Q12. 現在の活動・行事への参加状況</span>
+          <span class="q-tag">単一選択</span>
+        </div>
+        <ul class="opt-list-1">
+          <li>1. 役員・班長・PJメンバーとして積極的に関与</li>
+          <li>2. フェスタや防災訓練等に一般参加している</li>
+          <li>3. 回覧板閲覧やゴミ当番など最低限のみ</li>
+          <li>4. 会費は支払うが、行事には参加したことがない</li>
+          <li>5. これまで参加する機会や情報がなかった</li>
+        </ul>
+        <div class="q-intent">■【意図】関与度ピラミッドの分布を明確化。</div>
+      </div>
+
+      <div class="q-card" style="margin:0;">
+        <div class="q-head">
+          <span>Q15. 役員制度や運営方法の見直し</span>
+          <span class="q-tag">単一選択</span>
+        </div>
+        <ul class="opt-list-1">
+          <li>1. 役員業務を極力スリム化し、1年交代制にすべき</li>
+          <li>2. 得意な人がスポット参加する業務シェアを推進</li>
+          <li>3. 専門業務（会計・IT等）は外部委託や有償化</li>
+          <li>4. 現行の運営方法のままで良い ／ 5. わからない</li>
+        </ul>
+        <div class="q-intent">■【意図】業務スリム化・外注への住民合意を確認。</div>
+      </div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q13. 地域活動や町会のお手伝いに「参加しにくい」「関わりづらい」と感じる理由は何ですか？</span>
+        <span class="q-tag">複数選択・最大3つ</span>
+      </div>
+      <ul class="opt-list">
+        <li>1. 仕事や家事・育児で多忙、日中に時間が取れない</li>
+        <li>2. 一度引き受けると拘束時間が長く、責任が重そう</li>
+        <li>3. 長時間の会議や書類・アナログなやり取りに抵抗</li>
+        <li>4. 古い人間関係やルールがあり新参には入りづらい</li>
+        <li>5. 「何をどう手伝えばいいのか」募集や情報がない</li>
+        <li>6. 自分のスキルや興味に合う活動が見当たらない</li>
+        <li>7. そもそも地域活動に関わるメリットを感じない</li>
+        <li>8. 特に理由はない（参加しにくいとは感じない）</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】「無関心」の裏にある「構造的障壁（拘束時間、責任感、会議の非効率さ）」を数値化し、役員会改革の根拠データとします。</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q14. もし地域活動に関わるとしたら、どのような形式であれば参加しやすいですか？</span>
+        <span class="q-tag">複数選択可</span>
+      </div>
+      <ul class="opt-list">
+        <li>1. 年1〜2回、気が向いたときの「単発・スポット参加」</li>
+        <li>2. 1回30分〜1時間程度で完結する「短時間の軽作業」</li>
+        <li>3. 自宅のすきま時間でできる「PC・スマホ在宅作業」</li>
+        <li>4. 土日・祝日の日中開催 ／ 5. 平日夜間（短時間）</li>
+        <li>6. 家族や子どもと一緒に楽しめるイベント形式</li>
+        <li>7. 参加・お手伝いする意思はない</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】現役世代が参加可能な「時間帯」「頻度」「形態」を特定し、今後のプログラム設計へ直結させます。</div>
+    </div>
+
+    <div class="chapter-bar">第5章：マイクロタスク（小さなお手伝い）への参加意向 (Q16〜Q17) ― 最重要パート：役員ではなく「小分けのタスク」として参加意欲を引き出す</div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q16. 役員負担を増やさず、「隙間時間」や「得意なこと」で参加できる仕組みがあれば、関わりたい内容は？</span>
+        <span class="q-tag">複数選択可</span>
+      </div>
+      <ul class="opt-list-1" style="font-size:8pt;">
+        <li>1. <strong>【広報・IT】</strong>フェスタや行事の写真・動画撮影、SNS・HPへのアップ（年1〜2回）</li>
+        <li>2. <strong>【デザイン】</strong>チラシやポスターの簡単な作成（PC・Canva等の在宅作業・単発1枚）</li>
+        <li>3. <strong>【LINE配信】</strong>町会LINE公式アカウントのメッセージ作成や操作サポート（月1回・1時間）</li>
+        <li>4. <strong>【イベント当日】</strong>青葉台フェスタや防災訓練で、1〜2時間だけの受付・案内・誘導</li>
+        <li>5. <strong>【環境・緑化】</strong>散歩や通勤ついでに、近くの「ohana花壇」の水やりや簡単な草むしり</li>
+        <li>6. <strong>【防災・見守り】</strong>大地震等の災害時、自宅周辺（お隣3〜4軒）の無事をLINE等で報告</li>
+        <li>7. <strong>【カフェ・交流】</strong>コミュニティカフェ「青葉ノアール」でのお手伝い（配膳、傾聴など）</li>
+        <li>8. <strong>【高齢・移動】</strong>高齢者の電動カート試乗会や移動サポートの見守り補助（スポット2時間）</li>
+        <li>9. <strong>【対話・アイデア】</strong>青葉台の未来や子育てを語るオンライン夜間座談会への参加（45分）</li>
+        <li>10. 手伝うのは難しいが、イベントやカフェにお客・応援者として行く ／ 11. 関心がない・手伝えることはない</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】潜在的な協力者をタスク別に数値化し、「マイクロタスク人材プール」の基礎データを構築します。</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q17. ご自身が地域に「少しなら提供できる・活かせる」と感じる経験やスキルはありますか？</span>
+        <span class="q-tag">複数選択可</span>
+      </div>
+      <ul class="opt-list" style="grid-template-columns:1fr 1fr 1fr; font-size:8pt;">
+        <li>1. PC操作・事務処理(Excel等)</li><li>2. スマホ・SNS・ITツールの操作指導</li><li>3. デザイン・写真・動画編集</li>
+        <li>4. 園芸・ガーデニング・草刈り・DIY</li><li>5. 料理・お菓子作り・飲食補助</li><li>6. 子どもの相手・遊び指導・学習支援</li>
+        <li>7. 医療・看護・介護・福祉の知識</li><li>8. 会計・経理・法律・労務等の専門知識</li><li>9. 力仕事・運搬・資材搬入</li>
+        <li style="grid-column:span 3;">10. 特にない／提供できるスキルはない</li>
+      </ul>
+      <div class="q-intent">■【役員向け設計意図】住民の「潜在的スキル」をマッピングし、特定の役員が背負い込まずに外部へ頼れる人脈資産を可視化します。</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>青葉台町会協議会 審議用提案書 | 未来の暮らし共創プロボノ提案・企画書</span>
+    <span>Page 5 of 8</span>
+  </div>
+</div>
+
+<!-- ==================== Page 6 ==================== -->
+<div class="page">
+  <div>
+    <div class="sec-title">
+      <span>3.【詳細質問票】情報発信と有志エントリー (Q18〜Q21)</span>
+      <span class="badge">フロー：デジタル環境→任意エントリー</span>
+    </div>
+
+    <div class="chapter-bar">第6章：情報発信とデジタル活用実態 (Q18〜Q19) ― 目的：紙（回覧板）とデジタル（LINE・HP）の最適なハイブリッド広報比率を決定する</div>
+
+    <div class="grid-2" style="margin-bottom:10px;">
+      <div class="q-card" style="margin:0;">
+        <div class="q-head">
+          <span>Q18. 地域情報の入手手段・確実な手段</span>
+          <span class="q-tag">複数選択可</span>
+        </div>
+        <ul class="opt-list-1">
+          <li>1. 回覧板（紙）</li>
+          <li>2. 自宅ポストへの個別投函チラシ（広報あおば等）</li>
+          <li>3. 街頭の掲示板（ポスター）</li>
+          <li>4. 公式ホームページ「いちはら青葉台」</li>
+          <li>5. 町会・協議会の公式LINE</li>
+          <li>6. 近所や家族・友人との口コミ・会話</li>
+          <li>7. ほとんど地域情報を受け取っていない</li>
+        </ul>
+        <div class="q-intent">■【設計意図】媒体の実際の到達率を定量化し、どの情報をLINEへ移行すべきかの投資対効果を測定。</div>
+      </div>
+
+      <div class="q-card" style="margin:0;">
+        <div class="q-head">
+          <span>Q19. スマホ・ネットの利用状況</span>
+          <span class="q-tag">単一選択</span>
+        </div>
+        <ul class="opt-list-1">
+          <li>1. スマホを毎日使い、LINE・検索・アプリ等を不自由なく使いこなしている</li>
+          <li>2. 基本機能（家族とのLINE、電話、ニュース閲覧）程度なら利用できる</li>
+          <li>3. スマホを持っているが操作に不安があり、あまり使いこなせていない</li>
+          <li>4. 自分では使わないが、同居家族がスマホを使っている</li>
+          <li>5. スマホやPCは持っていない／ネットは使わない</li>
+        </ul>
+        <div class="q-intent">■【設計意図】地区のデジタル耐性分布を把握し、LINE普及目標や「スマホ相談窓口」の必要性を検証。</div>
+      </div>
+    </div>
+
+    <div class="chapter-bar">第7章：自由記述と有志エントリー (Q20〜Q21) ― 目的：生の声の収集と、完全匿名アンケートを担保しつつ「自発的な協力者」を発掘する</div>
+
+    <div class="q-card" style="margin-bottom:10px;">
+      <div class="q-head">
+        <span>Q20. 青葉台が「新しい価値を創造し続ける街」であり続けるために、期待することや自由なアイデアがあればご記入ください。</span>
+        <span class="q-tag">自由記述・任意</span>
+      </div>
+      <div style="border:1px dashed #94a3b8; padding:14px; margin:6px 0; color:#64748b; font-size:8.5pt; background:#f8fafc;">
+        （住民配布用調査票には、50〜100文字程度で気軽に記入できる広めの記入枠を配置します）
+      </div>
+      <div class="q-intent">■【役員向け設計意図】住民の生の声（不満・感謝・隠れたアイデア）をテキストマイニング等で分析し、役員会での課題意識のアップデートに活用します。</div>
+    </div>
+
+    <div class="q-card">
+      <div class="q-head">
+        <span>Q21.【任意・協力者エントリー】青葉台のまちづくりやマイクロタスクに興味をお持ちいただける方</span>
+        <span class="q-tag">完全任意記入</span>
+      </div>
+      <p style="font-size:8.5pt; margin-bottom:8px;">
+        今回のアンケートは完全匿名として統計処理されますが、もしQ16の「小さなお手伝い」やLINE公式アカウントのモニター、オンライン座談会等に少しでも興味がある場合は、以下にご連絡先をご記入ください。無理なお願いや役員の強制は一切いたしません。
+      </p>
+      <div class="box" style="background:#fff; border-style:dashed;">
+        <p style="margin-bottom:6px;">・お名前（任意）：［             ］ ・お住まいの丁目（任意）：［   丁目］</p>
+        <p style="margin-bottom:6px;">・メールまたはLINE ID（任意）：［                 ］</p>
+        <p style="margin-bottom:6px;">・お電話番号（任意）：［             ］</p>
+        <p>・特に関心のある番号（Q16より選択、任意）：［          ］</p>
+      </div>
+      <div class="q-intent">■【役員向け設計意図】「調査の中立性（匿名）」を厳格に保ちながら、活動意欲のある人材を合意のもとで安全にリスト化し、プロボノ（支援）期間中の実証へ繋げます。</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>青葉台町会協議会 審議用提案書 | 未来の暮らし共創プロボノ提案・企画書</span>
+    <span>Page 6 of 8</span>
+  </div>
+</div>
+
+<!-- ==================== Page 7 ==================== -->
+<div class="page">
+  <div>
+    <div class="sec-title">
+      <span>4. 現役世代に届くセグメント別広報・ハイブリッド配布回収計画</span>
+      <span class="badge">エリア別動線最適化</span>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%;">項目</th>
+          <th style="width:42%;">戸建てエリア（1〜7丁目：約2,500世帯）</th>
+          <th style="width:42%;">集合住宅エリア（8丁目・ダイアパレス：約700世帯）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>生活関心事</th>
+          <td>庭木管理、近隣空き家、ゴミ集積所、道路安全（ゾーン30プラス）、防災・安否確認</td>
+          <td>管理組合との住み分け、通学路の安全、買い物・バス路線、自治会の拘束感の少なさ</td>
+        </tr>
+        <tr>
+          <th>配布動線</th>
+          <td>回覧板挟み込み ＋ 班長経由の封筒配布</td>
+          <td>集合ポストへの全戸直接投函チラシ（A4・大判QR）</td>
+        </tr>
+        <tr>
+          <th>告知場所</th>
+          <td>ゴミステーション、小中学校PTA連絡網</td>
+          <td>エントランス掲示板、エレベーター内ポスター</td>
+        </tr>
+        <tr>
+          <th>回収手段</th>
+          <td>班長回収箱 ／ 街なか回収箱（スーパー・カフェ）</td>
+          <td>エントランス特設回収箱 ／ Web（スマホ）即時回答</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="grid-2" style="margin-bottom:10px;">
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; color:#0369a1; margin-bottom:4px;">4.1 キャッチコピー案</div>
+        <p style="font-size:8.2pt; margin-bottom:4px;"><strong>【現役・子育て世代向け】</strong><br>「町会のアンケート？いいえ、『10年後のあなたの暮らし』の作戦会議です」</p>
+        <p style="font-size:8.2pt;"><strong>【多忙な勤労者向け】</strong><br>「役員は無理でも、1回1時間ならできることがある。青葉台の新しい関わり方アンケート」</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; color:#0369a1; margin-bottom:4px;">ビジュアルの工夫</div>
+        <p style="font-size:8.2pt;">A4表面にインパクトのあるイラストと特大QRコードを配置。「スマホでサクッと10分回答」を前面に押し出し、紙にペンで書かなくてもその場で回答完了できる動線を確立します。</p>
+      </div>
+    </div>
+
+    <div class="sec-title">
+      <span>5. 回答直後の「受け皿」づくり：マイクロタスク10選と即応フォロー体制</span>
+      <span class="badge">熱意を逃さない受入設計</span>
+    </div>
+
+    <p style="font-size:8.5pt; margin-bottom:6px;">
+      アンケートで「手伝ってもよい」と回答した住民の熱量を逃さないため、「3営業日以内の連絡・2週間以内の初回参加」を原則とする受け皿を事前定義します。すべてのタスクは「役員への自動登用なし」「時間・期限・相談相手・完了条件」を明示します。
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width:6%;">No</th>
+          <th style="width:26%;">タスク名</th>
+          <th style="width:12%;">分野</th>
+          <th style="width:18%;">参加形態</th>
+          <th style="width:18%;">相談相手(想定)</th>
+          <th style="width:20%;">完了条件</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>01</td><td>フェスタ・行事の写真撮影</td><td>広報</td><td>現地スポット</td><td>広報担当</td><td>撮影データを共有</td></tr>
+        <tr><td>02</td><td>Canvaチラシ作成</td><td>広報</td><td>在宅(PC)</td><td>プロボノ(要望対応)</td><td>チラシ画像納品</td></tr>
+        <tr><td>03</td><td>公式LINE配信文の作成支援</td><td>IT</td><td>在宅・オンライン</td><td>IT担当</td><td>配信ドラフト作成</td></tr>
+        <tr><td>04</td><td>ohana花壇水やり・手入れ</td><td>環境</td><td>散歩・通勤時</td><td>環境・花壇担当</td><td>担当区画水やり完了</td></tr>
+        <tr><td>05</td><td>LINE安否確認テスト参加</td><td>防災</td><td>自宅(スマホ)</td><td>防災担当</td><td>テスト配信への返信完了</td></tr>
+        <tr><td>06</td><td>フェスタ当日受付・誘導</td><td>賑わい</td><td>現地スポット</td><td>フェスタ担当</td><td>担当シフトの完了</td></tr>
+        <tr><td>07</td><td>青葉ノアール開店・見守り</td><td>交流</td><td>店舗</td><td>ノアール担当</td><td>シフト内のカフェ補助</td></tr>
+        <tr><td>08</td><td>高齢者電動カート試乗補助</td><td>移動</td><td>現地スポット</td><td>福祉・移動支援担当</td><td>アンケート用紙回収</td></tr>
+        <tr><td>09</td><td>子育て未来オンライン会</td><td>子育て</td><td>自宅(Zoom)</td><td>子育て支援担当</td><td>座談会での意見発言</td></tr>
+        <tr><td>10</td><td>紙アンケートの入力補助</td><td>事務</td><td>自宅/会館</td><td>プロボノ(支援)・事務局</td><td>30件分のデータ入力</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-title">5.2 受入プロセスの運用ルール（熱意を冷まさない仕組み）</div>
+    <div class="grid-4">
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.2pt; color:#0369a1;">1. 即時集約</div>
+        <p style="font-size:7.8pt; margin-top:2px;">Q21の連絡先はフォーム/プロボノシートへリアルタイム集約。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.2pt; color:#0369a1;">2. 初回サンクス(3日以内)</div>
+        <p style="font-size:7.8pt; margin-top:2px;">協議会名義で感謝メール/LINEを迅速に個別送信。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.2pt; color:#0369a1;">3. お試し提案(2週以内)</div>
+        <p style="font-size:7.8pt; margin-top:2px;">「まずは1回、撮影を覗きませんか？」と単発参加を提示。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.2pt; color:#b91c1c;">4. 無理な囲い込み禁止</div>
+        <p style="font-size:7.8pt; margin-top:2px;">役員登用を迫ることは厳禁。「また都合のつく時に」を徹底。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>青葉台町会協議会 審議用提案書 | 未来の暮らし共創プロボノ提案・企画書</span>
+    <span>Page 7 of 8</span>
+  </div>
+</div>
+
+<!-- ==================== Page 8 ==================== -->
+<div class="page">
+  <div>
+    <div class="sec-title">
+      <span>6. 回収・集計体制と業務工数試算（役員・班長負担の極小化）</span>
+      <span class="badge">効率的入力サポート体制</span>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:8px;">
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; color:#0369a1; margin-bottom:4px;">回収・集計ハイブリッド概念フロー</div>
+        <p style="font-size:8pt; margin-bottom:4px;"><strong>Web/スマホ回答（目標40〜50%）：</strong><br>Googleフォームからスプレッドシートへ自動反映（集計負担ゼロ）。</p>
+        <p style="font-size:8pt; margin-bottom:4px;"><strong>紙回答（目標50〜60%）：</strong><br>班長回収（無記名封筒で回覧板挟み込み）＋街なか回収箱（スーパー・カフェ）。</p>
+        <p style="font-size:8pt;"><strong>プロボノ（支援）統合DB：</strong><br><strong>プロボノ（支援）</strong>がテンキー操作や直感入力に最適化したフォーム・管理環境を構築し、入力作業の標準化・効率化を支援するサポート体制（手順化・分担伴走）を実施。1ヶ月以内にインフォグラフィック1枚で住民還元。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; color:#0369a1; margin-bottom:4px;">工数試算とパイロットテスト</div>
+        <p style="font-size:8pt; margin-bottom:6px;"><strong>想定工数試算：</strong><br>全3,200世帯、回収率50%（1,600件）、紙比率60%（960件）の場合、1件3分で約48時間の入力負荷が発生します。この負担を特定の人や役員に背負わせず短時間で処理できるよう、<strong>プロボノ（支援）</strong>が入力効率を極大化するフォーム設計・入力手順の構築を行い、有志（マイクロタスク10）や担当者がスムーズに入力できるよう伴走サポートします。</p>
+        <p style="font-size:8pt;"><strong>パイロットテスト：</strong><br>全数配布前の11月上旬、役員・有志・ノアール利用者ら20〜30名で実施し、所要時間やスマホUIを実測検証します。</p>
+      </div>
+    </div>
+
+    <div class="sec-title">
+      <span>7. 中長期構想（福祉タウン・地域再生推進法人）への接続</span>
+      <span class="badge">行政・大学協議エビデンス</span>
+    </div>
+
+    <div class="grid-3" style="margin-bottom:8px;">
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.5pt; color:#0369a1;">① 地域再生推進法人指定申請</div>
+        <p style="font-size:7.8pt; margin-top:3px;">市原市第1号の指定に向け、住民ニーズの科学的把握と多世代参画実績が、行政・国に対する公的申請書の強力なエビデンスとなります。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.5pt; color:#0369a1;">② 2029年 福祉タウン構想具体化</div>
+        <p style="font-size:7.8pt; margin-top:3px;">帝京大跡地活用協議において「真に必要な機能(Q6)」と「住民が支えるタスク(Q16)」を示し、実効性の高い施策提案を行政や大学へ提示できます。</p>
+      </div>
+      <div class="box" style="margin:0;">
+        <div style="font-weight:bold; font-size:8.5pt; color:#0369a1;">③ 2027年度実行計画書へ統合</div>
+        <p style="font-size:7.8pt; margin-top:3px;">アンケートから浮き彫りになった「やめるべき業務」「住民とシェアすべきタスク」を、次年度事業計画・3か年ロードマップへ直結させます。</p>
+      </div>
+    </div>
+
+    <div class="sec-title">
+      <span>8. 今後の進め方（概要）</span>
+      <span class="badge">実務ロードマップ</span>
+    </div>
+
+    <div class="grid-2">
+      <div>
+        <table style="font-size:7.8pt; margin:0;">
+          <thead>
+            <tr><th style="width:28%;">日程</th><th>実施内容・マイルストーン</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>10月中旬</td><td>提案・企画書の提出（プロボノ（支援）より）</td></tr>
+            <tr><td>10月22日/仮</td><td>提案・企画書の説明と進め方（MT）</td></tr>
+            <tr><td>10月</td><td>協議会内部（理事会・各町会長）書面審議</td></tr>
+            <tr><td>11月</td><td>協議会より「書面による質問・修正依頼」提出</td></tr>
+            <tr><td>11月</td><td>プロボノ（支援）側より「最終修正版」を納品</td></tr>
+            <tr><td>11月上旬</td><td>パイロットテスト（20〜30名）実施、微調整</td></tr>
+            <tr><td>11月〜12月</td><td>全3,200世帯への配布・回収・効率的入力サポート</td></tr>
+            <tr><td>1月</td><td>集計・分析報告・住民還元レポート（1枚）発行</td></tr>
+            <tr><td>2月〜3月</td><td>マイクロタスク実践検証・2027年度計画へ反映</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="box" style="margin:0; background:#fffbeb; border-color:#fde68a;">
+        <div style="font-weight:bold; font-size:8.5pt; color:#b45309; margin-bottom:4px;">【協議会様からの書面フィードバック受付項目】</div>
+        <p style="font-size:7.8pt; margin-bottom:4px;">理事会・役員会の皆様におかれましては、以下の点につきまして書面（メール・メモ等）にてご意見・ご指示を賜れますようお願い申し上げます。</p>
+        <ul style="font-size:7.8pt; padding-left:14px; margin-bottom:6px;">
+       <li><strong>設問の過不足：</strong>21問の中で「追加したい地域の固有課題」や「削るべき項目」はあるか。</li>
+          <li><strong>マイクロタスク受入担当者：</strong>第5章の10タスクについて、相談相手の担当割り振りに修正や変更はあるか。</li>
+          <li><strong>集合住宅へのアプローチ：</strong>提案した配布・回収方法（ポスト投函・回収箱）で調整可能か。</li>
+          <li><strong>スケジュール感：</strong>全数配布開始に向けた日程感に無理がないか。</li>
+        </ul>
+        <p style="font-size:7.8pt; font-weight:bold; color:#0f172a;">青葉台の誇りある未来と持続可能な運営体制に向け、サポートしてまいります。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>青葉台町会協議会 審議用提案書 | 未来の暮らし共創プロボノ提案・企画書</span>
+    <span>Page 8 of 8</span>
+  </div>
+</div>
+
+</body>
+</html>
