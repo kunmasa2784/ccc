@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自治会問題解決プロンプト集</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            deepgreen: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              300: '#86efac',
+              400: '#4ade80',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              850: '#1b4332',
+              900: '#14532d',
+              950: '#052e16',
+            }
+          },
+          fontFamily: {
+            sans: ['"Noto Sans JP"', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Noto Sans JP', Inter, sans-serif;
+      background-color: #f8fafc;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .modal-backdrop {
+      background-color: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+    }
+  </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col bg-slate-50">
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="fixed top-5 right-5 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 bg-deepgreen-850 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 border border-deepgreen-600">
+    <span class="text-xl">✅</span>
+    <div>
+      <div id="toast-title" class="font-bold text-sm">コピーしました！</div>
+      <div id="toast-message" class="text-xs text-deepgreen-200">AIチャットに貼り付けてご活用ください</div>
+    </div>
+  </div>
+
+  <!-- Header Bar -->
+  <header class="bg-deepgreen-850 text-white shadow-lg sticky top-0 z-30 border-b border-deepgreen-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-deepgreen-700 border border-deepgreen-500 flex items-center justify-center text-xl shadow-inner">
+          🏡
+        </div>
+        <div>
+          <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white flex items-center gap-2">
+            自治会問題解決プロンプト集
+            <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-700 text-emerald-100 font-normal border border-emerald-500">伴走型支援AI</span>
+          </h1>
+          <p class="text-xs text-emerald-200 hidden sm:block">役員の負担軽減・新時代行事・現状分析・合意形成を導くプロンプト辞典</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <button id="btn-open-custom-modal" class="text-xs sm:text-sm bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-3.5 py-2 rounded-lg transition shadow flex items-center gap-1.5 border border-emerald-400">
+          <span>➕</span>
+          <span class="hidden sm:inline">自作プロンプト</span>追加
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Hero / Search & Control Section -->
+    <section class="bg-white rounded-2xl p-5 sm:p-6 shadow-sm border border-slate-200 space-y-4">
+      <div class="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center">
+        <!-- Search Input -->
+        <div class="relative flex-grow">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400 text-lg">
+            🔍
+          </span>
+          <input 
+            type="text" 
+            id="search-input" 
+            placeholder="キーワードで検索（例：SWOT、新時代行事、アンケート、LINE、助成金、見守り...）" 
+            class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-deepgreen-600 focus:border-transparent text-sm transition bg-slate-50 focus:bg-white"
+          >
+          <button id="search-clear-btn" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 hidden">
+            ✕
+          </button>
+        </div>
+
+        <!-- Right Quick Controls -->
+        <div class="flex items-center gap-2 self-end md:self-auto">
+          <button id="btn-toggle-fav-filter" class="text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-medium transition flex items-center gap-1.5">
+            <span id="fav-icon">⭐</span>
+            <span id="fav-label">お気に入り（0）</span>
+          </button>
+          <button id="btn-reset-filters" class="text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 font-medium transition">
+            リセット
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Keywords -->
+      <div class="pt-2 border-t border-slate-100 flex items-center gap-2 text-xs text-slate-500 flex-wrap">
+        <span class="font-medium text-slate-700 flex items-center gap-1">📌 人気タグ:</span>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="業務棚卸し">業務棚卸し</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="資産・人材棚卸し">資産・人材棚卸し</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="コスト棚卸し">コスト棚卸し</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="行政連携">行政連携</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="NPO協働">NPO協働</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="学校・企業連携">学校・企業連携</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="提案書">提案書</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="企画書">企画書</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="ロールアウト">ロールアウト</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="新時代行事">新時代行事</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="防災フェス">防災フェス</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="キッチンカー">キッチンカー</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="SWOT分析">SWOT分析</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="アンケート">アンケート</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="助成金">助成金</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="ながら見守り">ながら見守り</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="LINE">LINE</button>
+        <button class="quick-tag bg-slate-100 hover:bg-deepgreen-100 hover:text-deepgreen-800 text-slate-600 px-2.5 py-1 rounded-md transition" data-tag="役員負担軽減">役員負担軽減</button>
+      </div>
+    </section>
+
+    <!-- Category Tabs Navigation -->
+    <div class="overflow-x-auto custom-scrollbar pb-2">
+      <div id="category-tabs" class="flex gap-2 min-w-max">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+
+    <!-- Active Filter Status & Count -->
+    <div class="flex items-center justify-between text-xs sm:text-sm text-slate-500 px-1">
+      <div id="filter-status">
+        表示中: <span id="current-category-name" class="font-bold text-deepgreen-850">すべて</span>
+        （<span id="prompt-count" class="font-bold text-deepgreen-700">0</span>件）
+      </div>
+      <div class="text-xs text-slate-400">
+        💡 カードをクリックして変数（[ ]内）を自分の自治会情報に書き換えてコピーできます
+      </div>
+    </div>
+
+    <!-- Prompts Grid Container -->
+    <div id="prompts-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Cards injected by JavaScript -->
+    </div>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300">
+      <div class="text-4xl mb-3">🔍</div>
+      <h3 class="text-base font-bold text-slate-700">該当するプロンプトが見つかりませんでした</h3>
+      <p class="text-xs text-slate-500 mt-1">別のキーワードで検索するか、カテゴリーを変更してください。</p>
+      <button onclick="resetAllFilters()" class="mt-4 px-4 py-2 bg-deepgreen-700 text-white text-xs font-semibold rounded-lg hover:bg-deepgreen-600 transition">
+        検索をリセット
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Variable Customize Modal -->
+  <div id="customize-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-4 modal-backdrop">
+    <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] border border-slate-200">
+      <!-- Modal Header -->
+      <div class="bg-deepgreen-850 text-white px-5 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span id="modal-icon" class="text-2xl">📝</span>
+          <div>
+            <span id="modal-category-badge" class="text-[10px] px-2 py-0.5 rounded bg-deepgreen-700 text-deepgreen-100 font-semibold border border-deepgreen-500">カテゴリ</span>
+            <h3 id="modal-title" class="text-base sm:text-lg font-bold leading-snug text-white">プロンプト詳細</h3>
+          </div>
+        </div>
+        <button id="btn-close-modal" class="text-slate-300 hover:text-white p-1 text-xl transition">✕</button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-5 overflow-y-auto custom-scrollbar space-y-5">
+        <div id="modal-description-box" class="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 text-xs sm:text-sm text-deepgreen-900 leading-relaxed">
+          <!-- Description -->
+        </div>
+
+        <!-- Dynamic Variable Inputs -->
+        <div id="modal-vars-container" class="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <h4 class="text-xs font-bold text-slate-700 flex items-center gap-1.5 uppercase tracking-wider">
+            <span>✏️</span> 穴埋め変数の入力（あなたの自治会情報を設定）
+          </h4>
+          <div id="modal-vars-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <!-- Injected by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Prompt Text Preview -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-slate-700 flex items-center gap-1.5 uppercase tracking-wider">
+              <span>📋</span> プロンプト完成文（AI貼り付け用）
+            </h4>
+            <span class="text-[11px] text-slate-500">※ 入力欄を変更すると自動で置換されます</span>
+          </div>
+          <textarea 
+            id="modal-prompt-text" 
+            rows="10" 
+            class="w-full text-xs sm:text-sm bg-slate-900 text-emerald-300 font-mono p-4 rounded-xl border border-slate-700 focus:outline-none focus:ring-2 focus:ring-deepgreen-500 leading-relaxed custom-scrollbar selection:bg-deepgreen-600 selection:text-white"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="bg-slate-100 px-5 py-3.5 border-t border-slate-200 flex items-center justify-between gap-3">
+        <span class="text-xs text-slate-500 hidden sm:inline">ChatGPT / Claude / Gemini 等にペーストしてください</span>
+        <div class="flex items-center gap-2.5 ml-auto">
+          <button id="btn-modal-cancel" class="px-4 py-2 rounded-xl text-xs sm:text-sm text-slate-600 hover:bg-slate-200 transition font-medium">
+            閉じる
+          </button>
+          <button id="btn-modal-copy" class="px-5 py-2 rounded-xl text-xs sm:text-sm bg-deepgreen-700 hover:bg-deepgreen-600 text-white font-bold transition shadow-md flex items-center gap-2 border border-deepgreen-600">
+            <span>📋</span> プロンプトをコピー
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Custom Prompt Modal -->
+  <div id="create-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-4 modal-backdrop">
+    <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-200">
+      <div class="bg-deepgreen-850 text-white px-5 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-2xl">➕</span>
+          <h3 class="text-base sm:text-lg font-bold">自作プロンプトの追加</h3>
+        </div>
+        <button id="btn-close-create-modal" class="text-slate-300 hover:text-white p-1 text-xl transition">✕</button>
+      </div>
+
+      <div class="p-5 overflow-y-auto custom-scrollbar space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">タイトル <span class="text-red-500">*</span></label>
+          <input type="text" id="custom-title" placeholder="例：【防犯】夜間パトロール見直しプロンプト" class="w-full text-xs sm:text-sm p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-deepgreen-600">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">カテゴリー</label>
+            <select id="custom-category" class="w-full text-xs sm:text-sm p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-deepgreen-600 bg-white">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">アイコン（絵文字）</label>
+            <input type="text" id="custom-icon" value="📝" maxlength="2" class="w-full text-xs sm:text-sm p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-deepgreen-600 text-center">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">概要・使い所</label>
+          <input type="text" id="custom-desc" placeholder="例：負担の大きい見回り当番をスリム化する時に活用します。" class="w-full text-xs sm:text-sm p-2.5 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-deepgreen-600">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">プロンプト本文 <span class="text-red-500">*</span></label>
+          <p class="text-[11px] text-slate-500 mb-1.5">※ 置換可能にしたい箇所は [自治会名] や [世帯数] のように [ ] で囲んでください。</p>
+          <textarea id="custom-template" rows="8" placeholder="あなたは自治会支援の専門家です。以下の条件で...\n\n【自治会名】[自治会名]\n【課題】[現在の課題]" class="w-full text-xs sm:text-sm font-mono p-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-deepgreen-600"></textarea>
+        </div>
+      </div>
+
+      <div class="bg-slate-100 px-5 py-3.5 border-t border-slate-200 flex justify-end gap-2.5">
+        <button id="btn-cancel-create-modal" class="px-4 py-2 rounded-xl text-xs sm:text-sm text-slate-600 hover:bg-slate-200 transition font-medium">キャンセル</button>
+        <button id="btn-save-custom-prompt" class="px-5 py-2 rounded-xl text-xs sm:text-sm bg-deepgreen-700 hover:bg-deepgreen-600 text-white font-bold transition shadow border border-deepgreen-600">保存して追加</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-850 bg-slate-900 text-slate-400 text-xs py-8 mt-12 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+      <p class="font-medium text-slate-300">自治会問題解決プロンプト集 — 地域コミュニティを無理なく続けるための伴走型ツール</p>
+      <p class="text-slate-500">※ 各種AIチャット（ChatGPT, Claude, Geminiなど）にプロンプトをそのままコピー＆ペーストしてご活用いただけます。</p>
+    </div>
+  </footer>
+
+  <script>
+    // Categories Definition
+    const CATEGORIES = [
+      { id: 'all', name: 'すべて', icon: '🌟' },
+      { id: 'base', name: '基礎・伴走姿勢', icon: '🔴' },
+      { id: 'survey', name: '現状把握・アンケート', icon: '📊' },
+      { id: 'analysis', name: '課題分析・解決手順', icon: '🧭' },
+      { id: 'plan', name: '提案・企画・ロールアウト', icon: '📑' },
+      { id: 'collab', name: '行政・外部連携・協働', icon: '🤝' },
+      { id: 'community', name: '新時代行事・交流', icon: '🎉' },
+      { id: 'officer', name: '役員決め・スリム化', icon: '👥' },
+      { id: 'recruitment', name: '仲間集め・若手/スキル', icon: '🙋' },
+      { id: 'digital', name: 'デジタル化・ICT', icon: '📱' },
+      { id: 'disaster', name: '防災・見守り・生活', icon: '🚨' },
+      { id: 'governance', name: '会計・総会・規約', icon: '⚖️' }
+    ];
+
+    // Master Prompts List
+    const DEFAULT_PROMPTS = [
+      // 1. 役割明確化
+      {
+        id: 'tpl-role-expert',
+        title: '【専門家ロール】自治会支援アドバイザーとしての助言依頼',
+        category: 'base',
+        icon: '🔴',
+        description: '自治会支援の専門家として、見出しと箇条書きを用い、やさしい言葉で実践的な助言を求める基本型。',
+        tip: '地域の課題を何でも相談できる万能のベースプロンプトです。',
+        template: 'あなたは自治会支援の専門家です。地域コミュニティの活性化、役員の負担軽減、加入促進、デジタル化、高齢者支援などに精通しています。以下の相談について、実践的でわかりやすい提案をしてください。説明は「見出し＋箇条書き」で整理し、専門用語は避けて、誰にでも伝わるようにやさしい言葉を使ってください。\n\n【自治会名】[自治会名（例：青葉町内会）]\n【相談したい課題】[具体的な悩み（例：役員のなり手がおらず毎年くじ引きで揉めてしまう）]',
+        defaultVars: {
+          '自治会名（例：青葉町内会）': 'ひまわり自治会',
+          '具体的な悩み（例：役員のなり手がおらず毎年くじ引きで揉めてしまう）': '役員のなり手不足と高齢化により、来年度の役員決めが難航しています。'
+        }
+      },
+
+      // 2. 出力スタイル指定
+      {
+        id: 'tpl-style-companion',
+        title: '【共感伴走スタイル】3部構成（背景・対応策・参考事例）',
+        category: 'base',
+        icon: '🔴',
+        description: '相談者を否定せず共感しながら伴走。「課題の背景」「可能な対応策」「参考事例」の3つに分けて整理。',
+        tip: '頭の中がモヤモヤしている時や、役員会で提案する前段階のアイデア整理に最適です。',
+        template: '私は自治会のサポートに取り組んでいます。地域によって悩みや状況が異なるため、あなたには私の伴走者として、課題の整理やアイデア出しを一緒に進めてほしいです。否定せず、共感しながら、実現可能性のある提案を出してください。出力は「課題の背景」「可能な対応策」「参考事例（あれば）」の3つに分けてください。\n\n【相談内容】[現在の状況と相談事項（例：回覧板を廃止したいが、高齢者から反対の声が出ている）]',
+        defaultVars: {
+          '現在の状況と相談事項（例：回覧板を廃止したいが、高齢者から反対の声が出ている）': '紙の回覧板をLINE等に移行したいが、高齢者から「スマホが使えない」と不安の声が上がっており、どう進めれば角が立たないか悩んでいます。'
+        }
+      },
+
+      // 3. トーン指定
+      {
+        id: 'tpl-tone-elderly',
+        title: '【無理なく継続】高齢化と担い手不足に特化した具体策の提案',
+        category: 'base',
+        icon: '🔴',
+        description: '「負担軽減」「新担い手発掘」「高齢者が無理なく続けられる運営」の観点から短くわかりやすく提案。',
+        tip: '文章が長くなりがちなAIに対して、簡潔で即実行可能なアドバイスを求められます。',
+        template: '地域の自治会で高齢化と担い手不足が課題になっています。あなたは自治会支援の専門家として、以下の質問に答えてください。「役員の負担軽減」「新しい担い手の掘り起こし」「高齢者が無理なく続けられる運営方法」などの観点から、自治会が無理なく続けられる具体策を提案してください。短くわかりやすく、実行しやすい内容でお願いします。\n\n【地域の現状】[地域の状況（例：高齢化率45%、70代が中心で役員を回している）]',
+        defaultVars: {
+          '地域の状況（例：高齢化率45%、70代が中心で役員を回している）': '高齢化率40%超で役員の平均年齢が70歳を超えており、行事の設営など体力的な負担が限界に近づいています。'
+        }
+      },
+
+      // 4. 高齢者eスポーツ・ICT
+      {
+        id: 'tpl-project-esports-ict',
+        title: '【慎重派対応】高齢者向けeスポーツ・無理のないデジタル導入',
+        category: 'base',
+        icon: '🔴',
+        description: 'IT苦手意識に配慮し、簡単な例や比喩を交えて提案。「高齢者eスポーツ」など楽しい企画の導入案。',
+        tip: 'ゲームやスマホに消極的なシニア住民にも笑顔で受け入れてもらえる言葉選びができます。',
+        template: '高齢者が多い自治会で、デジタル化を少しずつ進めたいと考えています。あなたはICTに詳しい自治会支援アドバイザーとして、「無理のない導入」「役員のIT苦手意識への配慮」「デジタル導入の第一歩」など、慎重な自治会にも受け入れられる方法を提案してください。難しい言葉は使わず、簡単な例や比喩を交えて説明してください。\n\n【取り組みたいテーマ】[テーマ（例：集会所でのNintendo Switchボウリング体験会、LINEでの安否確認など）]',
+        defaultVars: {
+          'テーマ（例：集会所でのNintendo Switchボウリング体験会、LINEでの安否確認など）': '集会所のテレビを使った体感ゲーム（Nintendo Switchスポーツ等のボウリング大会）'
+        }
+      },
+
+      // 5. 現状把握：アンケート設問設計
+      {
+        id: 'tpl-survey-design',
+        title: '【設問設計】住民の本音を引き出す「所要時間3分」アンケート項目作成',
+        category: 'survey',
+        icon: '📊',
+        description: '住民が回答しやすく、自治会運営への本音や不満、行事の要不要を把握できるコンパクトなアンケート票。',
+        tip: '選択式中心＋自由記述1問で回答率80%を目指す設問構成です。',
+        template: '住民の生の声を把握し、自治会活動のスリム化や行事の見直しに活かすための【住民アンケート調査票】を作成してください。回答者が負担に感じず、スマホでも紙でも3〜5分以内で回答できるシンプルな設問設計にしてください。\n\n以下の設問項目を盛り込んでください：\n1. 回答者の基本属性（年代、居住年数、世帯構成）\n2. 自治会活動への参加度・認知度\n3. 各行事（夏祭り、清掃、運動会、防災等）への参加意向と要不要（続ける/縮小/廃止）\n4. 役員負担に対する本音と、引き受けられる条件\n5. デジタル連絡網（LINE等）の利用意向\n6. 自由記述欄（地域の困りごとやアイデア）\n\n【自治会名】[自治会名]\n【現在の世帯数】[総世帯数（例：約250世帯）]\n【アンケートの主な目的】[目的（例：高齢化に伴う行事の整理と役員負担軽減の検討）]',
+        defaultVars: {
+          '自治会名': '若葉台自治会',
+          '総世帯数（例：約250世帯）': '約300世帯',
+          '目的（例：高齢化に伴う行事の整理と役員負担軽減の検討）': '行事の多さと役員負担に対する住民の本音を把握し、廃止・簡素化する活動を特定するため'
+        }
+      },
+
+      // 6. 現状把握：配布・回収方法＆案内状
+      {
+        id: 'tpl-survey-distribution',
+        title: '【配布・回収計画】班長の負担ゼロ！紙×スマホ併用の回収手順と案内レター',
+        category: 'survey',
+        icon: '📊',
+        description: '班長が集金や訪問回収をしなくて済む投函BOX・Googleフォーム活用手順と、住民の協力を促す案内文。',
+        tip: '「無記名」「集計結果の全世帯公開」を明記することで回収率が大幅に向上します。',
+        template: '自治会アンケートを実施するにあたり、班長や役員が戸別訪問して回収する負担をゼロにする【効率的な配布・回収計画】と、住民に協力してもらうための【案内文（A4チラシ1枚用）】を作成してください。\n\n【計画に含めたいこと】\n・紙（集会所ポストへの投函BOX）とスマホ（QRコードからのWEB回答）の併用手順\n・未提出者への角を立てないリマインド方法\n・個人情報保護・完全無記名の配慮\n\n【自治会名】[自治会名]\n【回収期間】[回答期間（例：〇月〇日〜〇月〇日までの2週間）]',
+        defaultVars: {
+          '自治会名': '若葉台自治会',
+          '回答期間（例：〇月〇日〜〇月〇日までの2週間）': '10月1日(日)〜10月15日(日)までの2週間'
+        }
+      },
+
+      // 7. 現状把握：業務棚卸しシート
+      {
+        id: 'tpl-survey-task-audit',
+        title: '【業務棚卸し】役員・班長の全業務と拘束時間を可視化する調査シート',
+        category: 'survey',
+        icon: '📊',
+        description: '「何が負担なのか」を感覚ではなく数字で把握。年間行事・会議・配布物の工数（時間）を可視化。',
+        tip: '改革の第1歩は「役員が1年間に何時間奪われているか」の数字による合意形成です。',
+        template: '自治会役員や班長が担っている業務をすべて洗い出し、年間拘束時間を可視化するための【自治会業務棚卸し（タスク監査）フレームワーク】を作成してください。\n\n以下の観点で表形式で整理できるようにしてください：\n1. 業務名（総会、防犯パトロール、ゴミ掃除、回覧板、募金集金など）\n2. 担当役職・対象者\n3. 発生頻度と年間合計拘束時間\n4. 肉体的・精神的負担度（大・中・小）\n5. 廃止・縮小・外部委託・デジタル化の可能性\n\n【自治会名】[自治会名]\n【現在の年間主要行事】[年間行事（例：春の総会、夏祭り、秋の防災訓練、年末警戒など）]',
+        defaultVars: {
+          '自治会名': '松風町内会',
+          '年間行事（例：春の総会、夏祭り、秋の防災訓練、年末警戒など）': '総会、月1回役員会、夏祭り（2日間）、秋の防災訓練、月2回の紙回覧、赤い羽根等の戸別集金'
+        }
+      },
+
+      // 7-B. 現状把握：地域資源・人材アセット棚卸し
+      {
+        id: 'tpl-survey-asset-mapping',
+        title: '【資源・人材棚卸し】お金をかけずに街を活性化する「住民スキル・設備・地域資源マップ（アセット棚卸し）」',
+        category: 'survey',
+        icon: '📊',
+        description: '「人手が足りない・お金がない」を脱却。住民の特技や保有資格、遊休スペース、備蓄資機材を可視化する棚卸しフレームワーク。',
+        tip: '不足（ニーズ）ではなく「すでにある地域の強み（アセット）」に着目することで前向きな協力が生まれます。',
+        template: '自治会活動を無理なく活性化し、専門業者に頼らず地域内で助け合える体制を作るため、地域に眠る【住民のスキル・人材、物的設備、空間資源の棚卸しシート（地域アセットマッピング）】を作成してください。\n\n以下の4つの区分で棚卸し項目と調査手法を整理してください：\n1. 【人的資源・スキルの棚卸し】\n・専門資格・元職業（医療・看護、大工・DIY、電気工事、法務・税務、教育・保育など）\n・デジタル・クリエイティブ（PC設定、デザイン、動画編集、SNS・広報、写真撮影など）\n・趣味・特技（料理、園芸、音楽演奏、スポーツ指導、手芸など）\n2. 【物的資源・設備の棚卸し】\n・集会所の設備（Wi-Fi、プロジェクター、調理器具、エアコン、音響機器）\n・防災倉庫の資機材（発電機、投光器、チェーンソー、大釜、テント、簡易トイレなど）\n・個人の保有機材で地域のために貸出可能なもの（草刈機、高圧洗浄機、軽トラックなど）\n3. 【空間・遊休スペースの棚卸し】\n・活用可能な空きスペース（集会所和室、公園の東屋、空き地、民家の軒先掲示スペースなど）\n4. 【負担を感じさせないアセット調査票の設問例・声かけ方法】\n\n【自治会名】[自治会名]\n【地域の世帯構成】[世帯構成（例：高齢者と子育て世代が半々の住宅街、約200世帯）]',
+        defaultVars: {
+          '自治会名': '松風町内会',
+          '世帯構成（例：高齢者と子育て世代が半々の住宅街、約200世帯）': 'シニア層と新築戸建ての子育て世代が混在する住宅地（約220世帯）'
+        }
+      },
+
+      // 7-C. 現状把握：支出・固定費・契約棚卸し
+      {
+        id: 'tpl-survey-cost-audit',
+        title: '【コスト・契約棚卸し】無駄な支出を削り会費値下げ・黒字化へ導く「自治会経費・契約総点検シート」',
+        category: 'survey',
+        icon: '📊',
+        description: '「昔からの慣習」で払い続けている防犯灯電気代、印刷費、上位組織への上納金、定期契約をゼロベースで見直す棚卸し。',
+        tip: '支出の棚卸しで余剰予算を生み出すことが、新企画（Wi-Fi導入やイベント）の財源になります。',
+        template: '自治会費の使途を見直し、無駄な出費や漫然と続いている固定支出を削減するための【自治会コスト＆契約・固定費 棚卸しチェックシート】を作成してください。\n\n以下の支出分類ごとに「現状の確認ポイント」「削減・見直しの切り口」「代替手段」を表形式で整理してください：\n1. 【通信・広報費】（コピー機リース代、紙代・印刷外注費、回覧板バインダー消耗品など）\n2. 【光熱水費・維持管理費】（集会所の電気・ガス・水道契約、防犯灯の電気料金プラン・LED化補助金活用）\n3. 【外部契約・委託費】（除草作業委託、害虫駆除、消防設備点検、清掃業者委託など）\n4. 【連合会・外部組織への分担金・協賛金】（上部組織への負担金、各種団体への慣例的寄付・協賛金の精査）\n5. 【備品・消耗品費】（行事ごとの過剰な文具・茶菓子・お弁当代のルール化）\n6. 【役員会で使えるコスト削減優先度判断マトリクス】\n\n【自治会名】[自治会名]\n【年間予算規模】[年間予算（例：年間会費収入 約100万円）]',
+        defaultVars: {
+          '自治会名': '松風町内会',
+          '年間予算（例：年間会費収入 約100万円）': '年間会費収入 約120万円（集会所維持費・街灯電気代が主な支出）'
+        }
+      },
+
+      // 8. 課題分析：SWOT分析
+      {
+        id: 'tpl-analysis-swot',
+        title: '【SWOT分析】自治会の強み・弱み・機会・脅威を整理し優先順位を決める',
+        category: 'analysis',
+        icon: '🧭',
+        description: '自治会の置かれた状況を客観的に4象限で分析。感情論を排除し、今すぐやるべき対策を明確化。',
+        tip: 'クロスSWOT（強み×機会、弱み×脅威）から、最も効果の高い一手が見つかります。',
+        template: 'あなたは地域再生・組織改善コンサルタントです。以下の自治会の現状データをもとに【自治会版SWOT分析】を実施し、今後の運営方針と優先アクションを提案してください。\n\n以下の構成で出力してください：\n1. 【4象限の分析】\n・強み（Strengths）：地域の資源、元気なシニア、立地など\n・弱み（Weaknesses）：役員の固定化、ICT苦手、若い世代の無関心など\n・機会（Opportunities）：新住民の転入、学校や企業との連携、助成金など\n・脅威（Threats）：高齢化率の上昇、未加入者の増加、自然災害リスクなど\n2. 【クロスSWOT戦略】\n・強み×機会（積極的に仕掛ける施策）\n・弱み×脅威（最優先で廃止・見直すべきリスク）\n3. 【今期すぐに着手できる優先アクション3選】\n\n【自治会名】[自治会名]\n【地域の状況・特徴】[地域の詳細（例：戸建て中心、高齢化率38%、最近若いファミリーも転入）]',
+        defaultVars: {
+          '自治会名': 'つつじが丘自治会',
+          '地域の詳細（例：戸建て中心、高齢化率38%、最近若いファミリーも転入）': '戸建て180世帯、高齢化が進む一方で新築戸建てに子育て世代が約30世帯転入。しかし新住民との交流がなく未加入が目立っている。'
+        }
+      },
+
+      // 9. 課題分析：5段階ロードマップ
+      {
+        id: 'tpl-analysis-roadmap',
+        title: '【解決手順】反発を防ぎ住民合意を得る「5段階改革ロードマップ」',
+        category: 'analysis',
+        icon: '🧭',
+        description: '「急に変えると古参が怒る」を防ぐ、可視化→実験→総会承認→定着化のステップバイステップ手順。',
+        tip: 'スモールスタート（お試し期間）を設けることが合意形成の最大の秘訣です。',
+        template: '自治会の慣例（例：紙回覧、重い行事、手渡し集金）を見直す際、古参役員や住民からの反発を回避し、全員が納得しながらスムーズに進めるための【5段階問題解決ロードマップ】を作成してください。\n\n各ステップで「やること」「反発を防ぐ伝え方のコツ」「目安期間」を明記してください：\n・ステップ1：現状把握と数値の共有（不満や負担の可視化）\n・ステップ2：改革アイデアの仕分けと試案作成\n・ステップ3：スモールスタート（特定地域や希望者だけでの「お試し運用」）\n・ステップ4：アンケートによる効果検証と総会での正式承認\n・ステップ5：新ルールの定着とマニュアル化\n\n【自治会名】[自治会名]\n【変えたい慣習・仕組み】[見直したい対象（例：紙の回覧板と戸別の会費手渡し集金）]',
+        defaultVars: {
+          '自治会名': 'つつじが丘自治会',
+          '見直したい対象（例：紙の回覧板と戸別の会費手渡し集金）': '毎月班長が各家庭を回って集める「手渡し会費集金」と「紙の回覧板」'
+        }
+      },
+
+      // 10. 改革計画・助成金：実施計画書
+      {
+        id: 'tpl-plan-execution',
+        title: '【改革計画書】総会・役員会を通す「自治会運営スマート改革 実施計画書」',
+        category: 'plan',
+        icon: '📑',
+        description: '背景、見直しの3本柱、移行スケジュール、想定問答Q&Aを盛り込んだ、そのまま総会に諮れるA4企画書。',
+        tip: '「廃止」ではなく「持続可能なアップデート」と表現するのがポイントです。',
+        template: '自治会の総会または拡大役員会で提案・承認を得るための【自治会運営スマート改革 実施計画書】を作成してください。感情論ではなく論理的で温かみがあり、高齢住民にも納得してもらえる文章構成にしてください。\n\n以下の見出しで作成してください：\n1. 改革の基本方針とスローガン（例：「無理なく、楽しく、助け合える自治会へ」）\n2. 改革の背景と現状の課題\n3. 今期取り組む「見直しの3本柱」（行事の簡素化・役員業務のスリム化・連絡手段の改善）\n4. 年間移行スケジュールと試行期間の設定\n5. 想定される懸念事項と対応Q&A（「スマホがない人はどうする？」「伝統行事をやめて大丈夫？」等）\n\n【自治会名】[自治会名]\n【見直したい具体的内容】[改革内容（例：夏祭りをキッチンカーマルシェへ変更、回覧板のデジタル併用）]',
+        defaultVars: {
+          '自治会名': '緑町町内会',
+          '改革内容（例：夏祭りをキッチンカーマルシェへ変更、回覧板のデジタル併用）': '炎天下での夏祭り模擬店調理を廃止して外部キッチンカーを導入、役員会議を隔月に削減、LINE連絡網を任意導入'
+        }
+      },
+
+      // 10-B. 1枚提案書
+      {
+        id: 'tpl-plan-proposal-onepager',
+        title: '【1枚提案書】役員会を即決させる！課題・効果・費用がひと目で伝わる「A4ワンペーパー提案書」',
+        category: 'plan',
+        icon: '📑',
+        description: '「長くて読まれない」「反対意見ばかり出る」を防ぐ、現状・目的・解決策・費用・リスク対策をA4・1枚に凝縮した提案書。',
+        tip: 'シニア役員でも3分で読める「ビフォー・アフター対比表」が承認の鍵になります。',
+        template: '役員会や理事会で新しい改善策（業務削減、LINE導入、行事変更など）を提案し、即決・賛同を得るための【A4用紙1枚で伝わる自治会業務改善提案書】を作成してください。忙しい役員や高齢の役員でも短時間で理解できるように要点を絞り込んでください。\n\n以下の構成で作成してください：\n1. 【提案タイトル】（ひと目でメリットが分かるキャッチーな件名）\n2. 【提案の背景・問題意識】（現在の課題と、このままだとどうなるか）\n3. 【提案内容の骨子】（何をするのか：具体策3点）\n4. 【Before / After 比較表】（従来のやり方 vs 提案のやり方：手間・費用・住民満足度の変化）\n5. 【費用と財源】（かかるコスト・予算内訳・節約できる金額）\n6. 【想定される懸念点と解決策（リスクヘッジ）】（古参役員から出そうな質問への先回り回答）\n7. 【今後のスケジュール】（審議・承認・試行のタイムライン）\n\n【自治会名】[自治会名]\n【提案したいテーマ】[提案内容（例：紙の回覧板からLINEオープンチャット併用への見直し）]\n【主なターゲット・対象者】[対象（例：全世帯、特に子育て世代と班長）]',
+        defaultVars: {
+          '自治会名': '緑町町内会',
+          '提案内容（例：紙の回覧板からLINEオープンチャット併用への見直し）': '紙の回覧板滞留解消のためのLINEオープンチャット併用と、手渡し集金の口座振替移行',
+          '対象（例：全世帯、特に子育て世代と班長）': '全世帯（特に共働き世帯および集金負担の重い班長12名）'
+        }
+      },
+
+      // 10-C. 新規事業・イベント詳細企画書
+      {
+        id: 'tpl-plan-project-spec',
+        title: '【事業企画書】アイデアを実行に移す「新プロジェクト・イベント詳細企画書（WBS・安全管理）」',
+        category: 'plan',
+        icon: '📑',
+        description: '目的、対象、タイムスケジュール、役割分担（WBS）、収支予算、雨天時対策、安全危機管理まで網羅した実務用企画書。',
+        tip: '「当日誰が何をするか」のタスク分担と安全対策が明記されていると、協力者が安心して集まります。',
+        template: '自治会で新しいプロジェクトやイベント（新時代行事、防災カフェ、スマホ教室など）を開催・実行するための【詳細事業企画書（実施要項）】を作成してください。役員やボランティアがそのまま手元に置いて動けるレベルの具体性にしてください。\n\n以下の項目を網羅してください：\n1. 【事業名称・開催趣旨】（目的・目指すコミュニティ像）\n2. 【開催日時・場所・対象者】（予備日・雨天時の判断基準）\n3. 【当日のタイムスケジュール】（準備〜本番〜撤収〜反省会）\n4. 【業務分担表（WBS）】（進行・設営・安全誘導・広報・受付の役割と担当）\n5. 【収支予算書】（収入：自治会費・参加費・助成金／支出：備品・消耗品・保険・謝礼）\n6. 【安全管理・緊急時対応マニュアル】（救急箱、熱中症対策、迷子対応、事故発生時の連絡先系統図）\n7. 【広報周知計画】（いつ・どんな媒体で告知するか）\n\n【自治会名】[自治会名]\n【企画したいイベント・事業】[事業内容（例：集会所での多世代eスポーツ大会＆防災カフェ）]\n【想定予算】[予算目安（例：約3万円）]',
+        defaultVars: {
+          '自治会名': '緑町町内会',
+          '事業内容（例：集会所での多世代eスポーツ大会＆防災カフェ）': '集会所での子ども×シニア対抗eスポーツ大会＆非常食カフェ',
+          '予算目安（例：約3万円）': '約3万円（参加費無料、自治会活動費より充当）'
+        }
+      },
+
+      // 10-D. ロールアウト（段階導入・展開）計画書
+      {
+        id: 'tpl-plan-rollout-strategy',
+        title: '【ロールアウト計画】反発ゼロで全面移行へ導く「お試し運用（パイロット）〜全面展開手順」',
+        category: 'plan',
+        icon: '📑',
+        description: 'LINE導入や行事変更・口座振替など、大きな変更を「特定班での実験→検証→全体説明会→本番展開」へスムーズに進める移行シナリオ。',
+        tip: '「いきなり全体導入」を避け、「1丁目3班だけでお試し」とすることで反対派の不安を解消できます。',
+        template: '自治会の長年の仕組み（LINE連絡網の導入、口座振替への切り替え、清掃当番の見直し等）を大きく変更する際に、住民の不満や混乱、古参役員からの反発を極小化しながら着実に移行させるための【段階的導入（ロールアウト）計画書】を作成してください。\n\n以下のフェーズ構成で具体的なアクションを設計してください：\n1. 【フェーズ1：モデル地区でのパイロット運用（お試し期間：1〜2ヶ月）】\n・先行導入する特定班（1〜2班）の選定理由と協力依頼の進め方\n・試行期間中に収集すべきデータ（使いやすさ、トラブル、所要時間）\n2. 【フェーズ2：検証と課題のチューニング（改善期間：1ヶ月）】\n・パイロット参加者へのミニアンケートと改善点の反映\n・「やってみたらこんなに楽だった」という成功の声（住民の口コミ）の可視化\n3. 【フェーズ3：全世帯への説明と移行案内（周知期間：1ヶ月）】\n・不安を解消する「やさしい説明チラシ」と「個別相談サポート窓口」の設置\n・「紙とデジタルの併用期間」のルール設定\n4. 【フェーズ4：本番ロールアウト（全面展開と定着）】\n・新ルールの公式開始宣言とフォローアップ体制\n5. 【想定されるトラブル・クレーム対応Q&A集】\n\n【自治会名】[自治会名]\n【ロールアウトしたい仕組み】[導入したい制度・仕組み（例：紙の回覧板からLINEオープンチャットへの段階移行）]\n【全体の世帯規模】[世帯規模（例：12班、約200世帯）]',
+        defaultVars: {
+          '自治会名': '緑町町内会',
+          '導入したい制度・仕組み（例：紙の回覧板からLINEオープンチャットへの段階移行）': '紙の回覧板からLINEオープンチャットへの段階移行（希望者先行導入と併用運用）',
+          '世帯規模（例：12班、約200世帯）': '10班、約180世帯'
+        }
+      },
+
+      // 11. 改革計画・助成金：助成金申請書
+      {
+        id: 'tpl-plan-subsidy',
+        title: '【助成金申請】審査員を納得させる「地域活性化・防災助成金 申請企画書」',
+        category: 'plan',
+        icon: '📑',
+        description: '行政や民間財団の助成金（数十万円〜百万円）を獲得するための、目的・事業内容・収支予算の申請骨子。',
+        tip: '「自立継続性（助成金が終わった後も続く仕組み）」を盛り込むと採択率が跳ね上がります。',
+        template: '行政や地域振興財団の助成金（地域コミュニティ活性化補助金、防災助成金など）に採択されるための【助成金交付申請書（事業計画書）】のドラフトを作成してください。審査員の評価基準（必要性、独自性、波及効果、継続性、予算妥当性）を網羅してください。\n\n以下の項目を記載してください：\n1. 事業名（魅力的でわかりやすいタイトル）\n2. 事業実施の背景と地域の切実な課題\n3. 事業の目的と目指す成果（定量的・定性的な目標）\n4. 具体的な実施内容とスケジュール\n5. 収支予算計画（見積もり項目の分類）\n6. 助成期間終了後の自走・継続計画\n\n【自治会名】[自治会名]\n【申請したい助成金名または使途】[事業内容（例：集会所へのWi-Fi整備と高齢者スマホ教室、または体験型防災倉庫の備蓄整備）]\n【希望助成金額】[金額（例：約50万円）]',
+        defaultVars: {
+          '自治会名': '緑町町内会',
+          '事業内容（例：集会所へのWi-Fi整備と高齢者スマホ教室、または体験型防災倉庫の備蓄整備）': '集会所にWi-Fiと大型モニターを設置し、高齢者向けデジタルサロンと体験型防災ピクニックを開催する事業',
+          '金額（例：約50万円）': '50万円'
+        }
+      },
+
+      // 11-B. 行政・社協連携：課題相談・支援要請書
+      {
+        id: 'tpl-collab-gov-shakyo',
+        title: '【行政・社協連携】たらい回しを防ぎ協力を引き出す「地域課題の相談・支援要請シート」',
+        category: 'collab',
+        icon: '🤝',
+        description: '役所の地域振興課や社会福祉協議会（CSW・地域包括支援センター）に持ち込み、具体的支援や予算・専門職の介入を引き出す相談フォーマット。',
+        tip: '「単なる陳情・要望」ではなく「自治会もここまで動くので、この専門支援をお願いしたい」という共助・公助の役割分担を示すのがポイントです。',
+        template: '自治会だけでは解決が難しい課題（空き家放置、独居高齢者のごみ屋敷化・孤立、通学路の危険箇所、防災設備の老朽化等）について、自治体窓口（地域振興課、市民協働課、福祉課）や社会福祉協議会（CSW・生活支援コーディネーター）に持ち込み、迅速な協力と支援を引き出すための【地域課題 相談・支援要請シート】を作成してください。\n\n単なる一方的な陳情ではなく、行政・社協が動きやすいよう以下の構成で作成してください：\n1. 【相談テーマ・要請の趣旨】（何について・誰の支援が必要か）\n2. 【現状の客観的状況とデータ】（場所、対象世帯数、発生頻度、放置した場合のリスク）\n3. 【これまで自治会で取り組んだことと直面している限界】（自治会側の努力と、越えられない壁）\n4. 【行政・社協にお願いしたい具体的サポート】（専門職の同行訪問、制度活用、補助金案内、他機関との調整など）\n5. 【今後の自治会側の協力体制】（行政と協働して自治会が担える役割）\n6. 【担当連絡先・相談希望日時】\n\n【自治会名】[自治会名]\n【相談したい相手機関】[機関（例：市役所市民協働課および社会福祉協議会CSW）]\n【相談したい地域課題】[課題内容（例：単身高齢者の孤立・見守り困難と、通学路の暗がり・防犯灯不足）]',
+        defaultVars: {
+          '自治会名': '緑町町内会',
+          '機関（例：市役所市民協働課および社会福祉協議会CSW）': '区役所地域振興課および地区社会福祉協議会',
+          '課題内容（例：単身高齢者の孤立・見守り困難と、通学路の暗がり・防犯灯不足）': '高齢化に伴う単身世帯の孤立・ごみ出し困難世帯の増加と、自治会役員だけでの見守り訪問の限界'
+        }
+      },
+
+      // 11-C. NPO・専門団体連携：協働オファー文
+      {
+        id: 'tpl-collab-npo-partnership',
+        title: '【NPO・専門団体連携】地域課題のプロと組む「共創・協働オファー（連携依頼文）」',
+        category: 'collab',
+        icon: '🤝',
+        description: '子ども食堂、防災士会、高齢者外出支援、空き家活用などのノウハウを持つNPOやボランティア団体にアプローチし、無理のない協働事業を立ち上げる依頼文。',
+        tip: '「場所（集会所）や住民への周知は自治会が提供し、プログラム内容はNPOにお願いする」という補完関係を提示すると快諾されます。',
+        template: '自治会内の課題（子どもの居場所づくり、実践的な防災訓練、高齢者の生きがいづくり等）を解決するために、実績のある専門NPOや市民活動団体、一般社団法人等へ連携・協働を申し入れる【協働事業パートナーシップ提案・依頼文】を作成してください。\n\n相手団体にとっても活動実績や地域密着のメリットが感じられる、以下の構成で作成してください：\n1. 【提案の件名】（共創の目的がひと目で伝わる温かいタイトル）\n2. 【団体への敬意とアプローチの理由】（相手団体のどんな実績・理念に共感したか）\n3. 【当自治会が抱えている課題と目指す地域像】\n4. 【共同で実施したい企画案】（例：集会所を活用した月1回の子ども食堂・多世代カフェ、防災ワークショップ等）\n5. 【相互の役割分担（Win-Winの設計）】\n・自治会が提供できるリソース（集会所スペース無償提供、全世帯へのチラシ周知、光熱費・謝礼等）\n・相手団体にお願いしたいこと（企画監修、当日のファシリテーション・専門指導）\n6. 【打診・初回オンラインまたは集会所での面談のお願い】\n\n【自治会名】[自治会名]\n【連携したい相手団体】[相手（例：地域の防災まちづくりNPO、または子育て支援サークル）]\n【一緒に取り組みたい内容】[企画テーマ（例：集会所を活用した防災カフェ＆親子サバイバル体験）]',
+        defaultVars: {
+          '自治会名': '緑町町内会',
+          '相手（例：地域の防災まちづくりNPO、または子育て支援サークル）': '地域子育て支援NPOおよび地元防災士会',
+          '企画テーマ（例：集会所を活用した防災カフェ＆親子サバイバル体験）': '集会所を活用した放課後子ども学習見守りカフェ＆親子防災ピクニック'
+        }
+      },
+
+      // 11-D. 学校・大学・企業連携：産学官民パートナーシップ企画
+      {
+        id: 'tpl-collab-school-business',
+        title: '【学校・大学・企業連携】若者と活力を呼び込む「産学官民 パートナーシップ企画書」',
+        category: 'collab',
+        icon: '🤝',
+        description: '近隣の小中学校・高校・大学（ゼミ/サークル）や、地元企業・商店街・スーパーと連携し、学生ボランティアや物資・スポンサー協力を引き出す企画。',
+        tip: '学校には「地域教育・探究学習の実践場」、企業には「地域貢献（CSR）・住民との信頼関係」という明確なメリットを言語化するのが成功の秘訣です。',
+        template: '自治会活動に外部の若い力や民間企業の活力を取り入れるため、近隣の学校（小・中・高・大学）や地元企業（スーパー、ドラッグストア、工務店、金融機関など）と連携する【産学官民 地域パートナーシップ協定・協働企画書】を作成してください。\n\n双方にとって価値のある持続可能なパートナーシップとなるよう、以下の項目を整理してください：\n1. 【連携プロジェクト名】（地域の活性化・防災・多世代共生を掲げた企画名）\n2. 【連携の目的と背景】（地域の課題と、学校・企業の強みをどう掛け合わせるか）\n3. 【相手側にとっての参画メリット】\n・学校・大学側：探究学習・地域貢献単位・学生の実践的な社会経験の場\n・企業側：地域CSR活動・住民からの信頼獲得・店舗・サービスの認知向上\n4. 【具体的な協働アクション】\n・大学生や高校生によるイベント運営・デジタル支援（スマホ教室、SNS広報、防災ブース担当）\n・地元企業による物資協賛・防災備蓄スペース提供・店舗前の掲示板協力など\n5. 【年間連携スケジュールと連絡体制】\n6. 【負担にならない協定（覚書）の骨子】\n\n【自治会名】[自治会名]\n【連携したい相手先】[連携先（例：近隣の大学ボランティアセンターおよび地元スーパー）]\n【協働したいテーマ】[テーマ（例：秋の防災フェスでの学生ブース出展および非常時物資供給協力）]',
+        defaultVars: {
+          '自治会名': '緑町町内会',
+          '連携先（例：近隣の大学ボランティアセンターおよび地元スーパー）': '近隣大学の地域連携センター（学生ボランティア）および地元スーパーマーケット',
+          'テーマ（例：秋の防災フェスでの学生ブース出展および非常時物資供給協力）': '秋の防災フェス・夏イベントでの若者ブース企画運営と、災害時の駐車場・物資提供協力'
+        }
+      },
+
+      // 12. 新時代行事：防災ピクニックフェスタ
+      {
+        id: 'tpl-event-bousai-festa',
+        title: '【新時代行事：防災フェス】運動会をリニューアル！親子が集まる「体験型防災ピクニック」企画',
+        category: 'community',
+        icon: '🎉',
+        description: '1日がかりの運動会や重労働な訓練を廃止！キャンプ飯・防災クイズ・煙体験等を融合した半日イベント。',
+        tip: '「防災」をアウトドア・キャンプの切り口にすることで子育て世代の父親が主体的に来場します。',
+        template: '準備や拘束時間が重荷になり参加者も減っていた「従来の町内運動会（または形式的な消火訓練）」をリニューアルし、子どもからシニアまで楽しみながら命を守る知恵を身につけられる【新時代の体験型 防災ピクニックフェスタ（半日開催）】の企画書を作成してください。\n\n役員の負担を最小限にしつつ住民満足度を高める以下の構成で作成してください：\n1. 【イベント概要】（名称、テーマ、開催時間：午前中2〜3時間、場所）\n2. 【多世代が夢中になる体験コンテンツ】\n・ポリ袋で作る非常食・キャンプ飯体験\n・親子防災スタンプラリー（消火器シューティング、毛布担架体験）\n・段ボールハウス・パーテーション組立（子ども秘密基地）\n・消防署・警察車両の記念撮影\n3. 【役員の負担を劇的に減らす運営の工夫】\n4. 【回覧板・掲示板・LINE用のワクワクする案内チラシ文面】\n\n【自治会名】[自治会名]\n【開催場所】[場所（例：中央公園および集会所広場）]',
+        defaultVars: {
+          '自治会名': '光が丘自治会',
+          '場所（例：中央公園および集会所広場）': '中央公園および集会所前広場'
+        }
+      },
+
+      // 13. 新時代行事：キッチンカーマルシェ
+      {
+        id: 'tpl-event-kitchencar',
+        title: '【新時代行事：マルシェ】役員の模擬店負担ゼロ！「キッチンカー＆青空マルシェ広場」企画',
+        category: 'community',
+        icon: '🎉',
+        description: '焼きそばやフランクフルトを役員が焼く重労働を全廃！近隣個店やキッチンカーを呼んで役員もお客さんになる祭り。',
+        tip: '調理・衛生管理をプロに委託するため、食中毒リスクと役員の火傷・疲労がゼロになります。',
+        template: '役員が早朝から鉄板で焼きそばを焼き続ける重労働をなくし、近隣のキッチンカーや手作りフリマを誘致する【役員も楽しめる青空ローカルマルシェ】の開催企画書を作成してください。\n\n以下の内容を盛り込んでください：\n1. 企画コンセプト（「役員も手ぶらでお客さんになれるお祭り」）\n2. 出店誘致の具体的な進め方（仲介サービス、地元カフェ、出店ルール）\n3. 住民参加型ブース（子ども用品ゆずりあいフリマ、地域の特技ステージ）\n4. ゴミゼロ・衛生・安全対策（マイバッグ持参、各自持ち帰り）\n5. 住民向け案内チラシ用キャッチコピー＆文面\n\n【自治会名】[自治会名]\n【会場候補】[会場（例：集会所駐車場や近隣の公園）]',
+        defaultVars: {
+          '自治会名': 'みずき野町内会',
+          '会場（例：集会所駐車場や近隣の公園）': '集会所前広場および駐車場スペース'
+        }
+      },
+
+      // 14. 新時代行事：eスポーツ＆ボドゲ
+      {
+        id: 'tpl-event-esports-boardgame',
+        title: '【新時代行事：eスポーツ＆ボドゲ】天候不問・力仕事なし！「集会所 多世代ゲーム大会」企画',
+        category: 'community',
+        icon: '🎉',
+        description: '雨天中止の心配なし！Nintendo Switchやオセロ・世界のボードゲームを活用し、子どもとシニアが対等に対決。',
+        tip: '体感型ボウリングやリズムゲームなら、ゲームをやったことがない80代でもすぐに楽しめます。',
+        template: '天候に左右されず、力仕事が一切不要な新しい自治会行事として、集会所の大型モニターを活用した【子ども×シニア 多世代eスポーツ＆世界のボードゲーム対戦会】を企画してください。\n\n以下の項目を具体的に提案してください：\n1. イベント全体構成とタイムスケジュール（2〜3時間）\n2. おすすめの種目選定（高齢者でも5秒でルールが分かり体格差なく競えるもの）\n3. 世代ミックスペアの工夫（子どもがシニアに優しく教える関係性づくり）\n4. 機材の調達方法（有志持ち寄り、公民館借用など低コストな方法）\n5. シニアも保護者も安心して参加できる案内チラシ文面\n\n【自治会名】[自治会名]\n【想定人数】[参加人数（例：子ども15名、シニア15名、計30名程度）]',
+        defaultVars: {
+          '自治会名': '欅台自治会',
+          '参加人数（例：子ども15名、シニア15名、計30名程度）': '小学生15名、シニア15名、保護者計約30〜40名'
+        }
+      },
+
+      // 15. 新時代行事：星空シネマ
+      {
+        id: 'tpl-event-outdoor-cinema',
+        title: '【新時代行事：星空シネマ】準備はプロジェクター1台！「公園シネマ＆ランタン夕涼みナイト」企画',
+        category: 'community',
+        icon: '🎉',
+        description: '大がかりな櫓（やぐら）組みを廃止！レジャーシートを広げて夜風を感じながら映画を楽しむチル系イベント。',
+        tip: '著作権の公合許諾映画の選び方や、LEDランタンを使った幻想的な演出も網羅。',
+        template: '真夏の炎天下での櫓（やぐら）設営や警備を要する旧来の夏祭りを刷新し、プロジェクター1台と白壁（または簡易スクリーン）で住民がレジャーシートを持ち寄って鑑賞する【星空野外シネマ＆ランタン夕涼みナイト】の企画書を作成してください。\n\n以下のポイントを整理してください：\n1. イベント企画概要（日没前〜20:00頃、持ち物：敷物・軽食・マイボトル）\n2. 野外映画上映の注意点と法規（非営利上映許諾映画の手配方法、音量配慮）\n3. ペットボトルLEDランタンによる幻想的な低コスト演出\n4. 終了後30分で完全撤収できるゴミゼロ片付け動線\n5. 思わず行きたくなるノスタルジックな案内チラシ文面\n\n【自治会名】[自治会名]\n【会場候補】[会場（例：集会所前の芝生広場）]',
+        defaultVars: {
+          '自治会名': '杜の里自治会',
+          '会場（例：集会所前の芝生広場）': '集会所裏の芝生広場（雨天時は集会所大広間）'
+        }
+      },
+
+      // 16. 役員・業務スリム化
+      {
+        id: 'tpl-officer-election',
+        title: '【役員選出】くじ引き・押し付け合いを根絶する「エントリー制と業務分割」設計',
+        category: 'officer',
+        icon: '👥',
+        description: '「会長」「副会長」の重荷を分担し、仕事や育児と両立できるチーム制と公平な選出ルールを作る。',
+        tip: '「1人1役の細分化」により、誰もが無理なく関われる仕組みを提示します。',
+        template: '毎年恒例となっている「くじ引きによる役員決め」や「役員の押し付け合いによる険悪な雰囲気」を根本から解消するための【新しい役員選出制度と業務分割プラン】を設計してください。\n\n以下の項目を具体的に提案してください：\n1. 従来の「役職固定型」から「プロジェクト・チーム制（複数人分担）」への移行案\n2. 免除規定の見直し（介護、乳幼児育児、病気等の公平なガイドライン）\n3. 手伝いたい業務だけを選べる「エントリーシート（立候補・希望調査）」の設問例\n4. 役員を打診された住民の不安を取り除く「役員ハンドブック」記載の安心メッセージ\n\n【自治会名】[自治会名]\n【現在の役員数】[役員体制（例：会長1、副会長2、会計1、各班長12名）]',
+        defaultVars: {
+          '自治会名': '桜ヶ丘自治会',
+          '役員体制（例：会長1、副会長2、会計1、各班長12名）': '役員5名（会長・副会長・会計・書記）および各組長10名'
+        }
+      },
+      {
+        id: 'tpl-officer-handover',
+        title: '【引き継ぎ効率化】前任者の頭の中を可視化！「30分で引き継げる役員業務マニュアル」作成',
+        category: 'officer',
+        icon: '👥',
+        description: '毎年4月の憂鬱な役員引き継ぎを解消。年間スケジュール、手順、過去データ保管場所をA4シート1枚に集約。',
+        tip: '「何をすれば合格か」のゴールを明確にすることで、新任役員の不安を一掃できます。',
+        template: '自治会役員が交代する際の引き継ぎを劇的に効率化し、新任役員が不安なく業務を開始できる【A4シート1枚でわかる役員業務引き継ぎ書（簡易マニュアル）】のテンプレートを作成してください。\n\n以下の項目をわかりやすく整理してください：\n1. 役職の役割と年間スケジュール（「いつ・何を・どこに」やるかの年間タイムライン）\n2. 定常業務の3ステップ手順（書類作成、連絡先、提出期限）\n3. 過去資料・データ・印鑑・備品の保管場所一覧（紛失防止リスト）\n4. 過去によくあったトラブルや注意点と、その対処法（前任者からの知恵袋）\n5. 新任役員へ向けた「前任者からの温かい応援メッセージ」\n\n【自治会名】[自治会名]\n【対象役職】[引き継ぎ対象の役職（例：会計、広報担当、防犯防災担当、書記など）]',
+        defaultVars: {
+          '自治会名': '桜ヶ丘自治会',
+          '引き継ぎ対象の役職（例：会計、広報担当、防犯防災担当、書記など）': '広報担当（月1回の会報誌印刷と回覧板の配布管理）'
+        }
+      },
+
+      // 17. 仲間集め：スポットボランティア
+      {
+        id: 'tpl-recruitment-spot',
+        title: '【スポット参加】「年間役員は無理でも1回30分なら手伝える」住民サポーター制度',
+        category: 'recruitment',
+        icon: '🙋',
+        description: '年間拘束をやめ、草刈り30分・LINE作成だけ等の「部分手伝い」で現役世代を巻き込む制度設計。',
+        tip: '「役員」ではなく「サポーター」「ちょこっとお手伝い隊」と呼ぶのが成功の鍵です。',
+        template: '共働き世帯や忙しい子育て世代が「年間役員は無理だけど、イベント当日や得意なことなら手伝える」と思える【自治会ちょこっとサポーター（スポットボランティア）制度】の導入案を作成してください。\n\n以下の内容を盛り込んでください：\n1. 制度の愛称とコンセプト（「できる人が、できる時に、できることだけ」）\n2. 登録制の仕組み（LINEオープンチャット等で手伝える人をプールする方法）\n3. 募集するスポット作業の具体例（草刈り1時間、チラシデザイン、写真撮影、受付など）\n4. サポーターへの感謝・ちょっとした還元（参加証、地域感謝券など）\n5. 若手や共働き世帯の心を動かす募集チラシ文面\n\n【自治会名】[自治会名]',
+        defaultVars: {
+          '自治会名': 'さくら台自治会'
+        }
+      },
+      {
+        id: 'tpl-recruitment-welcome-newbie',
+        title: '【新住民・若手加入】「入らないとゴミが出せない」を脱却！共感を呼ぶ新住民向け加入案内レター',
+        category: 'recruitment',
+        icon: '🙋',
+        description: '義務感や威圧感をゼロにし、防災や安心、ちょっとした街のつながりなど「入るメリット」が伝わる温かい案内文。',
+        tip: '「いつでも退会可能」「役員は免除期間あり」などの安心材料を添えると加入率が上がります。',
+        template: '新しく街に引っ越してきた住民や若い子育て世代に向けて、義務感や強制感を一切感じさせず、「入ってよかった」と思ってもらえる【心温まる自治会加入案内状（ウェルカムレター）】を作成してください。\n\n以下の要素を盛り込んで作成してください：\n1. 街への歓迎メッセージ（新しい仲間を迎える温かい言葉）\n2. 自治会が地域で果たしている具体的な役割（街灯の維持、子どもの登下校見守り、災害時の共助）\n3. 加入のメリット（防災情報の優先共有、近所の助け合い、お祭りやイベントへの気軽な参加）\n4. 忙しい世代への配慮の明記（「最初の1年間は役員免除」「行事参加は自由」「会費の使途透明化」）\n5. 簡単な加入手続きの案内（WEBフォームまたはポスト投函）\n\n【自治会名】[自治会名]\n【地域の特色】[地域の雰囲気（例：新築戸建てが増加中、静かな住宅街、子育て世帯が多い等）]',
+        defaultVars: {
+          '自治会名': 'さくら台自治会',
+          '地域の雰囲気（例：新築戸建てが増加中、静かな住宅街、子育て世帯が多い等）': '新築戸建てエリアが開発され、共働きの未就学児・小学生家庭が多く転入してきている住宅地'
+        }
+      },
+
+      // 18. デジタル化：LINE連絡網
+      {
+        id: 'tpl-digital-line',
+        title: '【LINE活用】高齢者に不安を与えない「LINE公式・オープンチャット」ハイブリッド導入',
+        category: 'digital',
+        icon: '📱',
+        description: '紙の回覧板とLINEを無理なく併用し、電話番号バレを防ぐプライバシー配慮ルールを整備。',
+        tip: '「紙をいきなり全廃しない」ことを明言すると、反対派がすんなり受け入れてくれます。',
+        template: '紙の回覧板の回覧遅延や不在による停滞を解消するため、LINE（公式アカウントまたはオープンチャット）を導入する【デジタル連絡網の段階的導入計画】を作成してください。\n\n高齢者の「スマホが苦手」「取り残される」という不安に最大限配慮した以下の内容にしてください：\n1. 紙とデジタルの「ハイブリッド運用ルール」（当面は併用し、希望者のみLINE登録）\n2. 個人情報（友だち登録で電話番号や個人LINEがバレない安全な設定手順）\n3. 配信頻度とマナー（夜間配信禁止、緊急連絡・防犯・行事案内に限定）\n4. わかりやすい導入案内チラシ（スマホ画面の大きな図解イメージ付き文面）\n\n【自治会名】[自治会名]\n【世帯のスマホ普及目安】[普及度（例：シニアも7割程度はLINEを使用）]',
+        defaultVars: {
+          '自治会名': 'あざみ野自治会',
+          '普及度（例：シニアも7割程度はLINEを使用）': 'シニア層も家族との連絡でLINEは使用しているが、設定に不安がある人が多い'
+        }
+      },
+      {
+        id: 'tpl-digital-smartphone-salon',
+        title: '【スマホ教室】デジタル格差を解消！地域の若手・学生が教える「やさしいスマホよろず相談会」企画',
+        category: 'digital',
+        icon: '📱',
+        description: 'LINEやカメラの使い方を個別で教えるミニ相談会。シニアの不安を解消し、若い世代との自然な多世代交流を生む。',
+        tip: '「何でも聞いてOK」「マンツーマン」を売りにするとシニアが気後れせず集まります。',
+        template: '高齢者が多い自治会で、デジタルデバイド（情報格差）を解消しつつ、地域の若手や学生ボランティアとシニアが仲良くなれる【集会所 お茶飲みスマホよろず相談会】の開催企画書を作成してください。\n\n以下の内容を盛り込んでください：\n1. 相談会の概要とコンセプト（「お茶を飲みながら、今さら聞けないスマホの疑問を何でも解決」）\n2. よくあるシニアの相談内容と回答マニュアルの骨子（LINEの送り方、文字の拡大、迷惑メール対策、自治会公式アカウントの登録）\n3. 若手・学生サポーター（講師役）の集め方と謝意の示し方\n4. 開催当日のタイムテーブルとブース配置（1対1または少人数の丁寧な案内）\n5. 参加したくなる親しみやすい案内チラシ文面\n\n【自治会名】[自治会名]\n【開催場所】[会場（例：自治会集会所大広間）]',
+        defaultVars: {
+          '自治会名': 'あざみ野自治会',
+          '会場（例：自治会集会所大広間）': 'あざみ野自治会集会所 和室およびサロンコーナー'
+        }
+      },
+
+      // 19. 防災・見守り：日常動線見守り
+      {
+        id: 'tpl-disaster-mimamori',
+        title: '【ながら見守り】当番制パトロールを廃止！散歩・買い物ついでに見守る仕組み',
+        category: 'disaster',
+        icon: '🚨',
+        description: '夜間当番や黄色い旗振りの負担をなくし、犬の散歩・ジョギング・通勤ついでに街を見守る持続可能モデル。',
+        tip: '専用グッズ（バッジや腕章）を配布するだけで抑止効果と地域愛が生まれます。',
+        template: '高齢化や共働きの増加で維持が難しくなった「定期的な夜間防犯パトロールや登下校旗振り当番」を刷新し、住民が普段の生活リズムの中で無理なく参加できる【「ながら見守り」推進プログラム】を企画してください。\n\n以下の項目を記載してください：\n1. 「ながら見守り」の概要（犬の散歩、ウォーキング、花の水やり、通勤・買い物の動線活用）\n2. 参加のハードルを下げる工夫（当番義務なし、事前登録のみ、目印グッズの活用）\n3. 異変を発見したときの通報・連絡ルール（無理に介入せず警察・役場へ連絡）\n4. 住民への普及・募集案内文（「あなたのいつものお散歩が、街の安心になります」）\n\n【自治会名】[自治会名]',
+        defaultVars: {
+          '自治会名': '楓ヶ丘町内会'
+        }
+      },
+      {
+        id: 'tpl-disaster-evacuation-map',
+        title: '【共助・防災】誰一人取り残さない！災害時要配慮者の「近所助け合いマップ＆個別避難計画」作成',
+        category: 'disaster',
+        icon: '🚨',
+        description: '一人暮らしの高齢者や障がい者を誰がどう声かけして避難させるか。個人情報に配慮しつつ近隣2〜3軒でペアを組む仕組み。',
+        tip: '自治会全体ではなく「お隣2軒」の向こう三軒両隣ルールにすると実行可能性が高まります。',
+        template: '大規模地震や風水害の発生時に、一人暮らしの高齢者や障がい者、乳幼児のいる世帯を近所同士で確実に声かけ・支援するための【共助型・個別避難支援ネットワーク計画】を作成してください。\n\n個人情報の取り扱いに配慮しつつ、無理なく運用できる以下の内容にしてください：\n1. 支援対象者の把握と同意取得の進め方（行政の避難行動要支援者名簿との連携）\n2. 「向こう三軒両隣」ペアリング体制（1世帯を近隣2世帯で見守る二重化ルール）\n3. 安否確認フラグの導入（「無事ですタオル」や黄色いリボンを玄関に掲げる安否可視化）\n4. 年1回の声かけ・防災まち歩き点検の手順\n5. 住民向け「災害時のお隣さん助け合いガイド」の配布文面\n\n【自治会名】[自治会名]\n【地域の世帯状況】[高齢化や一人暮らしの現状（例：75歳以上の一人暮らしが約25世帯）]',
+        defaultVars: {
+          '自治会名': '楓ヶ丘町内会',
+          '高齢化や一人暮らしの現状（例：75歳以上の一人暮らしが約25世帯）': '高齢化率35%で、独居高齢者や老老介護世帯が約30世帯あり、風水害時の避難に不安を抱えている'
+        }
+      },
+
+      // 20. 会計・総会：ビジュアル決算報告
+      {
+        id: 'tpl-governance-accounting',
+        title: '【会計見える化】「会費は何に使われた？」がひと目で伝わるビジュアル決算報告書',
+        category: 'governance',
+        icon: '⚖️',
+        description: '数字の羅列だけの難解な決算書を刷新。「1世帯あたり月数百円がどこに役立ったか」を可視化。',
+        tip: '街灯電気代やゴミ置き場修繕費など、生活に直結する項目を強調すると信頼が高まります。',
+        template: '住民に「自治会費を払う価値」を実感してもらい、使途の不透明感をなくすための【総会向けビジュアル決算報告書・広報レター】を作成してください。簿記の専門用語を避け、グラフや写真で直感的に理解できるフォーマットにします。\n\n以下の要素を盛り込んでください：\n1. 会費の使途内訳（「月300円の会費で地域に何ができたか」の分解説明）\n・防犯・街灯の電気代・球切れ交換\n・ゴミ集積所のカラスネット・清掃用具\n・防災倉庫の非常食・簡易トイレ備蓄更新\n・子ども会・お祭り・敬老祝いの地域交流\n2. 監査役による透明性保証メッセージ\n3. 会計担当役員の負担を減らす「通帳記帳・ネットバンキング運用の工夫」\n\n【自治会名】[自治会名]\n【年会費または月会費】[会費額（例：月額300円、年間3,600円）]',
+        defaultVars: {
+          '自治会名': '楓ヶ丘町内会',
+          '会費額（例：月額300円、年間3,600円）': '月額300円（年間3,600円）'
+        }
+      },
+
+      // 21. 会計・総会：口座振替移行
+      {
+        id: 'tpl-governance-cashless',
+        title: '【集金改革】班長の手渡し集金負担をゼロにする「口座振替・キャッシュレス移行案内」',
+        category: 'governance',
+        icon: '⚖️',
+        description: '不在宅への再訪問や小銭紛失トラブルを解消。高齢者も納得して口座振替に移行できる案内状とFAQ。',
+        tip: '「班長の負担軽減」だけでなく「住民自身の利便性向上（留守でもOK）」を強調するのがコツです。',
+        template: '毎年班長が各家庭を何度も訪問して会費を回収している「手渡し集金」を廃止し、口座振替（または銀行振込）へ完全移行するための【住民説明チラシとQ&A】を作成してください。\n\n以下の内容を盛り込んでください：\n1. 移行の背景（不在がちによる班長の過度な負担、現金保管・紛失リスクの防止）\n2. 口座振替のメリット（住人側：留守でも安心、おつり不要／自治会側：会計ミスの撲滅）\n3. 高齢者でも迷わない手続きの3ステップ（申込用紙の記入・ポスト投函）\n4. よくある不安・疑問に対するQ&A（「手数料は誰が払う？」「途中で転出したら返金される？」など）\n\n【自治会名】[自治会名]\n【引き落とし金融機関】[金融機関（例：ゆうちょ銀行および指定の地方銀行）]',
+        defaultVars: {
+          '自治会名': '楓ヶ丘町内会',
+          '金融機関（例：ゆうちょ銀行および指定の地方銀行）': 'ゆうちょ銀行および指定地方銀行の自動引き落とし'
+        }
+      }
+    ];
+
+    // State
+    let prompts = [...DEFAULT_PROMPTS];
+    let activeCategory = 'all';
+    let searchQuery = '';
+    let favoriteIds = new Set();
+    let showFavoritesOnly = false;
+    let currentCustomizingPrompt = null;
+    let currentVariables = {};
+
+    // DOM Elements
+    const categoryTabsEl = document.getElementById('category-tabs');
+    const promptsContainerEl = document.getElementById('prompts-container');
+    const emptyStateEl = document.getElementById('empty-state');
+    const searchInputEl = document.getElementById('search-input');
+    const searchClearBtnEl = document.getElementById('search-clear-btn');
+    const promptCountEl = document.getElementById('prompt-count');
+    const currentCategoryNameEl = document.getElementById('current-category-name');
+    const btnToggleFavEl = document.getElementById('btn-toggle-fav-filter');
+    const favIconEl = document.getElementById('fav-icon');
+    const favLabelEl = document.getElementById('fav-label');
+    const toastEl = document.getElementById('toast');
+    const toastTitleEl = document.getElementById('toast-title');
+    const toastMessageEl = document.getElementById('toast-message');
+
+    // Modals
+    const customizeModalEl = document.getElementById('customize-modal');
+    const modalIconEl = document.getElementById('modal-icon');
+    const modalTitleEl = document.getElementById('modal-title');
+    const modalCategoryBadgeEl = document.getElementById('modal-category-badge');
+    const modalDescBoxEl = document.getElementById('modal-description-box');
+    const modalVarsListEl = document.getElementById('modal-vars-list');
+    const modalPromptTextEl = document.getElementById('modal-prompt-text');
+
+    const createModalEl = document.getElementById('create-modal');
+    const customCategorySelectEl = document.getElementById('custom-category');
+
+    // Initialize
+    function init() {
+      renderCategoryTabs();
+      populateCustomCategorySelect();
+      setupEventListeners();
+      renderPrompts();
+    }
+
+    // Populate Category Tabs
+    function renderCategoryTabs() {
+      categoryTabsEl.innerHTML = CATEGORIES.map(cat => {
+        const isActive = activeCategory === cat.id;
+        const baseClass = "px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap flex items-center gap-1.5 cursor-pointer";
+        const activeClass = isActive 
+          ? "bg-deepgreen-850 text-white shadow-md border border-deepgreen-700" 
+          : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200";
+        return `<button class="${baseClass} ${activeClass}" onclick="selectCategory('${cat.id}')">
+          <span>${cat.icon}</span>
+          <span>${cat.name}</span>
+        </button>`;
+      }).join('');
+    }
+
+    function populateCustomCategorySelect() {
+      customCategorySelectEl.innerHTML = CATEGORIES
+        .filter(c => c.id !== 'all')
+        .map(c => `<option value="${c.id}">${c.icon} ${c.name}</option>`)
+        .join('');
+    }
+
+    // Filter and Render
+    function renderPrompts() {
+      const filtered = prompts.filter(p => {
+        // Category filter
+        if (activeCategory !== 'all' && p.category !== activeCategory) {
+          return false;
+        }
+        // Favorite filter
+        if (showFavoritesOnly && !favoriteIds.has(p.id)) {
+          return false;
+        }
+        // Search query
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase();
+          const matchTitle = p.title.toLowerCase().includes(q);
+          const matchDesc = p.description.toLowerCase().includes(q);
+          const matchTpl = p.template.toLowerCase().includes(q);
+          return matchTitle || matchDesc || matchTpl;
+        }
+        return true;
+      });
+
+      // Update UI counts
+      promptCountEl.textContent = filtered.length;
+      const catObj = CATEGORIES.find(c => c.id === activeCategory);
+      currentCategoryNameEl.textContent = showFavoritesOnly ? 'お気に入り' : (catObj ? catObj.name : 'すべて');
+
+      if (filtered.length === 0) {
+        promptsContainerEl.innerHTML = '';
+        emptyStateEl.classList.remove('hidden');
+      } else {
+        emptyStateEl.classList.add('hidden');
+        promptsContainerEl.innerHTML = filtered.map(p => createCardHTML(p)).join('');
+      }
+    }
+
+    // Card Component
+    function createCardHTML(p) {
+      const isFav = favoriteIds.has(p.id);
+      const catObj = CATEGORIES.find(c => c.id === p.category) || { name: 'その他', icon: '📝' };
+
+      return `
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between overflow-hidden group hover:border-deepgreen-300">
+          <div class="p-5 space-y-3">
+            <div class="flex items-start justify-between gap-2">
+              <span class="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                <span>${catObj.icon}</span> ${catObj.name}
+              </span>
+              <button 
+                onclick="event.stopPropagation(); toggleFavorite('${p.id}')" 
+                class="text-base p-1 text-slate-300 hover:text-amber-400 transition"
+                title="お気に入り切り替え"
+              >
+                ${isFav ? '⭐' : '☆'}
+              </button>
+            </div>
+
+            <div class="cursor-pointer" onclick="openCustomizeModal('${p.id}')">
+              <h3 class="font-bold text-sm sm:text-base text-slate-800 leading-snug group-hover:text-deepgreen-800 transition">
+                ${p.title}
+              </h3>
+              <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
+                ${p.description}
+              </p>
+            </div>
+
+            ${p.tip ? `
+            <div class="bg-emerald-50/70 border border-emerald-100 rounded-lg p-2.5 text-[11px] text-deepgreen-900 flex items-start gap-1.5">
+              <span class="text-xs mt-0.5">💡</span>
+              <span class="leading-relaxed">${p.tip}</span>
+            </div>` : ''}
+          </div>
+
+          <div class="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+            <button 
+              onclick="openCustomizeModal('${p.id}')"
+              class="text-xs font-semibold text-deepgreen-850 hover:text-deepgreen-600 flex items-center gap-1 transition"
+            >
+              <span>✏️ 穴埋め設定</span>
+            </button>
+            <button 
+              onclick="quickCopyPrompt('${p.id}')"
+              class="text-xs px-3 py-1.5 rounded-lg bg-deepgreen-700 hover:bg-deepgreen-600 text-white font-medium transition shadow-sm flex items-center gap-1.5 border border-deepgreen-600"
+            >
+              <span>📋</span> コピー
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Extract variables from template string like [自治会名]
+    function extractVariables(tpl) {
+      const regex = /\[(.*?)\]/g;
+      const matches = [];
+      let m;
+      while ((m = regex.exec(tpl)) !== null) {
+        if (!matches.includes(m[1])) {
+          matches.push(m[1]);
+        }
+      }
+      return matches;
+    }
+
+    // Open Customize Modal
+    window.openCustomizeModal = function(id) {
+      const p = prompts.find(item => item.id === id);
+      if (!p) return;
+
+      currentCustomizingPrompt = p;
+      const vars = extractVariables(p.template);
+      currentVariables = {};
+
+      // Set initial values from defaultVars or placeholder
+      vars.forEach(v => {
+        if (p.defaultVars && p.defaultVars[v]) {
+          currentVariables[v] = p.defaultVars[v];
+        } else {
+          currentVariables[v] = '';
+        }
+      });
+
+      // Populate Modal Info
+      modalIconEl.textContent = p.icon;
+      modalTitleEl.textContent = p.title;
+      const catObj = CATEGORIES.find(c => c.id === p.category);
+      modalCategoryBadgeEl.textContent = catObj ? catObj.name : '一般';
+      modalDescBoxEl.innerHTML = `
+        <div class="font-bold mb-1">【このプロンプトの役割とポイント】</div>
+        <div>${p.description}</div>
+        ${p.tip ? `<div class="mt-1.5 text-deepgreen-800">💡 <strong>活用のコツ:</strong> ${p.tip}</div>` : ''}
+      `;
+
+      // Render Variable Inputs
+      if (vars.length > 0) {
+        modalVarsListEl.innerHTML = vars.map(v => `
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1 truncate" title="${v}">
+              [${v}]
+            </label>
+            <input 
+              type="text" 
+              data-var="${v}" 
+              value="${escapeHtml(currentVariables[v] || '')}" 
+              placeholder="${v}"
+              class="var-input w-full text-xs p-2 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-deepgreen-600 bg-white"
+            >
+          </div>
+        `).join('');
+
+        // Attach listeners to update prompt in real time
+        document.querySelectorAll('.var-input').forEach(input => {
+          input.addEventListener('input', (e) => {
+            const varName = e.target.getAttribute('data-var');
+            currentVariables[varName] = e.target.value;
+            updateModalPromptPreview();
+          });
+        });
+      } else {
+        modalVarsListEl.innerHTML = '<p class="text-xs text-slate-400 col-span-2">このテンプレートには置換変数がありません。そのままお使いいただけます。</p>';
+      }
+
+      updateModalPromptPreview();
+      customizeModalEl.classList.remove('hidden');
+    };
+
+    function updateModalPromptPreview() {
+      if (!currentCustomizingPrompt) return;
+      let text = currentCustomizingPrompt.template;
+      Object.keys(currentVariables).forEach(v => {
+        const val = currentVariables[v] || `[${v}]`;
+        text = text.split(`[${v}]`).join(val);
+      });
+      modalPromptTextEl.value = text;
+    }
+
+    // Quick Copy
+    window.quickCopyPrompt = function(id) {
+      const p = prompts.find(item => item.id === id);
+      if (!p) return;
+      
+      let text = p.template;
+      if (p.defaultVars) {
+        Object.keys(p.defaultVars).forEach(v => {
+          text = text.split(`[${v}]`).join(p.defaultVars[v]);
+        });
+      }
+      copyToClipboard(text, p.title);
+    };
+
+    // Robust Clipboard Copy Function
+    function copyToClipboard(text, title) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      
+      try {
+        const success = document.execCommand('copy');
+        if (success) {
+          showToast(title ? `「${title}」をコピーしました` : 'プロンプトをコピーしました');
+        } else {
+          showToast('コピーに失敗しました。手動で選択してコピーしてください。', true);
+        }
+      } catch (err) {
+        showToast('コピーに失敗しました', true);
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    }
+
+    // Toast Notification
+    function showToast(msg, isError = false) {
+      toastTitleEl.textContent = isError ? 'エラー' : 'コピー完了！';
+      toastMessageEl.textContent = msg;
+      toastEl.classList.remove('translate-y-[-150%]', 'opacity-0');
+      toastEl.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toastEl.classList.add('translate-y-[-150%]', 'opacity-0');
+        toastEl.classList.remove('translate-y-0', 'opacity-100');
+      }, 3000);
+    }
+
+    // Favorites Toggle
+    window.toggleFavorite = function(id) {
+      if (favoriteIds.has(id)) {
+        favoriteIds.delete(id);
+      } else {
+        favoriteIds.add(id);
+      }
+      updateFavoriteUI();
+      renderPrompts();
+    };
+
+    function updateFavoriteUI() {
+      const count = favoriteIds.size;
+      favLabelEl.textContent = `お気に入り（${count}）`;
+      if (showFavoritesOnly) {
+        btnToggleFavEl.classList.add('bg-amber-100', 'border-amber-300', 'text-amber-900');
+        btnToggleFavEl.classList.remove('bg-slate-50', 'text-slate-700');
+      } else {
+        btnToggleFavEl.classList.remove('bg-amber-100', 'border-amber-300', 'text-amber-900');
+        btnToggleFavEl.classList.add('bg-slate-50', 'text-slate-700');
+      }
+    }
+
+    // Category Select
+    window.selectCategory = function(catId) {
+      activeCategory = catId;
+      showFavoritesOnly = false;
+      updateFavoriteUI();
+      renderCategoryTabs();
+      renderPrompts();
+    };
+
+    // Reset Filters
+    window.resetAllFilters = function() {
+      activeCategory = 'all';
+      searchQuery = '';
+      showFavoritesOnly = false;
+      searchInputEl.value = '';
+      searchClearBtnEl.classList.add('hidden');
+      updateFavoriteUI();
+      renderCategoryTabs();
+      renderPrompts();
+    };
+
+    // Setup All Event Listeners
+    function setupEventListeners() {
+      // Search Input
+      searchInputEl.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        if (searchQuery.length > 0) {
+          searchClearBtnEl.classList.remove('hidden');
+        } else {
+          searchClearBtnEl.classList.add('hidden');
+        }
+        renderPrompts();
+      });
+
+      searchClearBtnEl.addEventListener('click', () => {
+        searchInputEl.value = '';
+        searchQuery = '';
+        searchClearBtnEl.classList.add('hidden');
+        renderPrompts();
+      });
+
+      // Quick Tags
+      document.querySelectorAll('.quick-tag').forEach(tag => {
+        tag.addEventListener('click', () => {
+          const val = tag.getAttribute('data-tag');
+          searchInputEl.value = val;
+          searchQuery = val;
+          searchClearBtnEl.classList.remove('hidden');
+          renderPrompts();
+        });
+      });
+
+      // Favorite Filter Button
+      btnToggleFavEl.addEventListener('click', () => {
+        showFavoritesOnly = !showFavoritesOnly;
+        updateFavoriteUI();
+        renderPrompts();
+      });
+
+      // Reset Button
+      document.getElementById('btn-reset-filters').addEventListener('click', resetAllFilters);
+
+      // Customize Modal Controls
+      document.getElementById('btn-close-modal').addEventListener('click', () => {
+        customizeModalEl.classList.add('hidden');
+      });
+      document.getElementById('btn-modal-cancel').addEventListener('click', () => {
+        customizeModalEl.classList.add('hidden');
+      });
+      document.getElementById('btn-modal-copy').addEventListener('click', () => {
+        copyToClipboard(modalPromptTextEl.value, currentCustomizingPrompt?.title);
+        customizeModalEl.classList.add('hidden');
+      });
+
+      // Create Custom Prompt Modal Controls
+      const btnOpenCreate = document.getElementById('btn-open-custom-modal');
+      const btnCloseCreate = document.getElementById('btn-close-create-modal');
+      const btnCancelCreate = document.getElementById('btn-cancel-create-modal');
+      const btnSaveCustom = document.getElementById('btn-save-custom-prompt');
+
+      btnOpenCreate.addEventListener('click', () => {
+        createModalEl.classList.remove('hidden');
+      });
+
+      const closeCreateModal = () => {
+        createModalEl.classList.add('hidden');
+      };
+      btnCloseCreate.addEventListener('click', closeCreateModal);
+      btnCancelCreate.addEventListener('click', closeCreateModal);
+
+      btnSaveCustom.addEventListener('click', () => {
+        const title = document.getElementById('custom-title').value.trim();
+        const category = document.getElementById('custom-category').value;
+        const icon = document.getElementById('custom-icon').value.trim() || '📝';
+        const description = document.getElementById('custom-desc').value.trim() || 'ユーザー定義プロンプト';
+        const template = document.getElementById('custom-template').value.trim();
+
+        if (!title || !template) {
+          showToast('タイトルとプロンプト本文を入力してください', true);
+          return;
+        }
+
+        const newPrompt = {
+          id: 'custom-' + Date.now(),
+          title,
+          category,
+          icon,
+          description,
+          template,
+          defaultVars: {}
+        };
+
+        prompts.unshift(newPrompt);
+        closeCreateModal();
+
+        // Clear Form
+        document.getElementById('custom-title').value = '';
+        document.getElementById('custom-desc').value = '';
+        document.getElementById('custom-template').value = '';
+
+        selectCategory(category);
+        showToast('新しいプロンプトを保存しました！');
+      });
+
+      // Escape helper
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          customizeModalEl.classList.add('hidden');
+          createModalEl.classList.add('hidden');
+        }
+      });
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Run on window load
+    window.onload = init;
+  </script>
+</body>
+</html>
