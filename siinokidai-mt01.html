@@ -1,0 +1,1441 @@
+!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第1回 椎の木自治会ミーティング 議事録</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Noto Sans JP -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', '"Noto Sans JP"', 'sans-serif'],
+                    },
+                    colors: {
+                        // クラス名はそのままに、中身の色を「深いブルー系」に変更
+                        forest: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            500: '#3b82f6',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            800: '#1e3a8a',
+                            900: '#172554',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseSoft {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .animate-fade-up {
+            animation: fadeInSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .pulse-soft {
+            animation: pulseSoft 3s infinite ease-in-out;
+        }
+
+        /* Custom SVG Donut Animation */
+        .donut-ring {
+            transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Smooth Progress Bar */
+        .progress-bar-fill {
+            transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Card Hover Transition */
+        .interactive-card {
+            transition: all 0.25s ease;
+        }
+        .interactive-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.12);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top Hero Header -->
+    <header class="bg-gradient-to-br from-forest-900 via-forest-800 to-blue-700 text-white shadow-lg relative overflow-hidden">
+        <!-- Decorative SVG Pattern -->
+        <svg class="absolute right-0 top-0 h-full opacity-10 pointer-events-none" viewBox="0 0 400 400" fill="none">
+            <circle cx="320" cy="80" r="180" stroke="white" stroke-width="24" />
+            <circle cx="350" cy="300" r="140" stroke="white" stroke-width="16" />
+        </svg>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 relative z-10">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-blue-100 text-xs sm:text-sm font-medium mb-3">
+                        <i class="fa-solid fa-seedling"></i>
+                        <span>プロボノ支援プロジェクト 議事録</span>
+                    </div>
+                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
+                        第1回 椎の木自治会ミーティング
+                    </h1>
+                    <p class="mt-2 text-blue-100 text-sm sm:text-base flex flex-wrap items-center gap-x-5 gap-y-2">
+                        <span><i class="fa-regular fa-calendar-check mr-1.5"></i>2026年10月18日（日）開催</span>
+                        <span><i class="fa-solid fa-location-dot mr-1.5"></i>場所：市原市民会館</span>
+                        <span><i class="fa-solid fa-pen-nib mr-1.5"></i>記録：斉藤</span>
+                    </p>
+                </div>
+
+                <!-- Core Motto Card -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 sm:p-5 max-w-md">
+                    <div class="text-xs uppercase tracking-wider text-blue-200 font-semibold mb-1">
+                        <i class="fa-solid fa-quote-left mr-1"></i>自治会長が掲げる基本理念
+                    </div>
+                    <p class="text-base sm:text-lg font-bold text-white leading-snug">
+                        「できる人が、できることを、できる範囲で」
+                    </p>
+                    <p class="text-xs text-blue-100 mt-1.5">
+                        特定の役員に負担を集中させない「役割の細分化」と双方向の地域づくり
+                    </p>
+                </div>
+            </div>
+
+            <!-- Participants Bar -->
+            <div class="mt-6 pt-4 border-t border-white/15 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="font-semibold text-blue-200"><i class="fa-solid fa-users mr-1"></i>参加者（敬称略）：</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-blue-950/50 border border-blue-400/30">
+                        <strong class="text-blue-300">町会：</strong>菅田（会長）・恩田・與五沢
+                    </span>
+                    <span class="px-2.5 py-1 rounded-lg bg-blue-950/50 border border-blue-400/30">
+                        <strong class="text-blue-300">プロボノ：</strong>藺上（窓口）・斉藤（議事録）・中村（オンライン）
+                    </span>
+                    <span class="px-2.5 py-1 rounded-lg bg-blue-950/50 border border-blue-400/30">
+                        <strong class="text-blue-300">事務局：</strong>赤木
+                    </span>
+                </div>
+                <button onclick="openParticipantsModal()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white text-forest-800 font-semibold hover:bg-blue-50 transition shadow-sm">
+                    <i class="fa-regular fa-compass"></i> ガイド
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sticky Interactive Navigation Tabs -->
+    <nav class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex overflow-x-auto no-scrollbar py-2 gap-2" role="tablist">
+                <button onclick="switchTab('summary')" id="tab-btn-summary" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap transition-all bg-forest-600 text-white shadow-sm">
+                    <i class="fa-solid fa-flag-checkered"></i>
+                    <span>1. 決定事項＆優先ステップ</span>
+                </button>
+                <button onclick="switchTab('status')" id="tab-btn-status" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap transition-all text-slate-600 hover:bg-slate-100">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>2. 論点A：自治会の現状とデータ</span>
+                </button>
+                <button onclick="switchTab('survey')" id="tab-btn-survey" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap transition-all text-slate-600 hover:bg-slate-100">
+                    <i class="fa-solid fa-clipboard-question"></i>
+                    <span>3. 論点B：アンケート戦略シミュレーター</span>
+                </button>
+                <button onclick="switchTab('todo')" id="tab-btn-todo" class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap transition-all text-slate-600 hover:bg-slate-100">
+                    <i class="fa-solid fa-list-check"></i>
+                    <span>4. 次回ToDo＆要確認事項</span>
+                    <span id="todo-badge" class="ml-1 px-2 py-0.5 text-xs rounded-full bg-amber-100 text-amber-800 font-bold">0/6</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <!-- ==========================================
+             TAB 1: 決定事項＆優先ステップ (SUMMARY)
+             ========================================== -->
+        <section id="tab-content-summary" class="tab-content animate-fade-up space-y-8">
+            
+            <!-- 3 Agendas Overview -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-forest-100 text-forest-700 flex items-center justify-center">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </span>
+                        本日の主な論点 / アジェンダ
+                    </h2>
+                    <span class="text-xs text-slate-400">カードをクリックして該当タブへ移動できます</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div onclick="switchTab('status')" class="cursor-pointer group p-4 rounded-xl bg-slate-50 hover:bg-forest-50 border border-slate-200 hover:border-forest-300 transition flex items-start gap-3">
+                        <span class="w-7 h-7 rounded-full bg-forest-600 text-white font-bold text-sm flex items-center justify-center shrink-0 mt-0.5">1</span>
+                        <div>
+                            <h3 class="font-bold text-slate-800 group-hover:text-forest-800 text-sm sm:text-base">現状・課題の共有とスコープ確認</h3>
+                            <p class="text-xs text-slate-500 mt-1">高齢化46.6%、回覧板の負担、活発な地域活動とポイント活用</p>
+                        </div>
+                    </div>
+                    <div onclick="switchTab('survey')" class="cursor-pointer group p-4 rounded-xl bg-slate-50 hover:bg-forest-50 border border-slate-200 hover:border-forest-300 transition flex items-start gap-3">
+                        <span class="w-7 h-7 rounded-full bg-forest-600 text-white font-bold text-sm flex items-center justify-center shrink-0 mt-0.5">2</span>
+                        <div>
+                            <h3 class="font-bold text-slate-800 group-hover:text-forest-800 text-sm sm:text-base">住民アンケートの設計・回収率向上策</h3>
+                            <p class="text-xs text-slate-500 mt-1">16項目の改良、QR・紙・対面サポートの比較と別刷りチラシ同封</p>
+                        </div>
+                    </div>
+                    <div onclick="switchTab('todo')" class="cursor-pointer group p-4 rounded-xl bg-slate-50 hover:bg-forest-50 border border-slate-200 hover:border-forest-300 transition flex items-start gap-3">
+                        <span class="w-7 h-7 rounded-full bg-forest-600 text-white font-bold text-sm flex items-center justify-center shrink-0 mt-0.5">3</span>
+                        <div>
+                            <h3 class="font-bold text-slate-800 group-hover:text-forest-800 text-sm sm:text-base">今後のスケジュールと役割分担</h3>
+                            <p class="text-xs text-slate-500 mt-1">11月2日オンライン調整会議、11月7日役員会・回覧板投入へ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Priority Roadmap Stepper -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm">
+                <div class="mb-5">
+                    <span class="text-xs font-bold uppercase tracking-wider text-forest-600 bg-forest-50 px-2.5 py-1 rounded-md">決定事項 #2</span>
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-800 mt-1">
+                        プロボノ支援の優先ステップ（クリックして各フェーズの詳細を確認）
+                    </h2>
+                </div>
+
+                <!-- Stepper Buttons -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <button onclick="selectRoadmapStep(1)" id="step-btn-1" class="roadmap-btn text-left p-4 rounded-2xl border-2 border-forest-600 bg-forest-50/70 transition relative overflow-hidden">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">STEP 1：最優先</span>
+                            <i class="fa-solid fa-magnifying-glass-chart text-forest-600 text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base">① 住民アンケートの設計・分析</h3>
+                        <p class="text-xs text-slate-600 mt-1">全住民の声を集め、参加しやすい仕組みの土台を作る</p>
+                    </button>
+
+                    <button onclick="selectRoadmapStep(2)" id="step-btn-2" class="roadmap-btn text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-forest-300 bg-white transition relative overflow-hidden">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">STEP 2：並行・連動</span>
+                            <i class="fa-solid fa-paper-plane text-slate-500 text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base">② チラシ配布による双方向発信</h3>
+                        <p class="text-xs text-slate-600 mt-1">自治会の本気度を伝えるリーフレット・パンフレット展開</p>
+                    </button>
+
+                    <button onclick="selectRoadmapStep(3)" id="step-btn-3" class="roadmap-btn text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-forest-300 bg-white transition relative overflow-hidden">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-800">STEP 3：軌道に乗った後</span>
+                            <i class="fa-solid fa-globe text-slate-500 text-xl"></i>
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-base">③ ホームページの立ち上げ</h3>
+                        <p class="text-xs text-slate-600 mt-1">アンケート分析と情報発信が定着した段階でWeb基盤を構築</p>
+                    </button>
+                </div>
+
+                <!-- Dynamic Step Detail Box -->
+                <div id="roadmap-detail-box" class="bg-slate-900 text-white rounded-2xl p-5 sm:p-6 transition-all">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- 5 Key Decisions Interactive Cards -->
+            <div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center">
+                            <i class="fa-solid fa-gavel"></i>
+                        </span>
+                        5つの決定事項（カードをクリックして詳細を展開）
+                    </h2>
+                    <button onclick="toggleAllDecisions()" class="text-xs font-semibold text-forest-700 hover:text-forest-800 underline self-start sm:self-auto">
+                        すべて展開 / 折りたたむ
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="decisions-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==========================================
+             TAB 2: 【論点A】自治会の現状とデータ (STATUS)
+             ========================================== -->
+        <section id="tab-content-status" class="tab-content hidden animate-fade-up space-y-8">
+            
+            <!-- Demographics & Key Metrics Dashboard -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-forest-600 bg-forest-50 px-2.5 py-1 rounded-md">論点A：背景の共有</span>
+                        <h2 class="text-lg sm:text-xl font-bold text-slate-800 mt-1">数字で見る「椎の木自治会」の人口動態とデジタル浸透率</h2>
+                    </div>
+                    <button onclick="animateStatusCharts()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition self-start">
+                        <i class="fa-solid fa-rotate-right"></i> グラフを再アニメーション
+                    </button>
+                </div>
+
+                <!-- 3 Visual Metric Cards -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    
+                    <!-- Card 1: Aging Rate Donut -->
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-500">高齢化率（直近調査）</span>
+                                <span class="px-2 py-0.5 bg-amber-100 text-amber-800 rounded text-xs font-bold">70代が「若手」扱い</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-800 mt-1">総人口 1,231人</h3>
+                        </div>
+
+                        <div class="my-4 flex items-center justify-center relative">
+                            <svg class="w-40 h-40 -rotate-90" viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="48" fill="transparent" stroke="#e2e8f0" stroke-width="14"/>
+                                <circle id="aging-donut" class="donut-ring" cx="60" cy="60" r="48" fill="transparent" stroke="#f59e0b" stroke-width="14" stroke-dasharray="301.59" stroke-dashoffset="301.59" stroke-linecap="round"/>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                                <span class="text-2xl font-extrabold text-slate-800">46.6<span class="text-sm">%</span></span>
+                                <span class="text-[11px] text-slate-500 font-medium">65歳以上</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-3 rounded-xl border border-slate-200/80 text-xs text-slate-600 space-y-1.5">
+                            <div class="flex items-center justify-between">
+                                <span><i class="fa-solid fa-child-reaching text-blue-600 mr-1.5"></i>小学生</span>
+                                <span class="font-bold text-slate-800">約50数名</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span><i class="fa-solid fa-user-graduate text-indigo-600 mr-1.5"></i>中学生</span>
+                                <span class="font-bold text-slate-800">約30名</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span><i class="fa-solid fa-earth-asia text-purple-600 mr-1.5"></i>外国人世帯</span>
+                                <span class="font-bold text-slate-800">タイ・イギリス等</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Household Membership Rate -->
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-500">世帯数と自治会加入状況</span>
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded text-xs font-bold">加入率 約70%</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-800 mt-1">総世帯数 約643〜650世帯</h3>
+                        </div>
+
+                        <div class="my-6 space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1.5">
+                                    <span class="text-forest-800">自治会加入世帯</span>
+                                    <span class="text-forest-700 font-bold">約450世帯 / 約650世帯</span>
+                                </div>
+                                <div class="w-full h-5 bg-slate-200 rounded-full overflow-hidden p-0.5">
+                                    <div id="bar-membership" class="progress-bar-fill h-full bg-gradient-to-r from-forest-600 to-blue-500 rounded-full flex items-center justify-end pr-2 text-[10px] font-bold text-white" style="width: 0%">
+                                        約69.5%
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1.5">
+                                    <span class="text-slate-600">未加入・退会リスク世帯</span>
+                                    <span class="text-slate-600 font-bold">約193〜200世帯</span>
+                                </div>
+                                <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
+                                    <div id="bar-nonmember" class="progress-bar-fill h-full bg-slate-400 rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-red-50 border border-red-200/80 p-3 rounded-xl text-xs text-red-900">
+                            <div class="font-bold flex items-center gap-1.5 mb-1 text-red-700">
+                                <i class="fa-solid fa-triangle-exclamation"></i> 担い手不足と退会問題
+                            </div>
+                            地区長・班長の順番が回ってきた際、<strong>高齢を理由に退会を申し出るケース</strong>が発生している。
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Digital vs Analog Wall -->
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-500">情報発信の壁（デジタル登録率）</span>
+                                <span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded text-xs font-bold">システム導入済</span>
+                            </div>
+                            <h3 class="text-lg font-bold text-slate-800 mt-1">LINE・メール配信：160世帯</h3>
+                        </div>
+
+                        <div class="my-6 space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1.5">
+                                    <span class="text-blue-700"><i class="fa-brands fa-line mr-1"></i>LINE・メール登録済</span>
+                                    <span class="text-blue-700 font-bold">160世帯（加入世帯の約35%）</span>
+                                </div>
+                                <div class="w-full h-5 bg-slate-200 rounded-full overflow-hidden p-0.5">
+                                    <div id="bar-digital" class="progress-bar-fill h-full bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full flex items-center justify-end pr-2 text-[10px] font-bold text-white" style="width: 0%">
+                                        35.5%
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1.5">
+                                    <span class="text-amber-800"><i class="fa-solid fa-clipboard-list mr-1"></i>紙の回覧板が必要（未登録）</span>
+                                    <span class="text-amber-800 font-bold">約290世帯（約65%）</span>
+                                </div>
+                                <div class="w-full h-5 bg-slate-200 rounded-full overflow-hidden p-0.5">
+                                    <div id="bar-analog" class="progress-bar-fill h-full bg-gradient-to-r from-amber-500 to-orange-400 rounded-full flex items-center justify-end pr-2 text-[10px] font-bold text-white" style="width: 0%">
+                                        64.5%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-amber-50 border border-amber-200/80 p-3 rounded-xl text-xs text-amber-900">
+                            <div class="font-bold flex items-center gap-1.5 mb-1 text-amber-800">
+                                <i class="fa-solid fa-person-walking-luggage"></i> 班長の大きな負担
+                            </div>
+                            未登録の高齢者層には従来の紙の回覧板が必要であり、<strong>班長1人あたり30〜40世帯を担当</strong>している。
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Active Community Initiatives Showcase -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-heart-pulse text-rose-500"></i>
+                    椎の木自治会の強み：既存の活発な地域活動
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="interactive-card p-4 rounded-xl bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200/70">
+                        <div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center text-lg mb-3 shadow-sm">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                        <span class="text-[11px] font-bold text-orange-700 bg-orange-100 px-2 py-0.5 rounded">毎月第3土曜日</span>
+                        <h4 class="font-bold text-slate-800 mt-1.5">子ども食堂の開催</h4>
+                        <p class="text-xs text-slate-600 mt-1">毎回<strong>50数名</strong>が参加する地域の人気交流拠点として機能。</p>
+                    </div>
+
+                    <div class="interactive-card p-4 rounded-xl bg-gradient-to-br from-cyan-50 to-sky-50 border border-cyan-200/70">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-600 text-white flex items-center justify-center text-lg mb-3 shadow-sm">
+                            <i class="fa-solid fa-snowflake"></i>
+                        </div>
+                        <span class="text-[11px] font-bold text-cyan-800 bg-cyan-100 px-2 py-0.5 rounded">市内で唯一！</span>
+                        <h4 class="font-bold text-slate-800 mt-1.5">クーリングシェルター</h4>
+                        <p class="text-xs text-slate-600 mt-1">自治会館を活用した熱中症対策の一時休憩所を運営。</p>
+                    </div>
+
+                    <div class="interactive-card p-4 rounded-xl bg-gradient-to-br from-blue-50 to-sky-50 border border-blue-200/70">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg mb-3 shadow-sm">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <span class="text-[11px] font-bold text-blue-800 bg-blue-100 px-2 py-0.5 rounded">子どもの安全</span>
+                        <h4 class="font-bold text-slate-800 mt-1.5">スクールガード</h4>
+                        <p class="text-xs text-slate-600 mt-1">地域の小学生・中学生の登下校を温かく見守る活動。</p>
+                    </div>
+
+                    <div class="interactive-card p-4 rounded-xl bg-gradient-to-br from-indigo-50 to-slate-50 border border-indigo-200/70">
+                        <div class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-lg mb-3 shadow-sm">
+                            <i class="fa-solid fa-video"></i>
+                        </div>
+                        <span class="text-[11px] font-bold text-indigo-800 bg-indigo-100 px-2 py-0.5 rounded">地域の防犯</span>
+                        <h4 class="font-bold text-slate-800 mt-1.5">防犯カメラの設置</h4>
+                        <p class="text-xs text-slate-600 mt-1">安心・安全な街づくりのためのインフラ整備を推進。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution & "Ichi-Oshi" Point Simulator -->
+            <div class="bg-gradient-to-br from-forest-900 to-slate-900 text-white rounded-2xl p-5 sm:p-7 shadow-md">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-7 space-y-4">
+                        <span class="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-bold">
+                            合意・結論に至った解決の方向性
+                        </span>
+                        <h3 class="text-xl sm:text-2xl font-bold leading-snug">
+                            「役割の細分化」× 市の「イチ押し」ポイント制度で参加を促進！
+                        </h3>
+                        <p class="text-sm text-slate-300 leading-relaxed">
+                            「できる人が、できることを、できる範囲で」という理念のもと、特定の役員に負担を集中させないよう役割を切り分けます。さらに、活動1回につき<strong>100ポイント</strong>が付与され、自治会への寄付や景品還元が可能な市の「イチ押し」ポイント制度を活用します。
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                            <div class="bg-white/10 rounded-xl p-3.5 border border-white/10">
+                                <div class="text-blue-300 font-bold text-sm mb-1"><i class="fa-solid fa-puzzle-piece mr-1.5"></i>役割の細分化</div>
+                                <p class="text-xs text-slate-300">「班長＝すべて負担」ではなく、単発の手伝いや得意分野での参加枠を作る。</p>
+                            </div>
+                            <div class="bg-white/10 rounded-xl p-3.5 border border-white/10">
+                                <div class="text-amber-300 font-bold text-sm mb-1"><i class="fa-solid fa-coins mr-1.5"></i>イチ押しポイント還元</div>
+                                <p class="text-xs text-slate-300">活動1回＝100pt付与。個人の景品交換や自治会活動への寄付に還元可能。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Point Calculator -->
+                    <div class="lg:col-span-5 bg-white text-slate-800 rounded-2xl p-5 shadow-lg">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                            <div>
+                                <span class="text-[11px] font-bold text-forest-600 uppercase">Interactive Simulator</span>
+                                <h4 class="font-bold text-base text-slate-900">「イチ押し」ポイント試算</h4>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 font-bold text-xs">1回 = 100pt</span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span>参加する住民の人数</span>
+                                    <span id="pt-people-label" class="text-forest-700 font-bold">20人</span>
+                                </div>
+                                <input type="range" id="pt-people" min="5" max="100" step="5" value="20" oninput="updatePointSim()" class="w-full accent-forest-600 cursor-pointer">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span>1人あたりの年間活動回数（子ども食堂・見守り等）</span>
+                                    <span id="pt-times-label" class="text-forest-700 font-bold">6回 / 年</span>
+                                </div>
+                                <input type="range" id="pt-times" min="1" max="24" step="1" value="6" oninput="updatePointSim()" class="w-full accent-forest-600 cursor-pointer">
+                            </div>
+
+                            <div class="bg-forest-50 border border-forest-200 rounded-xl p-3.5 text-center">
+                                <div class="text-xs text-forest-800 font-medium">地域全体で生まれる年間総ポイント</div>
+                                <div class="text-2xl sm:text-3xl font-extrabold text-forest-700 mt-1">
+                                    <span id="pt-total">12,000</span> <span class="text-sm font-bold">pt</span>
+                                </div>
+                                <div class="text-[11px] text-slate-500 mt-1">
+                                    自治会への寄付や住民への景品還元で地域がさらに活性化！
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==========================================
+             TAB 3: 【論点B】住民アンケート設計＆回収率向上策 (SURVEY)
+             ========================================== -->
+        <section id="tab-content-survey" class="tab-content hidden animate-fade-up space-y-8">
+            
+            <!-- Pre-test & Current Status Banner -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <div class="inline-flex items-center gap-2 text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-flask"></i> プレ実施の状況（2026年10月1日）
+                    </div>
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-800">
+                        Googleフォーム（QRコード）でテスト実施済み・約10名から回答を取得
+                    </h2>
+                    <p class="text-xs sm:text-sm text-slate-600">
+                        単なる回覧板でのQRコード配布だけでは回収率が伸び悩むため、<strong>別刷りのチラシ同封・紙アンケート・自治会館での対面サポート</strong>を組み合わせる具体案を設計します。
+                    </p>
+                </div>
+                <div class="shrink-0 bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-center min-w-[160px]">
+                    <div class="text-xs text-slate-500">本番投入ターゲット</div>
+                    <div class="text-lg font-extrabold text-forest-700 mt-0.5">11月7日（土）</div>
+                    <div class="text-[11px] text-slate-500">役員会・回覧板投入</div>
+                </div>
+            </div>
+
+            <!-- Interactive Survey Strategy Mix Simulator -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm">
+                <div class="mb-5">
+                    <span class="text-xs font-bold uppercase tracking-wider text-forest-600 bg-forest-50 px-2.5 py-1 rounded-md">インタラクティブ比較＆シミュレーション</span>
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 mt-1">
+                        回答方式と回収率向上策の組み合わせシミュレーター
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">
+                        以下の施策カードをON/OFFして、<strong>高齢者リーチ・若年層リーチ・運営負担・期待回収率</strong>の変化を比較してみましょう。
+                    </p>
+                </div>
+
+                <!-- 4 Toggleable Strategy Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    
+                    <!-- Method 1: Google Form QR -->
+                    <div onclick="toggleSurveyMethod('qr')" id="method-card-qr" class="cursor-pointer rounded-2xl p-4 border-2 border-forest-600 bg-forest-50/60 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="w-8 h-8 rounded-lg bg-forest-600 text-white flex items-center justify-center">
+                                    <i class="fa-solid fa-qrcode"></i>
+                                </span>
+                                <span id="method-badge-qr" class="px-2 py-0.5 rounded-full text-xs font-bold bg-forest-600 text-white">採用中 ON</span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm sm:text-base">① Googleフォーム（QR）</h4>
+                            <div class="mt-2 space-y-1.5 text-xs">
+                                <p class="text-blue-800"><i class="fa-solid fa-circle-plus mr-1"></i>集計が自動化・若年層が回答しやすい</p>
+                                <p class="text-rose-700"><i class="fa-solid fa-circle-minus mr-1"></i>高齢者やスマホが苦手な層の離脱リスク高</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-slate-500 font-medium">
+                            クリックしてON/OFF切替
+                        </div>
+                    </div>
+
+                    <!-- Method 2: Paper Survey -->
+                    <div onclick="toggleSurveyMethod('paper')" id="method-card-paper" class="cursor-pointer rounded-2xl p-4 border-2 border-forest-600 bg-forest-50/60 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="w-8 h-8 rounded-lg bg-forest-600 text-white flex items-center justify-center">
+                                    <i class="fa-solid fa-file-pen"></i>
+                                </span>
+                                <span id="method-badge-paper" class="px-2 py-0.5 rounded-full text-xs font-bold bg-forest-600 text-white">採用中 ON</span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm sm:text-base">② 紙のアンケート（回覧板）</h4>
+                            <div class="mt-2 space-y-1.5 text-xs">
+                                <p class="text-blue-800"><i class="fa-solid fa-circle-plus mr-1"></i>高齢者層を含め幅広い世帯が記入しやすい</p>
+                                <p class="text-rose-700"><i class="fa-solid fa-circle-minus mr-1"></i>最大約650世帯分の印刷・回収・手集計負担</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-slate-500 font-medium">
+                            クリックしてON/OFF切替
+                        </div>
+                    </div>
+
+                    <!-- Method 3: In-person Support at Hall -->
+                    <div onclick="toggleSurveyMethod('hall')" id="method-card-hall" class="cursor-pointer rounded-2xl p-4 border-2 border-forest-600 bg-forest-50/60 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="w-8 h-8 rounded-lg bg-forest-600 text-white flex items-center justify-center">
+                                    <i class="fa-solid fa-mug-hot"></i>
+                                </span>
+                                <span id="method-badge-hall" class="px-2 py-0.5 rounded-full text-xs font-bold bg-forest-600 text-white">採用中 ON</span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm sm:text-base">③ 自治会館での対面サポート</h4>
+                            <div class="mt-2 space-y-1.5 text-xs">
+                                <p class="text-blue-800"><i class="fa-solid fa-circle-plus mr-1"></i>正確な回収が可能・住民間の交流機会に</p>
+                                <p class="text-rose-700"><i class="fa-solid fa-circle-minus mr-1"></i>常駐スタッフ確保と来館特典（飲み物等）が必要</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-slate-500 font-medium">
+                            クリックしてON/OFF切替
+                        </div>
+                    </div>
+
+                    <!-- Method 4: Special Flyer Bundle -->
+                    <div onclick="toggleSurveyMethod('flyer')" id="method-card-flyer" class="cursor-pointer rounded-2xl p-4 border-2 border-forest-600 bg-forest-50/60 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="w-8 h-8 rounded-lg bg-forest-600 text-white flex items-center justify-center">
+                                    <i class="fa-solid fa-envelope-open-text"></i>
+                                </span>
+                                <span id="method-badge-flyer" class="px-2 py-0.5 rounded-full text-xs font-bold bg-forest-600 text-white">採用中 ON</span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-sm sm:text-base">④ 本気度を伝える別刷りチラシ同封</h4>
+                            <div class="mt-2 space-y-1.5 text-xs">
+                                <p class="text-blue-800"><i class="fa-solid fa-circle-plus mr-1"></i>「本気で声を反映する」姿勢が伝わり開封率UP</p>
+                                <p class="text-rose-700"><i class="fa-solid fa-circle-minus mr-1"></i>11月2日までにデザイン案の作成が必要</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-2 border-t border-slate-200/80 text-[11px] text-slate-500 font-medium">
+                            クリックしてON/OFF切替
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Simulation Output Panel -->
+                <div class="bg-slate-900 text-white rounded-2xl p-5 sm:p-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                        <div class="lg:col-span-7 space-y-4">
+                            <h4 class="text-sm font-bold text-blue-300 uppercase tracking-wider">
+                                <i class="fa-solid fa-gauge-high mr-1.5"></i>選択した施策による効果バランス予測
+                            </h4>
+
+                            <!-- 3 Gauges -->
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>若年層・現役世代への届きやすさ</span>
+                                        <span id="sim-youth-val" class="font-bold text-blue-400">90%</span>
+                                    </div>
+                                    <div class="w-full h-2.5 bg-slate-700 rounded-full overflow-hidden">
+                                        <div id="sim-youth-bar" class="progress-bar-fill h-full bg-blue-400 rounded-full" style="width: 90%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>高齢者層（65歳以上・46.6%）の回答しやすさ</span>
+                                        <span id="sim-senior-val" class="font-bold text-amber-400">95%</span>
+                                    </div>
+                                    <div class="w-full h-2.5 bg-slate-700 rounded-full overflow-hidden">
+                                        <div id="sim-senior-bar" class="progress-bar-fill h-full bg-amber-400 rounded-full" style="width: 95%"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>印刷・常駐・手集計などの運営コスト＆負担度</span>
+                                        <span id="sim-cost-val" class="font-bold text-rose-400">80%（役割分担が鍵）</span>
+                                    </div>
+                                    <div class="w-full h-2.5 bg-slate-700 rounded-full overflow-hidden">
+                                        <div id="sim-cost-bar" class="progress-bar-fill h-full bg-rose-400 rounded-full" style="width: 80%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="lg:col-span-5 bg-white/10 border border-white/15 rounded-xl p-4 space-y-2">
+                            <div class="text-xs font-bold text-blue-300">総合評価アドバイス</div>
+                            <p id="sim-comment" class="text-xs sm:text-sm text-white leading-relaxed">
+                                <!-- Populated by JS -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Survey 16-Item Brush-up Interactive Preview -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-forest-600 bg-forest-50 px-2.5 py-1 rounded-md">決定事項 #3：設問の改良</span>
+                        <h3 class="text-lg sm:text-xl font-bold text-slate-800 mt-1">
+                            既存16項目案のブラッシュアップ：「これなら手伝える」選択肢イメージ
+                        </h3>
+                    </div>
+                    <span class="text-xs text-slate-500">クリックして「関わりやすさ」を体験</span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-600 mb-4">
+                    既存の椎の木台自治会作成（16項目案）をベースに、若い世代や多様な住民が<strong>「これなら手伝える」と思える具体的な関わり方</strong>や、<strong>自治会活動（子ども食堂・クーリングシェルター等）を知るための項目</strong>を追加します。
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="micro-roles-container">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ==========================================
+             TAB 4: 次回アクション・ToDo＆要確認事項 (TODO)
+             ========================================== -->
+        <section id="tab-content-todo" class="tab-content hidden animate-fade-up space-y-8">
+            
+            <!-- Schedule Timeline -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm">
+                <div class="mb-5">
+                    <span class="text-xs font-bold uppercase tracking-wider text-forest-600 bg-forest-50 px-2.5 py-1 rounded-md">決定事項 #4・#5</span>
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-800 mt-1">
+                        11月7日「回覧板投入」に向けたロードマップ（配布時期を再設定）
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-1">
+                        ※当初予定していた「10月20日頃」の配布は準備期間不足のため見送り、11月7日の役員会に合わせて再設定しました。
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                    <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 opacity-75">
+                        <span class="text-[11px] font-bold text-slate-500">10月1日（木）完了</span>
+                        <h4 class="font-bold text-sm text-slate-800 mt-1">アンケート プレ実施</h4>
+                        <p class="text-xs text-slate-500 mt-1">Googleフォーム（QR）にて約10名から回答取得</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-blue-50 border-2 border-blue-500">
+                        <span class="text-[11px] font-bold text-blue-700">10月18日（日）完了</span>
+                        <h4 class="font-bold text-sm text-slate-900 mt-1">第1回 自治会MTG</h4>
+                        <p class="text-xs text-slate-600 mt-1">市原市民会館にて現状共有・方針決定（本議事録）</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-amber-50 border border-amber-300">
+                        <span class="text-[11px] font-bold text-amber-800">10月27日（火）20:00〜</span>
+                        <h4 class="font-bold text-sm text-slate-900 mt-1">プロボノ定例（Zoom）</h4>
+                        <p class="text-xs text-slate-600 mt-1">毎週火曜20時（45分）GoogleDriveでDATA管理</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-sky-50 border border-sky-300">
+                        <span class="text-[11px] font-bold text-sky-800">11月2日（月）20:00〜</span>
+                        <h4 class="font-bold text-sm text-slate-900 mt-1">合同オンライン調整会議</h4>
+                        <p class="text-xs text-slate-600 mt-1">設問16項目・同封チラシ案・回収促進策の最終確認</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-forest-900 text-white shadow-sm">
+                        <span class="text-[11px] font-bold text-blue-300">11月7日（土）目標</span>
+                        <h4 class="font-bold text-sm text-white mt-1">役員会・回覧板投入</h4>
+                        <p class="text-xs text-blue-100 mt-1">ブラッシュアップしたアンケート＆チラシを配布開始</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Action Items / ToDo Board -->
+            <div class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h3 class="text-lg sm:text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-forest-600"></i>
+                            次回アクション・ToDoリスト（クリックで完了チェック）
+                        </h3>
+                        <p class="text-xs text-slate-500 mt-1">担当者で絞り込みながら、自分のペースでタスク内容と完了条件を確認できます。</p>
+                    </div>
+
+                    <!-- Filter Buttons -->
+                    <div class="flex flex-wrap gap-1.5">
+                        <button onclick="filterTodos('all')" id="todo-filter-all" class="todo-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-white transition">すべて (6)</button>
+                        <button onclick="filterTodos('probono')" id="todo-filter-probono" class="todo-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">プロボノ関与</button>
+                        <button onclick="filterTodos('jichikai')" id="todo-filter-jichikai" class="todo-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition">自治会・全員</button>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="mb-5 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                    <div class="flex justify-between text-xs font-bold text-slate-700 mb-1.5">
+                        <span>タスク確認・完了進捗</span>
+                        <span id="todo-progress-text">0 / 6 完了 (0%)</span>
+                    </div>
+                    <div class="w-full h-3 bg-slate-200 rounded-full overflow-hidden">
+                        <div id="todo-progress-bar" class="progress-bar-fill h-full bg-forest-600 rounded-full" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- ToDo List Container -->
+                <div class="space-y-3" id="todo-list-container">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- 3 Pending / Confirmation Items -->
+            <div class="bg-amber-50/70 rounded-2xl p-5 sm:p-6 border border-amber-200/90 shadow-sm">
+                <div class="mb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-200/80 px-2.5 py-1 rounded-md">
+                        <i class="fa-solid fa-circle-question mr-1"></i>Section 4：保留・要確認事項
+                    </span>
+                    <h3 class="text-lg sm:text-xl font-bold text-slate-800 mt-1.5">
+                        今後のミーティングで合意・決定が必要な3つの重要論点
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <!-- Issue 1 -->
+                    <div class="bg-white rounded-xl p-4 border border-amber-200 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-red-100 text-red-700">未決定・要確認 #1</span>
+                                <i class="fa-solid fa-user-check text-amber-600"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-base">自治会内の実務担当者の選定</h4>
+                            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                                プロボノ支援終了後も自治会単独で継続できるよう、<strong>町会内で誰を実務担当者としてアサインするか</strong>（初回ヒアリングの検討課題として提示）。
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500">
+                            <i class="fa-regular fa-lightbulb text-amber-500 mr-1"></i>自走化に向けたキーパーソン設定
+                        </div>
+                    </div>
+
+                    <!-- Issue 2 -->
+                    <div class="bg-white rounded-xl p-4 border border-amber-200 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-red-100 text-red-700">未決定・要確認 #2</span>
+                                <i class="fa-solid fa-print text-amber-600"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-base">紙アンケートの配布範囲と集計体制</h4>
+                            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                                <strong>全世帯（約650世帯）</strong>または<strong>加入世帯（約450世帯）</strong>に対し、紙のアンケート用紙をどこまで配布するか。また紙回収分のデータ入力（スキャン・手集計）を誰が分担するか。
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500">
+                            <i class="fa-regular fa-lightbulb text-amber-500 mr-1"></i>11月2日の会議で具体化が必要
+                        </div>
+                    </div>
+
+                    <!-- Issue 3 -->
+                    <div class="bg-white rounded-xl p-4 border border-amber-200 shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2 py-0.5 rounded text-[11px] font-bold bg-red-100 text-red-700">未決定・要確認 #3</span>
+                                <i class="fa-solid fa-shield-cat text-amber-600"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-base">機微情報の共有範囲と併用ルール</h4>
+                            <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+                                デジタル（LINE等）とアナログ（回覧板）の具体的な使い分けルール、および<strong>災害時等の個人情報・機微情報の共有範囲の明文化</strong>。
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] text-slate-500">
+                            <i class="fa-regular fa-lightbulb text-amber-500 mr-1"></i>守秘義務確認書（第1条〜第8条）と連動
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Guide Modal -->
+    <div id="guide-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 animate-fade-up">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                <h3 class="font-bold text-lg text-slate-900 flex items-center gap-2">
+                    <i class="fa-regular fa-compass text-forest-600"></i>
+                    このアプリの歩き方ガイド
+                </h3>
+                <button onclick="closeParticipantsModal()" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                <p>このWebアプリは、<strong>「2026年10月18日 第1回 椎の木自治会ミーティング議事内容」</strong>を自分のペースで直感的に探索できるように設計されています。</p>
+                <ul class="space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-forest-600 mt-1"></i>
+                        <span><strong>1. 決定事項＆優先ステップ：</strong>3段階の支援ステップと5つの決定事項カードをクリックして詳細を確認できます。</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-forest-600 mt-1"></i>
+                        <span><strong>2. 論点A（現状とデータ）：</strong>高齢化率46.6%やデジタル登録状況のグラフ、市の「イチ押し」ポイント試算スライダーを操作できます。</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-forest-600 mt-1"></i>
+                        <span><strong>3. 論点B（アンケート戦略）：</strong>4つの回収施策のON/OFFシミュレーションと、16項目ブラッシュアップの選択肢を体験できます。</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-forest-600 mt-1"></i>
+                        <span><strong>4. 次回ToDo＆要確認事項：</strong>担当者フィルタ付きのToDoチェックリストで11月7日の回覧板投入までの進捗を管理できます。</span>
+                    </li>
+                </ul>
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-3.5 text-xs text-slate-700 space-y-1">
+                    <div class="font-bold text-forest-800"><i class="fa-solid fa-users mr-1.5"></i>本日のミーティング参加者（敬称略）</div>
+                    <div><strong>町会：</strong>菅田（会長）・恩田・與五沢</div>
+                    <div><strong>プロボノ：</strong>藺上（窓口）・斉藤（議事録）・中村（オンライン）</div>
+                    <div><strong>事務局：</strong>赤木</div>
+                </div>
+            </div>
+            <div class="mt-5 flex justify-end">
+                <button onclick="closeParticipantsModal()" class="px-4 py-2 rounded-xl bg-forest-600 hover:bg-forest-700 text-white text-xs sm:text-sm font-bold transition shadow-sm">
+                    閉じる
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+            <div>第1回 椎の木自治会ミーティング 議事録（2026年10月18日開催 ／ 記録：斉藤）</div>
+            <div>参加者：菅田・恩田・與五沢（町会） ／ 藺上・斉藤・中村（プロボノ） ／ 赤木（事務局）</div>
+        </div>
+    </footer>
+
+    <script>
+        // ==========================================
+        // 1. ROADMAP STEPPER DATA & LOGIC
+        // ==========================================
+        const roadmapData = {
+            1: {
+                badge: 'STEP 1：最優先フェーズ（10月〜11月）',
+                title: '① 住民アンケートの設計・配布・回収・分析',
+                desc: '既存の16項目案をベースに、若い世代や多様な住民が「これなら手伝える」と思える具体的な選択肢を追加。Googleフォーム（QR）だけでなく、紙の回覧板配布や自治会館での対面サポート、本気度を伝える別刷りチラシ同封を組み合わせて回収率を最大化します。',
+                points: [
+                    '11月2日（月）20:00 合同オンライン調整会議にて設問・チラシ案を最終確定',
+                    '11月7日（土）の役員会・回覧板投入に合わせて全対象世帯へ展開',
+                    '回収データの集計・分析から「細分化された役割」の候補者をリストアップ'
+                ]
+            },
+            2: {
+                badge: 'STEP 2：並行・連動フェーズ（11月〜）',
+                title: '② チラシ・リーフレット配布による双方向の情報発信',
+                desc: '「アンケートを取って終わり」ではなく、自治会が住民の声を本気で反映しようとしている姿勢を伝える別刷りチラシや、子ども食堂・クーリングシェルター・スクールガード等の魅力を伝える広報物を展開します。',
+                points: [
+                    'アンケート同封用の「自治会の本気度を伝える別刷りチラシ」を先行制作',
+                    'アンケート集計結果のフィードバック広報により「双方向コミュニケーション」を可視化',
+                    '市の「イチ押し」ポイント（1回100pt）のメリットを分かりやすく周知'
+                ]
+            },
+            3: {
+                badge: 'STEP 3：定着・発展フェーズ（アンケート＆チラシが軌道に乗った後）',
+                title: '③ ホームページの立ち上げとデジタル基盤の定着',
+                desc: 'まずはアンケート分析とチラシによる双方向発信に注力し、住民の関心と自治会内の運用体制（実務担当者）が整った段階で、持続的に更新できるホームページを立ち上げます。',
+                points: [
+                    'LINE・メール登録世帯（現在160世帯）のさらなる拡大とアナログ回覧板の負担軽減',
+                    'プロボノ支援終了後も町会内の実務担当者が自走して更新できるシンプルな構成',
+                    '地域のイベント情報（子ども食堂・防災・防犯）のアーカイブ拠点として活用'
+                ]
+            }
+        };
+
+        function selectRoadmapStep(stepNum) {
+            [1, 2, 3].forEach(n => {
+                const btn = document.getElementById('step-btn-' + n);
+                if (!btn) return;
+                if (n === stepNum) {
+                    btn.className = 'roadmap-btn text-left p-4 rounded-2xl border-2 border-forest-600 bg-forest-50/70 transition relative overflow-hidden shadow-sm';
+                } else {
+                    btn.className = 'roadmap-btn text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-forest-300 bg-white transition relative overflow-hidden';
+                }
+            });
+            const d = roadmapData[stepNum];
+            const box = document.getElementById('roadmap-detail-box');
+            if (!box || !d) return;
+            box.innerHTML = `
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="space-y-2 max-w-3xl">
+                        <span class="inline-block px-2.5 py-0.5 rounded-md bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-bold">${d.badge}</span>
+                        <h3 class="text-lg sm:text-xl font-bold text-white">${d.title}</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${d.desc}</p>
+                    </div>
+                    <div class="bg-white/10 rounded-xl p-4 border border-white/10 shrink-0 md:w-80">
+                        <div class="text-xs font-bold text-blue-200 mb-2"><i class="fa-solid fa-check-double mr-1.5"></i>主なアクション</div>
+                        <ul class="space-y-1.5 text-xs text-slate-200">
+                            ${d.points.map(p => `<li class="flex items-start gap-1.5"><span class="text-blue-400 mt-0.5">•</span><span>${p}</span></li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // 2. FIVE KEY DECISIONS CARDS
+        // ==========================================
+        const decisionsData = [
+            {
+                id: 1,
+                tag: '決定事項 #1',
+                title: '基本理念と「役割の細分化」方針',
+                summary: '「できる人が、できることを、できる範囲で」を軸に役員負担を分散。',
+                detail: '特定の役員や班長（1人30〜40世帯担当）に負担が集中して退会につながる課題を解決するため、単発の手伝いや得意分野で関われるよう役割を細分化し、市の「イチ押し」ポイント（1回100pt）も活用して参加を促進します。',
+                icon: 'fa-hands-holding-circle'
+            },
+            {
+                id: 2,
+                tag: '決定事項 #2',
+                title: 'プロボノ支援の3段階優先ステップ',
+                summary: '①アンケート設計・分析 → ②チラシ双方向発信 → ③HP立ち上げの順で推進。',
+                detail: '最初からホームページ作成に手を広げるのではなく、まずは住民アンケートの設計・分析と、本気度を伝えるチラシ配布による双方向コミュニケーションの確立にリソースを集中します。',
+                icon: 'fa-layer-group'
+            },
+            {
+                id: 3,
+                tag: '決定事項 #3',
+                title: '住民アンケート（16項目案）の改良',
+                summary: '「これなら手伝える」具体的な関わり方や既存活動の認知項目を追加。',
+                detail: '椎の木台自治会が作成した既存16項目案をベースに、若い世代や忙しい世帯でも選びやすい具体的な手伝いメニューや、子ども食堂・クーリングシェルター等の活動を知るきっかけになる設問へブラッシュアップします。',
+                icon: 'fa-clipboard-check'
+            },
+            {
+                id: 4,
+                tag: '決定事項 #4',
+                title: 'アンケート回収率向上の複合施策',
+                summary: 'QR＋紙アンケート＋別刷りチラシ同封＋自治会館での対面サポート。',
+                detail: '10月1日のプレ実施（QRのみで約10名回答）の教訓を踏まえ、高齢化率46.6%の現状に合わせて紙の回覧板配布や自治会館での記入サポート（飲み物等の特典検討）、本気度を伝える別刷りチラシの同封を組み合わせます。',
+                icon: 'fa-chart-line'
+            },
+            {
+                id: 5,
+                tag: '決定事項 #5',
+                title: 'スケジュール再設定と定例体制の確立',
+                summary: '11月2日オンライン調整会議を経て、11月7日の役員会・回覧板へ投入。',
+                detail: '当初の10月20日頃配布案は見送り、11月7日（土）の役員会・回覧板投入に再設定。毎週火曜20:00〜（45分）のプロボノZoom定例とGoogleドライブでのデータ一元管理で準備を進めます。',
+                icon: 'fa-calendar-days'
+            }
+        ];
+
+        let expandedDecisions = new Set([1, 2, 3, 4, 5]);
+
+        function renderDecisions() {
+            const grid = document.getElementById('decisions-grid');
+            if (!grid) return;
+            grid.innerHTML = decisionsData.map(item => {
+                const isOpen = expandedDecisions.has(item.id);
+                return `
+                    <div onclick="toggleDecisionCard(${item.id})" class="interactive-card cursor-pointer bg-white rounded-2xl p-5 border ${isOpen ? 'border-forest-500 ring-1 ring-forest-500/20' : 'border-slate-200'} shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2.5">
+                                <span class="px-2.5 py-0.5 rounded-md text-xs font-bold bg-forest-50 text-forest-700">${item.tag}</span>
+                                <span class="w-8 h-8 rounded-lg bg-slate-100 text-forest-700 flex items-center justify-center">
+                                    <i class="fa-solid ${item.icon}"></i>
+                                </span>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-base">${item.title}</h3>
+                            <p class="text-xs text-slate-600 mt-1.5 font-medium">${item.summary}</p>
+                            <div class="${isOpen ? 'block' : 'hidden'} mt-3 pt-3 border-t border-slate-100 text-xs text-slate-600 leading-relaxed">
+                                ${item.detail}
+                            </div>
+                        </div>
+                        <div class="mt-3 pt-2 flex items-center justify-end text-[11px] font-semibold text-forest-600">
+                            <span>${isOpen ? '詳細を閉じる ▲' : '詳細を見る ▼'}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleDecisionCard(id) {
+            if (expandedDecisions.has(id)) {
+                expandedDecisions.delete(id);
+            } else {
+                expandedDecisions.add(id);
+            }
+            renderDecisions();
+        }
+
+        function toggleAllDecisions() {
+            if (expandedDecisions.size === decisionsData.length) {
+                expandedDecisions.clear();
+            } else {
+                decisionsData.forEach(d => expandedDecisions.add(d.id));
+            }
+            renderDecisions();
+        }
+
+        // ==========================================
+        // 3. TAB NAVIGATION & STATUS CHARTS
+        // ==========================================
+        function switchTab(tabId) {
+            const tabs = ['summary', 'status', 'survey', 'todo'];
+            tabs.forEach(t => {
+                const btn = document.getElementById('tab-btn-' + t);
+                const sec = document.getElementById('tab-content-' + t);
+                if (btn) {
+                    if (t === tabId) {
+                        btn.className = 'tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap transition-all bg-forest-600 text-white shadow-sm';
+                    } else {
+                        btn.className = 'tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap transition-all text-slate-600 hover:bg-slate-100';
+                    }
+                }
+                if (sec) {
+                    if (t === tabId) {
+                        sec.classList.remove('hidden');
+                    } else {
+                        sec.classList.add('hidden');
+                    }
+                }
+            });
+            if (tabId === 'status') {
+                setTimeout(animateStatusCharts, 60);
+            }
+        }
+
+        function animateStatusCharts() {
+            const donut = document.getElementById('aging-donut');
+            const barMem = document.getElementById('bar-membership');
+            const barNon = document.getElementById('bar-nonmember');
+            const barDig = document.getElementById('bar-digital');
+            const barAna = document.getElementById('bar-analog');
+
+            if (donut) donut.style.strokeDashoffset = '301.59';
+            if (barMem) barMem.style.width = '0%';
+            if (barNon) barNon.style.width = '0%';
+            if (barDig) barDig.style.width = '0%';
+            if (barAna) barAna.style.width = '0%';
+
+            setTimeout(() => {
+                if (donut) donut.style.strokeDashoffset = (301.59 * (1 - 0.466)).toFixed(2);
+                if (barMem) barMem.style.width = '69.5%';
+                if (barNon) barNon.style.width = '30.5%';
+                if (barDig) barDig.style.width = '35.5%';
+                if (barAna) barAna.style.width = '64.5%';
+            }, 80);
+        }
+
+        function updatePointSim() {
+            const peopleEl = document.getElementById('pt-people');
+            const timesEl = document.getElementById('pt-times');
+            if (!peopleEl || !timesEl) return;
+            const people = parseInt(peopleEl.value, 10) || 20;
+            const times = parseInt(timesEl.value, 10) || 6;
+            const total = people * times * 100;
+
+            document.getElementById('pt-people-label').textContent = people + '人';
+            document.getElementById('pt-times-label').textContent = times + '回 / 年';
+            document.getElementById('pt-total').textContent = total.toLocaleString();
+        }
+
+        // ==========================================
+        // 4. SURVEY STRATEGY SIMULATOR & 16 ITEMS
+        // ==========================================
+        const surveyState = {
+            qr: true,
+            paper: true,
+            hall: true,
+            flyer: true
+        };
+
+        function toggleSurveyMethod(key) {
+            surveyState[key] = !surveyState[key];
+            updateSurveySimulator();
+        }
+
+        function updateSurveySimulator() {
+            ['qr', 'paper', 'hall', 'flyer'].forEach(k => {
+                const card = document.getElementById('method-card-' + k);
+                const badge = document.getElementById('method-badge-' + k);
+                const on = surveyState[k];
+                if (card) {
+                    card.className = on
+                        ? 'cursor-pointer rounded-2xl p-4 border-2 border-forest-600 bg-forest-50/60 transition flex flex-col justify-between shadow-sm'
+                        : 'cursor-pointer rounded-2xl p-4 border-2 border-slate-200 bg-slate-50 opacity-65 transition flex flex-col justify-between';
+                }
+                if (badge) {
+                    badge.className = on
+                        ? 'px-2 py-0.5 rounded-full text-xs font-bold bg-forest-600 text-white'
+                        : 'px-2 py-0.5 rounded-full text-xs font-bold bg-slate-200 text-slate-600';
+                    badge.textContent = on ? '採用中 ON' : '見送り OFF';
+                }
+            });
+
+            let youth = 15;
+            let senior = 10;
+            let cost = 10;
+
+            if (surveyState.qr) { youth += 50; senior += 10; cost += 10; }
+            if (surveyState.paper) { youth += 10; senior += 45; cost += 35; }
+            if (surveyState.hall) { youth += 5; senior += 25; cost += 20; }
+            if (surveyState.flyer) { youth += 20; senior += 15; cost += 15; }
+
+            youth = Math.min(95, youth);
+            senior = Math.min(95, senior);
+            cost = Math.min(95, cost);
+
+            document.getElementById('sim-youth-val').textContent = youth + '%';
+            document.getElementById('sim-youth-bar').style.width = youth + '%';
+            document.getElementById('sim-senior-val').textContent = senior + '%';
+            document.getElementById('sim-senior-bar').style.width = senior + '%';
+            document.getElementById('sim-cost-val').textContent = cost + '%（役割分担が鍵）';
+            document.getElementById('sim-cost-bar').style.width = cost + '%';
+
+            const commentEl = document.getElementById('sim-comment');
+            if (surveyState.qr && surveyState.paper && surveyState.hall && surveyState.flyer) {
+                commentEl.innerHTML = '<strong>【ベストバランス（会議合意案）】</strong> QR・紙・対面サポート・別刷りチラシの4点セットにより、若年層から高齢者層（46.6%）まで幅広くカバーできます。紙の集計や対面サポートの運営負担は11月2日の調整会議で分担を明確化します。';
+            } else if (!surveyState.paper && !surveyState.hall) {
+                commentEl.innerHTML = '<strong>【要注意：高齢者層の離脱リスク】</strong> デジタル（QR）中心の構成では運営負担は軽いものの、未登録の約290世帯（高齢者層）の声が拾えなくなる懸念があります。';
+            } else if (!surveyState.flyer) {
+                commentEl.innerHTML = '<strong>【開封率・本気度の低下に注意】</strong> 別刷りチラシがない場合、「なぜ今アンケートなのか」という自治会の本気度が伝わりにくく、回覧板が素通りされるリスクがあります。';
+            } else {
+                commentEl.innerHTML = '選択した施策の組み合わせに応じてリーチ率と運営負担が変化します。11月7日の回覧板投入に向けて最適な運用体制を設計しましょう。';
+            }
+        }
+
+        const microRoles = [
+            { id: 'r1', title: '子ども食堂の当日お手伝い（月1回・数時間〜）', category: 'イベント支援', selected: true },
+            { id: 'r2', title: '登下校の見守り・スクールガード（できる曜日のみ）', category: '防犯・見守り', selected: true },
+            { id: 'r3', title: 'チラシ作成・SNSやLINE配信のサポート（在宅可）', category: 'デジタル・広報', selected: true },
+            { id: 'r4', title: '自治会館クーリングシェルターの見守り・お茶出し', category: '居場所づくり', selected: false },
+            { id: 'r5', title: 'お祭り・防災訓練など年1〜2回の単発スタッフ', category: '単発ボランティア', selected: false },
+            { id: 'r6', title: 'まずは子ども食堂やイベントに家族で参加してみたい', category: '認知・交流', selected: true }
+        ];
+
+        function renderMicroRoles() {
+            const container = document.getElementById('micro-roles-container');
+            if (!container) return;
+            container.innerHTML = microRoles.map((r, idx) => `
+                <div onclick="toggleMicroRole(${idx})" class="cursor-pointer p-3.5 rounded-xl border transition flex items-start gap-3 ${r.selected ? 'bg-forest-50 border-forest-500 text-slate-900' : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'}">
+                    <div class="w-5 h-5 rounded flex items-center justify-center shrink-0 mt-0.5 ${r.selected ? 'bg-forest-600 text-white' : 'bg-white border border-slate-300'}">
+                        ${r.selected ? '<i class="fa-solid fa-check text-xs"></i>' : ''}
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-white border border-slate-200 text-forest-700">${r.category}</span>
+                        <div class="text-xs sm:text-sm font-bold mt-1">${r.title}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleMicroRole(idx) {
+            if (microRoles[idx]) {
+                microRoles[idx].selected = !microRoles[idx].selected;
+                renderMicroRoles();
+            }
+        }
+
+        // ==========================================
+        // 5. TODO LIST & FILTER (TAB 4)
+        // ==========================================
+        const todosData = [
+            {
+                id: 1,
+                title: '既存アンケート（16項目案）のブラッシュアップ案作成',
+                owner: 'プロボノ（藺上・斉藤・中村）',
+                category: 'probono',
+                due: '10月27日（火）定例まで',
+                desc: '若い世代が「これなら手伝える」と思える具体的な役割選択肢と、既存活動を知る設問を追加。',
+                done: false
+            },
+            {
+                id: 2,
+                title: '自治会の本気度を伝える「別刷り同封チラシ」デザイン案の作成',
+                owner: 'プロボノ・事務局（赤木）',
+                category: 'probono',
+                due: '11月2日（月）調整会議まで',
+                desc: 'アンケート結果と今後の活動方針を双方向で還元する姿勢を伝えるチラシ原案を制作。',
+                done: false
+            },
+            {
+                id: 3,
+                title: 'Googleドライブ共有フォルダの整備と毎週火曜20時Zoom定例の開始',
+                owner: 'プロボノ全員・事務局（赤木）',
+                category: 'probono',
+                due: '10月27日（火）20:00〜',
+                desc: 'アンケート原案・チラシデータ・議事録をGoogleドライブで一元管理し、45分間の定例MTGを実施。',
+                done: false
+            },
+            {
+                id: 4,
+                title: '紙アンケートの配布範囲（650世帯／450世帯）と対面サポート体制の検討',
+                owner: '町会（菅田会長・恩田・與五沢）',
+                category: 'jichikai',
+                due: '11月2日（月）調整会議まで',
+                desc: '自治会館での記入サポート日程・常駐スタッフ・来館特典（飲み物等）および紙集計の分担を確認。',
+                done: false
+            },
+            {
+                id: 5,
+                title: '11月2日（月）20:00〜 合同オンライン調整会議の実施',
+                owner: '全員（町会・プロボノ・事務局）',
+                category: 'jichikai',
+                due: '11月2日（月）20:00〜',
+                desc: 'アンケート最終設問・同封チラシ・回収方法の最終合意と印刷・配布準備の確定。',
+                done: false
+            },
+            {
+                id: 6,
+                title: '11月7日（土）役員会での説明および回覧板へのアンケート・チラシ投入',
+                owner: '町会（菅田会長・恩田・與五沢）・全員',
+                category: 'jichikai',
+                due: '11月7日（土）本番',
+                desc: '役員会で趣旨を共有し、各地区・班の回覧板およびデジタル配信（160世帯）へ一斉投入。',
+                done: false
+            }
+        ];
+
+        let currentTodoFilter = 'all';
+
+        function renderTodos() {
+            const container = document.getElementById('todo-list-container');
+            if (!container) return;
+
+            const filtered = todosData.filter(t => currentTodoFilter === 'all' ? true : t.category === currentTodoFilter);
+            container.innerHTML = filtered.map(t => `
+                <div onclick="toggleTodoItem(${t.id})" class="cursor-pointer p-4 rounded-xl border transition flex items-start justify-between gap-4 ${t.done ? 'bg-slate-50 border-slate-200 opacity-75' : 'bg-white border-slate-200 hover:border-forest-400 shadow-sm'}">
+                    <div class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${t.done ? 'bg-forest-600 text-white' : 'bg-slate-100 border border-slate-300 text-transparent'}">
+                            <i class="fa-solid fa-check text-xs"></i>
+                        </div>
+                        <div>
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-forest-50 text-forest-700">${t.owner}</span>
+                                <span class="text-[11px] font-semibold text-amber-800 bg-amber-100 px-2 py-0.5 rounded"><i class="fa-regular fa-clock mr-1"></i>${t.due}</span>
+                            </div>
+                            <h4 class="font-bold text-sm sm:text-base ${t.done ? 'line-through text-slate-400' : 'text-slate-900'}">${t.title}</h4>
+                            <p class="text-xs text-slate-500 mt-1">${t.desc}</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold shrink-0 px-2.5 py-1 rounded-lg ${t.done ? 'bg-blue-100 text-blue-800' : 'bg-slate-100 text-slate-600'}">
+                        ${t.done ? '完了' : '未完了'}
+                    </span>
+                </div>
+            `).join('');
+
+            const doneCount = todosData.filter(t => t.done).length;
+            const totalCount = todosData.length;
+            const pct = Math.round((doneCount / totalCount) * 100);
+
+            const badge = document.getElementById('todo-badge');
+            const progText = document.getElementById('todo-progress-text');
+            const progBar = document.getElementById('todo-progress-bar');
+
+            if (badge) badge.textContent = `${doneCount}/${totalCount}`;
+            if (progText) progText.textContent = `${doneCount} / ${totalCount} 完了 (${pct}%)`;
+            if (progBar) progBar.style.width = `${pct}%`;
+        }
+
+        function toggleTodoItem(id) {
+            const item = todosData.find(t => t.id === id);
+            if (item) {
+                item.done = !item.done;
+                renderTodos();
+            }
+        }
+
+        function filterTodos(cat) {
+            currentTodoFilter = cat;
+            ['all', 'probono', 'jichikai'].forEach(c => {
+                const btn = document.getElementById('todo-filter-' + c);
+                if (!btn) return;
+                if (c === cat) {
+                    btn.className = 'todo-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-800 text-white transition';
+                } else {
+                    btn.className = 'todo-filter-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition';
+                }
+            });
+            renderTodos();
+        }
+
+        // ==========================================
+        // 6. GUIDE MODAL
+        // ==========================================
+        function openParticipantsModal() {
+            const m = document.getElementById('guide-modal');
+            if (m) {
+                m.classList.remove('hidden');
+                m.classList.add('flex');
+            }
+        }
+
+        function closeParticipantsModal() {
+            const m = document.getElementById('guide-modal');
+            if (m) {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            selectRoadmapStep(1);
+            renderDecisions();
+            updatePointSim();
+            updateSurveySimulator();
+            renderMicroRoles();
+            renderTodos();
+        });
+    </script>
+</body>
+</html>
